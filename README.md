@@ -1,1 +1,2 @@
-file:///storage/emulated/0/Android/data/com.teejay.trebedit/files/TrebEdit%20user%20files/%D9%85%D8%A7%D8%AF%D9%8A%20%D8%A8%D8%A7%D9%8A%20%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B3%D8%A7%D9%85%D9%8A%D8%A9%20/points.html
+# منصة مادي باي (MadiPay)
+منصة ذكية متطورة وبوابات الدفع الرقمية المحلية والعالمية.
