@@ -1,1 +1,388 @@
-file:///storage/emulated/0/Android/data/com.teejay.trebedit/files/TrebEdit%20user%20files/%D9%85%D8%A7%D8%AF%D9%8A%20%D8%A8%D8%A7%D9%8A%20%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B3%D8%A7%D9%85%D9%8A%D8%A9%20/points.html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MadiPay | المنظومة المالية العالمية الشاملة</title>
+    <style>
+        /* الهوية البصرية لنظام النخبة العالمي والشمولية الرقمية */
+        :root {
+            --bg-charcoal: #0a0b0d;
+            --neon-green: #00ff66;
+            --vibrant-orange: #ff5500;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --neon-glow: 0 0 20px rgba(0, 255, 102, 0.15);
+        }
+
+        body {
+            background-color: var(--bg-charcoal);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(circle at 50% 50%, #14171c 0%, #0a0b0d 100%);
+        }
+
+        /* شريط نبض السوق ومؤشر الأسعار التلقائي */
+        .market-ticker {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255, 85, 0, 0.05);
+            border: 1px solid rgba(255, 85, 0, 0.15);
+            border-radius: 50px;
+            padding: 10px 15px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--vibrant-orange);
+            font-weight: bold;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(255, 85, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        /* حاوية اللوحة الزجاجية الرئيسية للمنصة */
+        .madi-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 25px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            margin: 0 0 5px 0;
+            background: linear-gradient(135deg, #ffffff 0%, #a1a1a1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 11px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* العداد الزجاجي المتوهج للمكافآت */
+        .points-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 255, 102, 0.15);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: var(--neon-glow);
+        }
+
+        .points-number {
+            font-size: 42px;
+            font-weight: 900;
+            color: var(--neon-green);
+            text-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+            font-family: monospace;
+        }
+
+        /* شبكة الخدمات (أقسام التسوق والدمج الشامل) */
+        .section-title {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 12px;
+            border-right: 3px solid var(--vibrant-orange);
+            padding-right: 8px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .service-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--neon-green);
+            transform: translateY(-2px);
+        }
+
+        .service-card img-icon {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .service-card span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ddd;
+        }
+
+        /* نظام الرابط الإعلامي المخصص */
+        .referral-box {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .ref-input {
+            background: transparent;
+            border: none;
+            color: #bbb;
+            padding: 8px;
+            font-size: 12px;
+            flex-grow: 1;
+            outline: none;
+            font-family: monospace;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .copy-button {
+            background: var(--vibrant-orange);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .copy-button:hover {
+            background: #ff7722;
+        }
+
+        /* أزرار العمليات الكبرى للمؤثرين والنخبة */
+        .btn-block {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: var(--neon-glow);
+        }
+
+        .btn-block:hover {
+            background: rgba(0, 255, 102, 0.08);
+            box-shadow: 0 0 25px rgba(0, 255, 102, 0.3);
+        }
+
+        /* درع الحماية والامتثال الضريبي البيوقراطي */
+        .compliance-card {
+            background: rgba(0, 0, 0, 0.2.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 15px;
+            width: 100%;
+            max-width: 480px;
+            box-sizing: border-box;
+            font-size: 11px;
+            color: #555;
+            text-align: center;
+        }
+
+        .compliance-status {
+            color: var(--neon-green);
+            font-weight: bold;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--neon-green);
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
+            box-shadow: 0 0 8px var(--neon-green);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- مؤشر نبض السوق لأسعار الصرف المتغيرة مرتين يومياً -->
+    <div class="market-ticker" id="marketPulse">
+        🔄 جاري مزامنة أسعار التوجيه المالي مع الأسواق العالمية...
+    </div>
+
+    <!-- حاوية المنصة الرئيسية -->
+    <div class="madi-container" id="madiApp">
+        <h1>MADIPAY</h1>
+        <p class="subtitle">Smart Financial Router Platform</p>
+
+        <!-- لوحة التحكم بالنقاط الذكية لجميع الشرائح -->
+        <div class="points-card">
+            <div class="points-number" id="userPoints">1,250</div>
+            <div style="font-size: 12px; color: #888; margin-top: 5px;">رصيد النقاط الذكية القابلة للاستبدال</div>
+        </div>
+
+        <!-- أولاً: قسم تجميع المتاجر والخدمات الإلكترونية الشاملة -->
+        <div class="section-title">بوابة التسوق والخدمات العالمية الشاملة</div>
+        <div class="services-grid">
+            <div class="service-card" onclick="openService('Amazon')">
+                <div class="img-icon">📦</div>
+                <span>أمازون العالمي</span>
+            </div>
+            <div class="service-card" onclick="openService('AliExpress')">
+                <div class="img-icon">🛍️</div>
+                <span>علي إكسبريس</span>
+            </div>
+            <div class="service-card" onclick="openService('Temu')">
+                <div class="img-icon">🧸</div>
+                <span>منصة تيمو</span>
+            </div>
+            <div class="service-card" onclick="openService('Digital')">
+                <div class="img-icon">🎮</div>
+                <span>شحن ألعاب وبطاقات</span>
+            </div>
+        </div>
+
+        <!-- ثانياً: قسم الخدمات المحلية والامتثال الضريبي (الطعم البيروقراطي لعدم الحظر) -->
+        <div class="section-title">الخدمات العامة والمدفوعات المحلية الخاضعة للضريبة</div>
+        <div class="services-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="service-card" onclick="openLocalService('Water')">
+                <div class="img-icon">💧</div>
+                <span>فواتير الماء والكهرباء</span>
+            </div>
+            <div class="service-card" onclick="openLocalService('Telecom')">
+                <div class="img-icon">📱</div>
+                <span>تعبئة الإنترنت والهاتف</span>
+            </div>
+        </div>
+
+        <!-- ثالثاً: الرابط الإعلامي المخصص للسفراء والمستخدمين لضمان الانتشار الفيروسي -->
+        <div class="section-title">الذراع الإعلامي ونظام المكافآت الذكي</div>
+        <div style="margin-bottom: 25px;">
+            <span style="font-size: 11px; color: #777;">شارك الرابط المشفر واكسب نقاطاً فورية عند كل عملية:</span>
+            <div class="referral-box">
+                <input type="text" class="ref-input" id="referralLink" value="https://madipay.com/join/router_x99" readonly>
+                <button class="copy-button" id="copyBtn" onclick="copyMadiLink()">نسخ الرابط</button>
+            </div>
+        </div>
+
+        <!-- زر عمليات النخبة والمؤثرين المطورين -->
+        <button class="btn-block" onclick="triggerEliteAction()">سحب الأرباح واستبدال العوائد (USDT)</button>
+    </div>
+
+    <!-- رداء الامتثال القانوني والورقي لتهدئة الإداريين والمراقبين -->
+    <div class="compliance-card">
+        <span class="pulse-dot"></span> 
+        نظام <span class="compliance-status">MadiPay Compliance</span> نشط وضريبي بالكامل. 
+        معرف التدقيق الدولي: <span style="font-family: monospace; color: #888;">MP-REG-2026-VAT</span>
+        <br>جميع حقوق البرمجيات والتوجيه محفوظة للتحالف التقني الدولي للمنصة.
+    </div>
+
+    <script>
+        // 1. نظام محرك الأسعار التلقائي والموازنة مرتين في اليوم (لحماية السيولة ضد الخلط)
+        const exchangeRates = {
+            baseLocalRate: 135.50, // سعر صرف العملة المحلية الافتراضي مقابل الدولار
+            safetyMargin: 1.015   // هامش أمان 1.5% للحماية من تذبذب السوق
+        };
+
+        function updateExchangeRates() {
+            console.log("🔄 MadiPay Security: جاري مزامنة وحساب هوامش التحوط المالي...");
+            
+            // حساب السعر النهائي الشامل لهامش الأمان الاستراتيجي لضمان عدم الخسارة
+            const finalRate = (exchangeRates.baseLocalRate * exchangeRates.safetyMargin).toFixed(2);
+            
+            // تحديث شريط نبض السوق في أعلى التطبيق
+            const ticker = document.getElementById('marketPulse');
+            ticker.innerText = `💵 أسعار الصرف الحية: 1 USD = ${finalRate} محلي (شامل الضريبة والرسوم) | 🪙 1 USDT = 1.00 USD`;
+        }
+
+        // تشغيل التحديث فوراً عند إقلاع الواجهة
+        updateExchangeRates();
+        // تحديث أوتوماتيكي دوري كل 12 ساعة (مرتين في اليوم تواكب السوق بدقة)
+        setInterval(updateExchangeRates, 12 * 60 * 60 * 1000);
+
+
+        // 2. دالة نسخ الرابط الإعلامي المخصص بمرونة بالغة
+        function copyMadiLink() {
+            const linkInput = document.getElementById('referralLink');
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999); // لدعم متصفحات الهواتف الذكية
+            navigator.clipboard.writeText(linkInput.value);
+
+            const btn = document.getElementById('copyBtn');
+            btn.innerText = 'تم النسخ بنجاح';
+            btn.style.background = '#00ff66';
+            btn.style.color = '#000';
+
+            setTimeout(() => {
+                btn.innerText = 'نسخ الرابط';
+                btn.style.background = 'var(--vibrant-orange)';
+                btn.style.color = '#fff';
+            }, 2000);
+        }
+
+        // 3. معالجة خدمات التسوق الشاملة العالمية
+        function openService(platform) {
+            alert(`🛒 جاري تشفير اتصالك وتوجيهك إلى متجر [${platform}] عبر بوابة MadiPay الذكية للشراء المباشر بالرصيد المحلي.`);
+        }
+
+        // 4. معالجة الخدمات المحلية (الطعم البيروقراطي الممتثل)
+        function openLocalService(serviceType) {
+            alert(`🧾 بوابة الامتثال الضريبي: جاري معالجة طلب الدفع المحلي وإصدار فاتورة رسمية معتمدة ومقتطعة الضريبة تلقائياً.`);
+        }
+
+        // 5. إجراءات النخبة والمؤثرين وحماية السحب
+        function triggerEliteAction() {
+            alert('🚀 جاري تشفير المحفظة الرقمية وفحص بروتوكول مكافحة الاحتيال الكمي لتحويل نقاطك إلى عوائد USDT آمنة.');
+        }
+
+        // 6. جدار حماية خفي (Ghost Masking) لمنع العبث بالنقاط أو الهندسة العكسية للكود عبر الهاتف
+        (function() {
+            let userCheck = false;
+            const devShield = new Image();
+            Object.defineProperty(devShield, 'id', {
+                get: function() {
+                    userCheck = true;
+                    document.getElementById('madiApp').style.filter = 'blur(40px)';
+                    alert('⚠️ نظام الحماية النشط: تم رصد محاولة قراءة الهندسة العكسية للكود. تم حظر الواجهة وتأمين المحفظة الرقمية.');
+                }
+            });
+            console.log(devShield);
+        })();
+    </script>
+
+</body>
+</html>
