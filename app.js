@@ -1,4 +1,120 @@
-// مادي باي العالمية - ربط المحرك بالواجهة التفاعلية
+// إعداد قيم الصرف الافتراضية (تحديث 2026)
+// ملاحظة: يمكنك تعديل هذه النسب ديناميكياً بناءً على تغيرات السوق
+const EXCHANGE_RATES = {
+    // أسعار البنك الرسمية (مثال تقريبي)
+    OFFICIAL: {
+        USD_TO_DZD: 134.50,
+        EUR_TO_DZD: 145.20,
+    },
+    // أسعار السوق الموازية - السكوار (مثال تقريبي يعكس الواقع الحركي)
+    SQUARE: {
+        USD_TO_DZD: 220.00,
+        EUR_TO_DZD: 242.00,
+    },
+    // التحويل المباشر بين العملات الصعبة
+    CROSS_RATES: {
+        EUR_TO_USD: 1.08,
+        USD_TO_EUR: 0.92
+    }
+};
+
+// نسبة عمولة المنصة لتأمين المعاملات والـ Escrow (مثلاً: 1%)
+const PLATFORM_FEE_PERCENT = 1.0; 
+
+// الانتظار حتى تحميل واجهة المستخدم بالكامل
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // ربط عناصر الواجهة بالكود
+    const sendAmountInput = document.getElementById('sendAmount');
+    const fromCurrencySelect = document.getElementById('fromCurrency');
+    const toCurrencySelect = document.getElementById('toCurrency');
+    const routeBtn = document.getElementById('routeBtn');
+    const routerModeSpan = document.getElementById('routerMode');
+
+    // دالة تحديث مؤشر التوجيه الذكي تلقائياً عند تغيير العملات
+    function updateRouterStatus() {
+        const toCurrency = toCurrencySelect.value;
+        
+        if (toCurrency === 'DZD_SQ') {
+            routerModeSpan.textContent = "المقاصة الموازية (Square)";
+            routerModeSpan.style.color = "#ff6b00"; // لون النيون البرتقالي للتحذير النشط
+        } else if (toCurrency === 'DZD_OFF') {
+            routerModeSpan.textContent = "التسوية المصرفية الرسمية";
+            routerModeSpan.style.color = "#00ff87"; // الأخضر الزمردي للمسارات البنكية
+        } else {
+            routerModeSpan.textContent = "توجيه سيولة دولية مباشر";
+            routerModeSpan.style.color = "#00bfff"; 
+        }
+    }
+
+    // دالة معالجة الحساب والتوجيه
+    function processRouting() {
+        const amount = parseFloat(sendAmountInput.value);
+        const fromCurr = fromCurrencySelect.value;
+        const toCurr = toCurrencySelect.value;
+
+        if (isNaN(amount) || amount <= 0) {
+            alert("يرجى إدخال مبلغ صحيح لإتمام عملية التوجيه.");
+            return;
+        }
+
+        let finalAmount = 0;
+        let rateUsed = 0;
+
+        // منطق التوجيه والحساب (السيناريو الأشهر: من اليورو/الدولار إلى السكوار)
+        if (fromCurr === 'EUR' && toCurr === 'DZD_SQ') {
+            rateUsed = EXCHANGE_RATES.SQUARE.EUR_TO_DZD;
+            finalAmount = amount * rateUsed;
+        } else if (fromCurr === 'USD' && toCurr === 'DZD_SQ') {
+            rateUsed = EXCHANGE_RATES.SQUARE.USD_TO_DZD;
+            finalAmount = amount * rateUsed;
+        }
+        // السيناريو الثاني: التحويل عبر السعر الرسمي للبنك
+        else if (fromCurr === 'EUR' && toCurr === 'DZD_OFF') {
+            rateUsed = EXCHANGE_RATES.OFFICIAL.EUR_TO_DZD;
+            finalAmount = amount * rateUsed;
+        } else if (fromCurr === 'USD' && toCurr === 'DZD_OFF') {
+            rateUsed = EXCHANGE_RATES.OFFICIAL.USD_TO_DZD;
+            finalAmount = amount * rateUsed;
+        }
+        // سيناريو التحويل بين العملات الصعبة مباشرة
+        else if (fromCurr === 'EUR' && toCurr === 'USD') {
+            rateUsed = EXCHANGE_RATES.CROSS_RATES.EUR_TO_USD;
+            finalAmount = amount * rateUsed;
+        } else if (fromCurr === 'USD' && toCurr === 'EUR') {
+            rateUsed = EXCHANGE_RATES.CROSS_RATES.USD_TO_EUR;
+            finalAmount = amount * rateUsed;
+        }
+        // في حال اختيار نفس العملة
+        else {
+            rateUsed = 1;
+            finalAmount = amount;
+        }
+
+        // خصم عمولة المنصة الذكية
+        const fee = (finalAmount * PLATFORM_FEE_PERCENT) / 100;
+        const netAmount = finalAmount - fee;
+
+        // إظهار النتيجة للمستخدم عبر تنبيه منسق (أو تحديث في الواجهة لاحقاً)
+        alert(`
+        === تقرير توجيه السيولة الذكي ===
+        المبلغ الأصلي: ${amount} ${fromCurr}
+        معدل الصرف المعتمد: ${rateUsed}
+        إجمالي القيمة: ${finalAmount.toFixed(2)}
+        عمولة المنصة (${PLATFORM_FEE_PERCENT}%): ${fee.toFixed(2)}
+        الصافي المستلم: ${netAmount.toFixed(2)}
+        `);
+    }
+
+    // تفعيل المستمعات (Event Listeners) لضمان تفاعلية فورية
+    fromCurrencySelect.addEventListener('change', updateRouterStatus);
+    toCurrencySelect.addEventListener('change', updateRouterStatus);
+    routeBtn.addEventListener('click', processRouting);
+
+    // تشغيل مبدئي لضبط الحالة عند فتح التطبيق
+    updateRouterStatus();
+});
+/ مادي باي العالمية - ربط المحرك بالواجهة التفاعلية
 document.addEventListener("DOMContentLoaded", () => {
     // افترضنا أن هذه هي المعرفات (IDs) الخاصة بحقول الإدخال في الـ HTML الخاص بك
     const amountInput = document.getElementById("amount");
