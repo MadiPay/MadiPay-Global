@@ -150,6 +150,7 @@
             background: rgba(0, 255, 135, 0.1);
             padding: 4px 8px;
             border-radius: 6px;
+            transition: all 0.3s ease;
         }
     </style>
 </head>
@@ -202,298 +203,96 @@
         </div>
     </div>
 
-</body>
-</html>
-  <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منظومة المالية العالمية الشاملة - MadiPay</title>
-    <style>
-        :root {
-            --bg-charcoal: #0a0a0b;
-            --neon-blue: #00fff6;
-            --neon-orange: #ff5500;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-        }
-
-        body {
-            background-color: var(--bg-charcoal);
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 15px;
-            display: block;
-            min-height: 100vh;
-        }
-
-        /* سوق المؤشرات والأسعار النخبوية */
-        .market-summary {
-            width: 100%;
-            max-width: 480px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 15px;
-            margin: 0 auto 20px auto;
-            text-align: center;
-        }
-
-        .market-summary h3 {
-            margin: 0 0 10px 0;
-            font-size: 14pt;
-            color: var(--neon-orange);
-        }
-
-        .currency-rate {
-            font-size: 20pt;
-            font-weight: bold;
-            color: var(--neon-blue);
-            text-shadow: 0 0 10px rgba(0, 255, 246, 0.5);
-            font-family: monospace;
-        }
-
-        /* الحاوية الرئيسية للمنظومة */
-        .main-container {
-            max-width: 480px;
-            margin: 0 auto;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 25px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            box-sizing: border-box;
-        }
-
-        h1, h2, h3 {
-            text-align: center;
-            margin-top: 0;
-        }
-
-        h1 {
-            font-size: 22pt;
-            background: linear-gradient(135deg, #fff, #888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-        }
-
-        .subtitle {
-            text-align: center;
-            font-size: 11pt;
-            color: #888888;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* بطاقات الخدمات والشبكة */
-        .services-grid {
-            display: block;
-            margin-bottom: 25px;
-        }
-
-        .service-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 15px;
-            margin-bottom: 15px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .service-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--neon-blue);
-            transform: translateY(-2px);
-        }
-
-        .service-icon {
-            font-size: 24pt;
-            margin-bottom: 8px;
-        }
-
-        .service-title {
-            font-size: 13pt;
-            font-weight: 600;
-            color: #dddddd;
-            margin-bottom: 5px;
-        }
-
-        /* صندوق الإحالة / الرابط السري */
-        .referral-box {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px dashed var(--glass-border);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .referral-input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: #888888;
-            padding: 8px;
-            font-size: 12pt;
-            font-family: monospace;
-            text-align: center;
-            outline: none;
-            word-break: break-all;
-        }
-
-        /* الأزرار النخبوية والتحكم */
-        .elite-btn {
-            width: 100%;
-            background: transparent;
-            border: 1px solid var(--neon-blue);
-            color: var(--neon-blue);
-            padding: 14px;
-            border-radius: 12px;
-            font-size: 14pt;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 5px rgba(0, 255, 246, 0.3);
-        }
-
-        .elite-btn:hover {
-            background: var(--neon-blue);
-            color: #000000;
-            box-shadow: 0 0 25px rgba(0, 255, 246, 0.6);
-        }
-
-        /* درع حماية البلوكشين والنبض */
-        .protection-shield {
-            background: rgba(0, 0, 0, 0.20);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 16px;
-            padding: 15px;
-            margin-top: 25px;
-            text-align: center;
-            font-size: 11pt;
-            color: #858585;
-        }
-
-        .pulse-status {
-            color: var(--neon-blue);
-            font-weight: bold;
-            margin-top: 5px;
-        }
-
-        .pulse-dot {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background-color: var(--neon-blue);
-            border-radius: 50%;
-            margin-left: 5px;
-            box-shadow: 0 0 8px var(--neon-blue);
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.4; }
-            50% { opacity: 1; }
-            100% { opacity: 0.4; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="market-summary">
-        <h3>رمز السوق النخبوي والتدفقات المالية</h3>
-        <div class="currency-rate" id="marketRate">1.3500 USDT</div>
-    </div>
-
-    <div class="main-container">
-        <h1>MadiPay النخبوية</h1>
-        <div class="subtitle">منظومة التوجيه المالي الذكي</div>
-
-        <div class="services-grid">
-            <div class="service-card" onclick="triggerEliteAction()">
-                <div class="service-icon">🌐</div>
-                <div class="service-title">الفواتير العالمية والكهرباء والإنترنت</div>
-            </div>
-
-            <div class="service-card" onclick="triggerEliteAction()">
-                <div class="service-icon">💳</div>
-                <div class="service-title">باقات ومستندات السفر والفيزا</div>
-            </div>
-
-            <div class="service-card" onclick="triggerEliteAction()">
-                <div class="service-icon">🚀</div>
-                <div class="service-title">شحن ألعاب وبطاقات الترفيه المتكاملة</div>
-            </div>
-        </div>
-
-        <div class="referral-box">
-            <div style="color: #777; margin-bottom: 5px;">رابط الإحالة الحصري للمنظومة</div>
-            <input type="text" class="referral-input" id="referralLink" value="https://madipay.github.io/elite-access" readonly>
-        </div>
-
-        <button class="elite-btn" id="triggerEliteAction" onclick="CopyMadiLink()">انقر لكشف الرابط السري والنسخ</button>
-
-        <div class="protection-shield">
-            معيار التدقيق الدولي المشفر لحماية التدفقات المالية
-            <div class="pulse-status">
-                <span class="pulse-dot"></span>
-                الاتصال بالبلوكشين: نشط وآمن
-            </div>
-        </div>
-    </div>
-
     <script>
-        // 1. نظام تحديث الأسعار والمؤشرات بشكل فوري تلقائي
-        const basePrice = 1.3525;
-        function updatePrices() {
-            const rateElement = document.getElementById('marketRate');
-            if (rateElement) {
-                // محاكاة تقلبات طفيفة في الأسعار النخبوية
-                const randomFluctuation = (Math.random() * 0.003) - 0.0015;
-                const currentPrice = basePrice + randomFluctuation;
-                rateElement.textContent = currentPrice.toFixed(4) + " USDT";
+        const EXCHANGE_RATES = {
+            OFFICIAL: {
+                USD_TO_DZD: 134.50,
+                EUR_TO_DZD: 145.20,
+            },
+            SQUARE: {
+                USD_TO_DZD: 220.00,
+                EUR_TO_DZD: 242.00,
+            },
+            CROSS_RATES: {
+                EUR_TO_USD: 1.08,
+                USD_TO_EUR: 0.92
             }
-        }
-        
-        // تشغيل التحديث فوراً وكل ثانيتين بانتظام
-        updatePrices();
-        setInterval(updatePrices, 2000);
+        };
 
-        // 2. دالة إعلانية ذكية لنسخ الرابط المالي وتغيير حالة الزر مؤقتاً
-        function CopyMadiLink() {
-            const linkInput = document.getElementById('referralLink');
-            if (linkInput) {
-                linkInput.select();
-                linkInput.setSelectionRange(0, 99999);
-                navigator.clipboard.writeText(linkInput.value).then(() => {
-                    const btn = document.getElementById('triggerEliteAction');
-                    if (btn) {
-                        btn.textContent = "✓ تم نسخ الرابط بنجاح";
-                        btn.style.backgroundColor = "var(--neon-blue)";
-                        btn.style.color = "#000000";
+        const PLATFORM_FEE_PERCENT = 1.0; 
 
-                        setTimeout(() => {
-                            btn.textContent = "انقر لكشف الرابط السري والنسخ";
-                            btn.style.backgroundColor = "transparent";
-                            btn.style.color = "var(--neon-blue)";
-                        }, 2000);
-                    }
-                }).catch(err => {
-                    console.error('خطأ أثناء النسخ: ', err);
-                });
+        document.addEventListener('DOMContentLoaded', () => {
+            const sendAmountInput = document.getElementById('sendAmount');
+            const fromCurrencySelect = document.getElementById('fromCurrency');
+            const toCurrencySelect = document.getElementById('toCurrency');
+            const routeBtn = document.getElementById('routeBtn');
+            const routerModeSpan = document.getElementById('routerMode');
+
+            function updateRouterStatus() {
+                const toCurrency = toCurrencySelect.value;
+                if (toCurrency === 'DZD_SQ') {
+                    routerModeSpan.textContent = "المقاصة الموازية (Square)";
+                    routerModeSpan.style.background = "rgba(255, 107, 0, 0.1)";
+                    routerModeSpan.style.color = "#ff6b00";
+                } else if (toCurrency === 'DZD_OFF') {
+                    routerModeSpan.textContent = "التسوية المصرفية الرسمية";
+                    routerModeSpan.style.background = "rgba(0, 255, 135, 0.1)";
+                    routerModeSpan.style.color = "#00ff87";
+                } else {
+                    routerModeSpan.textContent = "توجيه سيولة دولية مباشر";
+                    routerModeSpan.style.background = "rgba(0, 191, 255, 0.1)";
+                    routerModeSpan.style.color = "#00bfff";
+                }
             }
-        }
 
-        // 3. بوابات الخدمات الذكية والاتصال بالنظام
-        function triggerEliteAction() {
-            alert("جاري الاتصال بالقنوات المشفرة والآمنة... يرجى الانتظار لتوجيه محفظتك الرقمية بنجاح.");
-        }
+            function processRouting() {
+                const amount = parseFloat(sendAmountInput.value);
+                const fromCurr = fromCurrencySelect.value;
+                const toCurr = toCurrencySelect.value;
+
+                if (isNaN(amount) || amount <= 0) {
+                    alert("يرجى إدخال مبلغ صحيح لإتمام عملية التوجيه.");
+                    return;
+                }
+
+                let finalAmount = 0;
+                let rateUsed = 0;
+
+                if (fromCurr === 'EUR' && toCurr === 'DZD_SQ') {
+                    rateUsed = EXCHANGE_RATES.SQUARE.EUR_TO_DZD;
+                    finalAmount = amount * rateUsed;
+                } else if (fromCurr === 'USD' && toCurr === 'DZD_SQ') {
+                    rateUsed = EXCHANGE_RATES.SQUARE.USD_TO_DZD;
+                    finalAmount = amount * rateUsed;
+                } else if (fromCurr === 'EUR' && toCurr === 'DZD_OFF') {
+                    rateUsed = EXCHANGE_RATES.OFFICIAL.EUR_TO_DZD;
+                    finalAmount = amount * rateUsed;
+                } else if (fromCurr === 'USD' && toCurr === 'DZD_OFF') {
+                    rateUsed = EXCHANGE_RATES.OFFICIAL.USD_TO_DZD;
+                    finalAmount = amount * rateUsed;
+                } else if (fromCurr === 'EUR' && toCurr === 'USD') {
+                    rateUsed = EXCHANGE_RATES.CROSS_RATES.EUR_TO_USD;
+                    finalAmount = amount * rateUsed;
+                } else if (fromCurr === 'USD' && toCurr === 'EUR') {
+                    rateUsed = EXCHANGE_RATES.CROSS_RATES.USD_TO_EUR;
+                    finalAmount = amount * rateUsed;
+                } else {
+                    rateUsed = 1;
+                    finalAmount = amount;
+                }
+
+                const fee = (finalAmount * PLATFORM_FEE_PERCENT) / 100;
+                const netAmount = finalAmount - fee;
+
+                alert(`=== تقرير توجيه السيولة الذكي ===\n\nالمبلغ الأصلي: ${amount} ${fromCurr}\nمعدل الصرف المعتمد: ${rateUsed}\nإجمالي القيمة: ${finalAmount.toFixed(2)}\nعمولة المنصة (${PLATFORM_FEE_PERCENT}%): ${fee.toFixed(2)}\nالصافي المستلم: ${netAmount.toFixed(2)}`);
+            }
+
+            fromCurrencySelect.addEventListener('change', updateRouterStatus);
+            toCurrencySelect.addEventListener('change', updateRouterStatus);
+            routeBtn.addEventListener('click', processRouting);
+
+            updateRouterStatus();
+        });
     </script>
-
 </body>
 </html>
