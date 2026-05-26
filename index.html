@@ -3,6 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مادي باي العالمية | MadiPay Global</title>
+    <style>
+        /* إعادة تعيين وتنسيق أساسي سيبراني */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #121417 0%, #1c1f24 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            overflow-x: hidden;
+        }
+
+        /* حاوية التطبيق الرئيسية المتوافقة مع الهاتف */
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            margin-top: 10px;
+        }
+
+        /* الهيدر أو الشعار */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 10px;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #ff6b00, #00ff87);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            font-size: 0.8rem;
+            color: #8a99ad;
+            margin-top: 5px;
+        }
+
+        /* بطاقة الجلاسمورفيزم الزجاجية */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            margin-bottom: 20px;
+        }
+
+        /* حقول الإدخال */
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #8a99ad;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper input, .input-wrapper select {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper input:focus, .input-wrapper select:focus {
+            border-color: #ff6b00;
+            box-shadow: 0 0 10px rgba(255, 107, 0, 0.2);
+        }
+
+        /* أزرار النيون التفاعلية */
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #ff6b00 0%, #e05e00 100%);
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 5px rgba(255, 107, 0, 0.2);
+        }
+
+        /* قسم تفاصيل التوجيه الذكي */
+        .router-status {
+            background: rgba(0, 255, 135, 0.04);
+            border: 1px dashed rgba(0, 255, 135, 0.2);
+            border-radius: 14px;
+            padding: 12px 15px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-title {
+            font-size: 0.8rem;
+            color: #00ff87;
+            font-weight: 600;
+        }
+
+        .status-value {
+            font-size: 0.85rem;
+            color: #ffffff;
+            background: rgba(0, 255, 135, 0.1);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="header">
+            <h1>مادي باي العالمية</h1>
+            <p>منصة ذكية وبوابات دفع رقمية محلية وعالمية</p>
+        </div>
+
+        <div class="glass-card">
+            <div class="input-group">
+                <label>مبلغ الإرسال</label>
+                <div class="input-wrapper">
+                    <input type="number" id="sendAmount" value="100" placeholder="0.00">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>من (العملة الأصلية)</label>
+                <div class="input-wrapper">
+                    <select id="fromCurrency">
+                        <option value="EUR">يورو (EUR)</option>
+                        <option value="USD">دولار أمريكي (USD)</option>
+                        <option value="DZD_OFF">دينار جزائري (بنك)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>إلى (العملة المستهدفة)</label>
+                <div class="input-wrapper">
+                    <select id="toCurrency">
+                        <option value="DZD_SQ" selected>دينار جزائري (السكوار)</option>
+                        <option value="DZD_OFF">دينار جزائري (بنك)</option>
+                        <option value="EUR">يورو (EUR)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-primary" id="routeBtn">
+                توجيه وتحويل ذكي
+            </button>
+
+            <div class="router-status">
+                <span class="status-title">● موجه السيولة النشط:</span>
+                <span class="status-value" id="routerMode">المقاصة الموازية (Square)</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+  <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منظومة المالية العالمية الشاملة - MadiPay</title>
     <style>
         :root {
