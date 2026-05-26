@@ -1,3 +1,46 @@
+// مادي باي العالمية - ربط المحرك بالواجهة التفاعلية
+document.addEventListener("DOMContentLoaded", () => {
+    // افترضنا أن هذه هي المعرفات (IDs) الخاصة بحقول الإدخال في الـ HTML الخاص بك
+    const amountInput = document.getElementById("amount");
+    const currencySelect = document.getElementById("currency_pair"); // مثل: USD_DZD
+    const marketTypeSelect = document.getElementById("market_type"); // رسمي أو موازي
+    const convertBtn = document.getElementById("convert_btn");
+    
+    // عناصر عرض النتائج للمستخدم
+    const resultDisplay = document.getElementById("result_display");
+    const routeDisplay = document.getElementById("route_display");
+    const feeDisplay = document.getElementById("fee_display");
+
+    if (convertBtn) {
+        convertBtn.addEventListener("click", () => {
+            const amount = parseFloat(amountInput.value) || 0;
+            const selectedPair = currencySelect.value; // "USD_DZD"
+            const marketType = marketTypeSelect.value; // "parallel" أو "official"
+            
+            if (amount <= 0) {
+                alert("يرجى إدخال مبلغ صحيح");
+                return;
+            }
+
+            const [from, to] = selectedPair.split("_");
+
+            // 1. حساب عملية الصرف
+            const exchangeResult = MadiPayEngine.calculateExchange(amount, from, to, marketType);
+            
+            // 2. تحديد مسار التوجيه الذكي (افتراض الحساب بالدولار للتبسيط)
+            const routingResult = MadiPayEngine.routeTransaction(amount, "DZ");
+
+            // 3. تحديث الواجهة بالنتائج الفورية
+            if (!exchangeResult.error) {
+                resultDisplay.textContent = `${exchangeResult.result} ${to}`;
+                routeDisplay.textContent = `المسار: ${routingResult.routeSelected}`;
+                feeDisplay.textContent = `الرسوم المقدرة: ${routingResult.fee} USD`;
+            } else {
+                resultDisplay.textContent = exchangeResult.error;
+            }
+        });
+    }
+});
 /**// MadiPay Global - Smart Routing & Liquidity Engine v1.1
 const MadiPayEngine = {
     // إعدادات أسعار الصرف (الرسمي والموازي "السكوار")
