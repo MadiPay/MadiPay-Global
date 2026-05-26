@@ -1,4 +1,67 @@
-/**
+/**// MadiPay Global - Smart Routing & Liquidity Engine v1.1
+const MadiPayEngine = {
+    // إعدادات أسعار الصرف (الرسمي والموازي "السكوار")
+    exchangeRates: {
+        USD_DZD: { official: 134.50, parallel: 220.00 },
+        EUR_DZD: { official: 145.20, parallel: 241.00 },
+        EUR_USD: { official: 1.08, parallel: 1.08 }
+    },
+
+    // 1. محرك حساب القيمة الحقيقية مع هامش الأمان
+    calculateExchange: function(amount, fromCurrency, toCurrency, marketType = 'parallel') {
+        const pair = `${fromCurrency}_${toCurrency}`;
+        if (!this.exchangeRates[pair]) {
+            return { error: "زوج العملات غير مدعوم حالياً" };
+        }
+
+        const rate = this.exchangeRates[pair][marketType];
+        // إضافة هامش تحوط بنسبة 0.5% لحماية السيولة أثناء المعالجة
+        const hedgeMargin = 0.005; 
+        const finalRate = rate * (1 - hedgeMargin);
+        
+        const convertedAmount = amount * finalRate;
+        return {
+            originalAmount: amount,
+            rateUsed: rate,
+            finalRateWithMargin: finalRate,
+            result: convertedAmount.toFixed(2)
+        };
+    },
+
+    // 2. موجه الدفع الذكي (Smart Payment Router)
+    // يحدد المسار الأمثل (أسرع وأقل تكلفة) بناءً على حجم المعاملة ونوع العملة
+    routeTransaction: function(amountInUSD, destinationCountry) {
+        let optimalRoute = "";
+        let estimatedFee = 0;
+
+        if (destinationCountry === "DZ") {
+            // إذا كانت المعاملة متجهة للجزائر، يتم التوجيه بناءً على حجم السيولة المطلوبة
+            if (amountInUSD > 5000) {
+                optimalRoute = "Liquidity Pool Provider (P2P Mesh)";
+                estimatedFee = amountInUSD * 0.01; // 1% عمولة للمبالغ الكبيرة
+            } else {
+                optimalRoute = "Automated Internal Escrow (MadiPay Core)";
+                estimatedFee = amountInUSD * 0.015; // 1.5% مبالغ صغيرة
+            }
+        } else {
+            // التوجيه الدولي المباشر
+            optimalRoute = "Cross-Border Liquidity Bridge (Stablecoin Hub)";
+            estimatedFee = amountInUSD * 0.008; // 0.8% للمسارات الدولية عبر العملات المستقرة
+        }
+
+        return {
+            targetCountry: destinationCountry,
+            routeSelected: optimalRoute,
+            fee: estimatedFee.toFixed(2),
+            executionTime: "Instant to 5 mins"
+        };
+    }
+};
+
+// مثال للاختبار في بيئة التشغيل:
+// لتجربة تحويل 1000 يورو إلى الدينار عبر سوق السكوار
+// console.log(MadiPayEngine.calculateExchange(1000, 'EUR', 'DZD', 'parallel'));
+
  * MadiPay Global - Smart Router & Exchange Engine
  * العقل المدبر لإدارة السيولة وتوجيه المدفوعات دولياً ومحلياً
  */
