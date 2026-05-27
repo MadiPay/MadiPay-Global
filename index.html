@@ -4,161 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مادي باي العالمية - الموجه الذكي</title>
-    <style>
-        /* إعدادات الخطوط والخلفية الأساسية */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #121214; /* رمادي فحمي داكن */
-            color: #E2E8F0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 15px;
-        }
-
-        /* حاوية الزجاج المموج - Glassmorphism */
-        .smart-router-card {
-            background: rgba(25, 25, 28, 0.65);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: 24px;
-            padding: 25px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        }
-
-        /* الهيدر وشعار الهوية */
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .header h1 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #FFFFFF;
-            letter-spacing: 0.5px;
-        }
-
-        .header span {
-            color: #FF6B00; /* برتقالي نيون */
-            font-size: 13px;
-            display: block;
-            margin-top: 5px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        /* مجموعات الإدخال */
-        .input-group {
-            margin-bottom: 18px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 13px;
-            color: #94A3B8;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .input-field, .select-field {
-            width: 100%;
-            padding: 14px 16px;
-            background: rgba(30, 30, 35, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: #FFFFFF;
-            font-size: 16px;
-            outline: none;
-            transition: all 0.3s ease;
-            -webkit-appearance: none; /* إزالة النمط الافتراضي للهواتف */
-        }
-
-        .input-field:focus, .select-field:focus {
-            border-color: #FF6B00; /* توهج برتقالي عند التفاعل */
-            box-shadow: 0 0 10px rgba(255, 107, 0, 0.2);
-        }
-
-        /* حاوية الاختيارات المزدوجة المتجاوبة */
-        .row {
-            display: flex;
-            gap: 12px;
-        }
-
-        .row .input-group {
-            flex: 1;
-        }
-
-        /* زر التوجيه الذكي */
-        .btn-route {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #FF6B00 0%, #E05E00 100%);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: transform 0.2s, opacity 0.2s;
-            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-        }
-
-        .btn-route:active {
-            transform: scale(0.98);
-            opacity: 0.9;
-        }
-
-        /* شاشة عرض النتائج الذكية */
-        .results-panel {
-            margin-top: 25px;
-            background: rgba(16, 185, 129, 0.05); /* تلميح أخضر زمردي خفيف */
-            border: 1px dashed rgba(16, 185, 129, 0.2);
-            border-radius: 16px;
-            padding: 18px;
-        }
-
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 14px;
-        }
-
-        .result-item:last-child {
-            margin-bottom: 0;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .result-label {
-            color: #94A3B8;
-        }
-
-        .result-value {
-            font-weight: 600;
-            color: #FFFFFF;
-        }
-
-        /* تمييز النتيجة النهائية بالأخضر الزمردي */
-        .final-amount {
-            color: #10B981 !important; /* أخضر زمردي للسيولة والنجاح */
-            font-size: 18px;
-            font-weight: 700;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
@@ -207,16 +53,24 @@
                 <span class="result-value final-amount" id="finalResultDisplay">- -</span>
             </div>
         </div>
+
+        <div class="escrow-panel">
+            <div class="escrow-title">🛡️ نظام الضمان المالي (Escrow Protocol)</div>
+            <div class="result-item">
+                <span class="result-label">حالة المعاملة:</span>
+                <span class="result-value" id="escrowStatus" style="color: #FFBB00;">في انتظار تفعيل العملية</span>
+            </div>
+            <button id="escrowBtn" class="btn-route btn-escrow" onclick="triggerEscrow()">
+                تأمين المبلغ في الحساب الوسيط
+            </button>
+        </div>
     </div>
 
     <script>
-        // قاعدة بيانات أسعار الصرف التقديرية (قابلة للتحديث)
         const exchangeRates = {
             USD: { official: 134.50, parallel: 220.00 },
             EUR: { official: 145.20, parallel: 242.00 }
         };
-
-        // نسبة عمولة المنصة الثابتة لضمان استقرار السيولة
         const platformFeePercent = 1.5;
 
         function calculateExchange() {
@@ -229,38 +83,26 @@
                 return;
             }
 
-            // جلب السعر بناءً على خيارات المستخدم
             const rate = exchangeRates[currency][rateType];
-            
-            // حساب القيمة الإجمالية قبل العمولة بالدنانير
             const grossTotal = amount * rate;
-            
-            // حساب قيمة عمولة المعالجة الذكية
             const fee = grossTotal * (platformFeePercent / 100);
-            
-            // القيمة النهائية الصافية
             const finalTotal = grossTotal + fee; 
 
-            // حقن البيانات المحسوبة مباشرة في واجهة المستخدم
             document.getElementById('exchangeRateDisplay').innerText = `${rate.toFixed(2)} دج`;
             document.getElementById('feeDisplay').innerText = `${fee.toFixed(2)} دج`;
             document.getElementById('finalResultDisplay').innerText = `${finalTotal.toFixed(2)} دج`;
+
+            document.getElementById('escrowBtn').style.display = 'block';
+            document.getElementById('escrowStatus').innerText = 'جاهز للتأمين الحركي';
+            document.getElementById('escrowStatus').style.color = '#FFBB00';
         }
 
-        // تشغيل دالة الحساب تلقائياً عند تحميل الصفحة لأول مرة لإعطاء مظهر حيوي
-  <div class="results-panel" style="margin-top: 15px; background: rgba(255, 107, 0, 0.03); border-color: rgba(255, 107, 0, 0.2);">
-    <div style="text-align: center; margin-bottom: 10px; color: #FF6B00; font-size: 14px; font-weight: 600;">
-        🛡️ نظام الضمان المالي (Escrow Protocol)
-    </div>
-    <div class="result-item">
-        <span class="result-label">حالة المعاملة:</span>
-        <span class="result-value" id="escrowStatus" style="color: #FFBB00;">في انتظار تفعيل العملية</span>
-    </div>
-    <button id="escrowBtn" class="btn-route" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); margin-top: 5px; display: none;" onclick="triggerEscrow()">
-        تأمين المبلغ في الحساب الوسيط
-    </button>
-</div>
-      window.onload = calculateExchange;
+        function triggerEscrow() {
+            document.getElementById('escrowStatus').innerText = 'تم حجز السيولة بأمان في الحساب الوسيط 🔒';
+            document.getElementById('escrowStatus').style.color = '#10B981';
+            document.getElementById('escrowBtn').style.display = 'none';
+        }
+        window.onload = calculateExchange;
     </script>
 
 </body>
