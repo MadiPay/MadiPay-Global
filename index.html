@@ -3,626 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadiPay Global | Sovereign Smart Router</title>
+    <title>مادي باي العالمية - الموجه الذكي</title>
     <style>
-        :root {
-            --bg-charcoal: #121214;
-            --neon-orange: #FF5722;
-            --emerald-green: #00E676;
-            --glass-bg: rgba(25, 25, 29, 0.65);
-            --glass-border: rgba(255, 87, 34, 0.15);
-        }
-
-        body {
-            background-color: var(--bg-charcoal);
-            color: #E0E0E6;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 480px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            box-sizing: border-box;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(237, 237, 237, 0.05);
-            padding-bottom: 15px;
-        }
-
-        .header h1 {
-            color: #FFFFFF;
-            font-size: 24px;
-            margin: 0 0 8px 0;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .header p {
-            color: #8A8A93;
-            font-size: 13px;
-            margin: 0;
-        }
-
-        .badge-live {
-            display: inline-block;
-            background: rgba(0, 230, 118, 0.1);
-            color: var(--emerald-green);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-            margin-top: 8px;
-            border: 1px solid rgba(0, 230, 118, 0.2);
-        }
-
-        .section-title {
-            font-size: 14px;
-            color: var(--neon-orange);
-            margin: 20px 0 10px 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-size: 12px;
-            color: #A0A0AA;
-            margin-bottom: 6px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            background: rgba(10, 10, 12, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
-            color: #FFFFFF;
-            font-size: 15px;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--neon-orange);
-            box-shadow: 0 0 8px rgba(255, 87, 34, 0.2);
-        }
-
-        .market-rates {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.02);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .rate-box h4 {
-            margin: 0 0 4px 0;
-            font-size: 11px;
-            color: #8A8A93;
-        }
-
-        .rate-box p {
-            margin: 0;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .rate-box.official p { color: #FFFFFF; }
-        .rate-box.parallel p { color: var(--emerald-green); }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--neon-orange), #E64A19);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, opacity 0.2s;
-            margin-top: 10px;
-        }
-
-        button:active {
-            transform: scale(0.98);
-        }
-
-        .router-output {
-            margin-top: 20px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 15px;
-            border-left: 3px solid var(--emerald-green);
-            display: none;
-        }
-
-        .router-output.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .output-line {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
-
-        .output-line:last-child {
-            margin-bottom: 0;
-            padding-top: 8px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .status-node {
-            color: var(--emerald-green);
-            font-weight: bold;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div class="header">
-            <h1>MadiPay Global</h1>
-            <p>المنصة الذكية لتوجيه المدفوعات الدولية</p>
-            <span class="badge-live">الموجه الاستراتيجي نشط</span>
-        </div>
-
-        <div class="section-title">إعدادات المسار والسيولة</div>
-        
-        <div class="input-group">
-            <label>المبلغ المراد توجيهه (EUR)</label>
-            <input type="number" id="amountInput" value="1000" min="1" oninput="calculateRoute()">
-        </div>
-
-        <div class="input-group">
-            <label>آلية التوجيه المطلوبة</label>
-            <select id="routingStrategy" onchange="calculateRoute()">
-                <option value="speed">أعلى سرعة معالجة (Instant)</option>
-                <option value="rate">أقل رسوم صيرفة (Optimal Fee)</option>
-                <option value="privacy">الممر السيادي عالي التشفير (Dark Pool)</option>
-            </select>
-        </div>
-
-        <div class="section-title">أسعار الصرف الحركية (DZD)</div>
-        <div class="market-rates">
-            <div class="rate-box official">
-                <h4>السعر البنكي الرسمي</h4>
-                <p id="officialRate">1 EUR = 145.50</p>
-            </div>
-            <div class="rate-box parallel">
-                <h4>سعر ممر الموازنة (Square)</h4>
-                <p id="parallelRate">1 EUR = 242.00</p>
-            </div>
-        </div>
-
-        <button onclick="executeRouting()">تفعيل التوجيه الذكي</button>
-
-        <div class="router-output" id="routerResult">
-            <div class="output-line">
-                <span>الممر المختار:</span>
-                <span id="resPath" class="status-node">-</span>
-            </div>
-            <div class="output-line">
-                <span>القيمة الصافية بالموازنة:</span>
-                <span id="resTotal" style="color: #FFFFFF; font-weight: bold;">-</span>
-            </div>
-            <div class="output-line">
-                <span>الفارق الاستراتيجي المحقق:</span>
-                <span id="resBenefit" style="color: var(--emerald-green);">-</span>
-            </div>
-            <div class="output-line">
-                <span>حالة العقد الذكي:</span>
-                <span style="color: var(--emerald-green);">جاهز للتنفيذ الفوري</span>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // دالة الحساب الفوري للتوجيه
-        function calculateRoute() {
-            const amount = parseFloat(document.getElementById('amountInput').value) || 0;
-            const officialRate = 145.50;
-            const parallelRate = 242.00; // ممر السكوار المتطور
-
-            const officialTotal = amount * officialRate;
-            const parallelTotal = amount * parallelRate;
-            const benefit = parallelTotal - officialTotal;
-
-            document.getElementById('resTotal').innerText = parallelTotal.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + " DZD";
-            document.getElementById('resBenefit').innerText = "+" + benefit.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + " DZD";
-            
-            // اختيار الممر بناءً على الاستراتيجية
-            const strategy = document.getElementById('routingStrategy').value;
-            let pathName = "";
-            if(strategy === 'speed') pathName = "Vortex-FastTrack (0.4s)";
-            else if(strategy === 'rate') pathName = "Alpha-Liquidity Node";
-            else pathName = "Sovereign-Shield Protocol";
-            
-            document.getElementById('resPath').innerText = pathName;
-        }
-
-        // دالة التفعيل عند الضغط على الزر
-        function executeRouting() {
-            calculateRoute();
-            const resultBox = document.getElementById('routerResult');
-            resultBox.classList.remove('active');
-            void resultBox.offsetWidth; // حيلة لإعادة تشغيل الـ Animation
-            resultBox.classList.add('active');
-        }
-
-        // تشغيل الحسابات تلقائياً عند تحميل الصفحة لأول مرة
-        window.onload = calculateRoute;
-    </script>
-
-</body>
-</html>
-!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مادي باي العالمية | MadiPay Global</title>
-    <style>
-        /* إعادة تعيين وتنسيق أساسي سيبراني */
+        /* إعدادات الخطوط والخلفية الأساسية */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #121417 0%, #1c1f24 100%);
-            color: #ffffff;
-            min-height: 100vh;
+            background-color: #121214; /* رمادي فحمي داكن */
+            color: #E2E8F0;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            min-height: 100vh;
             padding: 15px;
-            overflow-x: hidden;
         }
 
-        /* حاوية التطبيق الرئيسية المتوافقة مع الهاتف */
-        .app-container {
-            width: 100%;
-            max-width: 420px;
-            margin-top: 10px;
-        }
-
-        /* الهيدر أو الشعار */
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-            padding: 10px;
-        }
-
-        .header h1 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            background: linear-gradient(90deg, #ff6b00, #00ff87);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header p {
-            font-size: 0.8rem;
-            color: #8a99ad;
-            margin-top: 5px;
-        }
-
-        /* بطاقة الجلاسمورفيزم الزجاجية */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
+        /* حاوية الزجاج المموج - Glassmorphism */
+        .smart-router-card {
+            background: rgba(25, 25, 28, 0.65);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.07);
             border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            margin-bottom: 20px;
+            padding: 25px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
-        /* حقول الإدخال */
+        /* الهيدر وشعار الهوية */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #FFFFFF;
+            letter-spacing: 0.5px;
+        }
+
+        .header span {
+            color: #FF6B00; /* برتقالي نيون */
+            font-size: 13px;
+            display: block;
+            margin-top: 5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* مجموعات الإدخال */
         .input-group {
             margin-bottom: 18px;
         }
 
         .input-group label {
             display: block;
-            font-size: 0.85rem;
-            color: #8a99ad;
+            font-size: 13px;
+            color: #94A3B8;
             margin-bottom: 8px;
             font-weight: 500;
         }
 
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .input-wrapper input, .input-wrapper select {
+        .input-field, .select-field {
             width: 100%;
             padding: 14px 16px;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(30, 30, 35, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 600;
+            border-radius: 12px;
+            color: #FFFFFF;
+            font-size: 16px;
             outline: none;
             transition: all 0.3s ease;
+            -webkit-appearance: none; /* إزالة النمط الافتراضي للهواتف */
         }
 
-        .input-wrapper input:focus, .input-wrapper select:focus {
-            border-color: #ff6b00;
+        .input-field:focus, .select-field:focus {
+            border-color: #FF6B00; /* توهج برتقالي عند التفاعل */
             box-shadow: 0 0 10px rgba(255, 107, 0, 0.2);
         }
 
-        /* أزرار النيون التفاعلية */
-        .btn-primary {
+        /* حاوية الاختيارات المزدوجة المتجاوبة */
+        .row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .row .input-group {
+            flex: 1;
+        }
+
+        /* زر التوجيه الذكي */
+        .btn-route {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(90deg, #ff6b00 0%, #e05e00 100%);
+            background: linear-gradient(135deg, #FF6B00 0%, #E05E00 100%);
             border: none;
-            border-radius: 14px;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 700;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s, opacity 0.2s;
             box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
         }
 
-        .btn-primary:active {
+        .btn-route:active {
             transform: scale(0.98);
-            box-shadow: 0 2px 5px rgba(255, 107, 0, 0.2);
+            opacity: 0.9;
         }
 
-        /* قسم تفاصيل التوجيه الذكي */
-        .router-status {
-            background: rgba(0, 255, 135, 0.04);
-            border: 1px dashed rgba(0, 255, 135, 0.2);
-            border-radius: 14px;
-            padding: 12px 15px;
-            margin-top: 15px;
+        /* شاشة عرض النتائج الذكية */
+        .results-panel {
+            margin-top: 25px;
+            background: rgba(16, 185, 129, 0.05); /* تلميح أخضر زمردي خفيف */
+            border: 1px dashed rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .result-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
         }
 
-        .status-title {
-            font-size: 0.8rem;
-            color: #00ff87;
+        .result-item:last-child {
+            margin-bottom: 0;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .result-label {
+            color: #94A3B8;
+        }
+
+        .result-value {
             font-weight: 600;
+            color: #FFFFFF;
         }
 
-        .status-value {
-            font-size: 0.85rem;
-            color: #ffffff;
-            background: rgba(0, 255, 135, 0.1);
-            padding: 4px 8px;
-            border-radius: 6px;
-            transition: all 0.3s ease;
+        /* تمييز النتيجة النهائية بالأخضر الزمردي */
+        .final-amount {
+            color: #10B981 !important; /* أخضر زمردي للسيولة والنجاح */
+            font-size: 18px;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
+    <div class="smart-router-card">
         <div class="header">
-            <h1>مادي باي العالمية</h1>
-            <p>منصة ذكية وبوابات دفع رقمية محلية وعالمية</p>
+            <h1>MadiPay Global</h1>
+            <span>Smart Routing System v1.0</span>
         </div>
 
-        <div class="glass-card">
+        <div class="input-group">
+            <label for="amountInput">المبلغ المراد تحويله</label>
+            <input type="number" id="amountInput" class="input-field" placeholder="أدخل المبلغ هنا..." value="100">
+        </div>
+
+        <div class="row">
             <div class="input-group">
-                <label>مبلغ الإرسال</label>
-                <div class="input-wrapper">
-                    <input type="number" id="sendAmount" value="100" placeholder="0.00">
-                </div>
+                <label for="currencySelect">العملة الأجنبية</label>
+                <select id="currencySelect" class="select-field">
+                    <option value="EUR">يورو (EUR)</option>
+                    <option value="USD">دولار (USD)</option>
+                </select>
             </div>
 
             <div class="input-group">
-                <label>من (العملة الأصلية)</label>
-                <div class="input-wrapper">
-                    <select id="fromCurrency">
-                        <option value="EUR">يورو (EUR)</option>
-                        <option value="USD">دولار أمريكي (USD)</option>
-                        <option value="DZD_OFF">دينار جزائري (بنك)</option>
-                    </select>
-                </div>
+                <label for="rateTypeSelect">سعر الصرف المستهدف</label>
+                <select id="rateTypeSelect" class="select-field">
+                    <option value="parallel">السوق الموازية (السكوار)</option>
+                    <option value="official">السعر البنكي الرسمي</option>
+                </select>
             </div>
+        </div>
 
-            <div class="input-group">
-                <label>إلى (العملة المستهدفة)</label>
-                <div class="input-wrapper">
-                    <select id="toCurrency">
-                        <option value="DZD_SQ" selected>دينار جزائري (السكوار)</option>
-                        <option value="DZD_OFF">دينار جزائري (بنك)</option>
-                        <option value="EUR">يورو (EUR)</option>
-                    </select>
-                </div>
+        <button class="btn-route" onclick="calculateExchange()">تفعيل التوجيه الذكي</button>
+
+        <div class="results-panel">
+            <div class="result-item">
+                <span class="result-label">سعر الصرف المعتمد:</span>
+                <span class="result-value" id="exchangeRateDisplay">- -</span>
             </div>
-
-            <button class="btn-primary" id="routeBtn">
-                توجيه وتحويل ذكي
-            </button>
-
-            <div class="router-status">
-                <span class="status-title">● موجه السيولة النشط:</span>
-                <span class="status-value" id="routerMode">المقاصة الموازية (Square)</span>
+            <div class="result-item">
+                <span class="result-label">رسوم التوجيه والسيولة (1.5%):</span>
+                <span class="result-value" id="feeDisplay">- -</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">المقابل الإجمالي بالدينار:</span>
+                <span class="result-value final-amount" id="finalResultDisplay">- -</span>
             </div>
         </div>
     </div>
 
     <script>
-        const EXCHANGE_RATES = {
-            OFFICIAL: {
-                USD_TO_DZD: 134.50,
-                EUR_TO_DZD: 145.20,
-            },
-            SQUARE: {
-                USD_TO_DZD: 220.00,
-                EUR_TO_DZD: 242.00,
-            },
-            CROSS_RATES: {
-                EUR_TO_USD: 1.08,
-                USD_TO_EUR: 0.92
-            }
+        // قاعدة بيانات أسعار الصرف التقديرية (قابلة للتحديث)
+        const exchangeRates = {
+            USD: { official: 134.50, parallel: 220.00 },
+            EUR: { official: 145.20, parallel: 242.00 }
         };
 
-        const PLATFORM_FEE_PERCENT = 1.0; 
+        // نسبة عمولة المنصة الثابتة لضمان استقرار السيولة
+        const platformFeePercent = 1.5;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const sendAmountInput = document.getElementById('sendAmount');
-            const fromCurrencySelect = document.getElementById('fromCurrency');
-            const toCurrencySelect = document.getElementById('toCurrency');
-            const routeBtn = document.getElementById('routeBtn');
-            const routerModeSpan = document.getElementById('routerMode');
+        function calculateExchange() {
+            const amount = parseFloat(document.getElementById('amountInput').value);
+            const currency = document.getElementById('currencySelect').value;
+            const rateType = document.getElementById('rateTypeSelect').value;
 
-            function updateRouterStatus() {
-                const toCurrency = toCurrencySelect.value;
-                if (toCurrency === 'DZD_SQ') {
-                    routerModeSpan.textContent = "المقاصة الموازية (Square)";
-                    routerModeSpan.style.background = "rgba(255, 107, 0, 0.1)";
-                    routerModeSpan.style.color = "#ff6b00";
-                } else if (toCurrency === 'DZD_OFF') {
-                    routerModeSpan.textContent = "التسوية المصرفية الرسمية";
-                    routerModeSpan.style.background = "rgba(0, 255, 135, 0.1)";
-                    routerModeSpan.style.color = "#00ff87";
-                } else {
-                    routerModeSpan.textContent = "توجيه سيولة دولية مباشر";
-                    routerModeSpan.style.background = "rgba(0, 191, 255, 0.1)";
-                    routerModeSpan.style.color = "#00bfff";
-                }
+            if (isNaN(amount) || amount <= 0) {
+                alert("يرجى إدخال مبلغ صحيح أكبر من الصفر.");
+                return;
             }
 
-            function processRouting() {
-                const amount = parseFloat(sendAmountInput.value);
-                const fromCurr = fromCurrencySelect.value;
-                const toCurr = toCurrencySelect.value;
+            // جلب السعر بناءً على خيارات المستخدم
+            const rate = exchangeRates[currency][rateType];
+            
+            // حساب القيمة الإجمالية قبل العمولة بالدنانير
+            const grossTotal = amount * rate;
+            
+            // حساب قيمة عمولة المعالجة الذكية
+            const fee = grossTotal * (platformFeePercent / 100);
+            
+            // القيمة النهائية الصافية
+            const finalTotal = grossTotal + fee; 
 
-                if (isNaN(amount) || amount <= 0) {
-                    alert("يرجى إدخال مبلغ صحيح لإتمام عملية التوجيه.");
-                    return;
-                }
-
-                let finalAmount = 0;
-                let rateUsed = 0;
-
-                if (fromCurr === 'EUR' && toCurr === 'DZD_SQ') {
-                    rateUsed = EXCHANGE_RATES.SQUARE.EUR_TO_DZD;
-                    finalAmount = amount * rateUsed;
-                } else if (fromCurr === 'USD' && toCurr === 'DZD_SQ') {
-                    rateUsed = EXCHANGE_RATES.SQUARE.USD_TO_DZD;
-                    finalAmount = amount * rateUsed;
-                } else if (fromCurr === 'EUR' && toCurr === 'DZD_OFF') {
-                    rateUsed = EXCHANGE_RATES.OFFICIAL.EUR_TO_DZD;
-                    finalAmount = amount * rateUsed;
-                } else if (fromCurr === 'USD' && toCurr === 'DZD_OFF') {
-                    rateUsed = EXCHANGE_RATES.OFFICIAL.USD_TO_DZD;
-                    finalAmount = amount * rateUsed;
-                } else if (fromCurr === 'EUR' && toCurr === 'USD') {
-                    rateUsed = EXCHANGE_RATES.CROSS_RATES.EUR_TO_USD;
-                    finalAmount = amount * rateUsed;
-                } else if (fromCurr === 'USD' && toCurr === 'EUR') {
-                    rateUsed = EXCHANGE_RATES.CROSS_RATES.USD_TO_EUR;
-                    finalAmount = amount * rateUsed;
-                } else {
-                    rateUsed = 1;
-                    finalAmount = amount;
-                }
-
-                const fee = (finalAmount * PLATFORM_FEE_PERCENT) / 100;
-                const netAmount = finalAmount - fee;
-
-                alert(`=== تقرير توجيه السيولة الذكي ===\n\nالمبلغ الأصلي: ${amount} ${fromCurr}\nمعدل الصرف المعتمد: ${rateUsed}\nإجمالي القيمة: ${finalAmount.toFixed(2)}\nعمولة المنصة (${PLATFORM_FEE_PERCENT}%): ${fee.toFixed(2)}\nالصافي المستلم: ${netAmount.toFixed(2)}`);
-            }
-
-            fromCurrencySelect.addEventListener('change', updateRouterStatus);
-            toCurrencySelect.addEventListener('change', updateRouterStatus);
-            routeBtn.addEventListener('click', processRouting);
-
-            updateRouterStatus();
-        });
-    </script><script>
-    // إعداد أسعار الصرف الافتراضية (يمكن تحديثها لاحقاً عبر API)
-    const exchangeRates = {
-        USD: { official: 134.50, parallel: 220.00 },
-        EUR: { official: 145.20, parallel: 242.00 }
-    };
-
-    // عمولة المنصة الافتراضية (مثلاً 1.5%)
-    const platformFeePercent = 1.5;
-
-    // الدالة الأساسية لحساب التحويل
-    function calculateExchange() {
-        const amount = parseFloat(document.getElementById('amountInput').value);
-        const currency = document.getElementById('currencySelect').value;
-        const rateType = document.getElementById('rateTypeSelect').value; // official أو parallel
-
-        // التحقق من صحة المبلغ المدخل
-        if (isNaN(amount) || amount <= 0) {
-            alert("يرجى إدخال مبلغ صحيح");
-            return;
+            // حقن البيانات المحسوبة مباشرة في واجهة المستخدم
+            document.getElementById('exchangeRateDisplay').innerText = `${rate.toFixed(2)} دج`;
+            document.getElementById('feeDisplay').innerText = `${fee.toFixed(2)} دج`;
+            document.getElementById('finalResultDisplay').innerText = `${finalTotal.toFixed(2)} دج`;
         }
 
-        // جلب سعر الصرف بناءً على العملة ونوع السوق
-        const rate = exchangeRates[currency][rateType];
-        
-        // حساب الناتج الأولي (مثال: تحويل من العملة الأجنبية إلى الدينار)
-        const rawResult = amount * rate;
-        
-        // حساب عمولة المنصة
-        const fee = rawResult * (platformFeePercent / 100);
-        
-        // الصافي النهائي بعد خصم أو إضافة العمولة حسب طبيعة العملية
-        const finalTotal = rawResult - fee;
-
-        // تحديث الواجهة بالنتائج (تأكد من مطابقة الـ IDs مع عناصر الـ HTML لديك)
-        document.getElementById('exchangeRateDisplay').innerText = `${rate} دج`;
-        document.getElementById('feeDisplay').innerText = `${fee.toFixed(2)} دج`;
-        document.getElementById('finalResultDisplay').innerText = `${finalTotal.toFixed(2)} دج`;
-    }
-</script>
+        // تشغيل دالة الحساب تلقائياً عند تحميل الصفحة لأول مرة لإعطاء مظهر حيوي
+        window.onload = calculateExchange;
+    </script>
 
 </body>
 </html>
