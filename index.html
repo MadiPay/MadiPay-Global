@@ -248,7 +248,19 @@
         }
 
         // تشغيل دالة الحساب تلقائياً عند تحميل الصفحة لأول مرة لإعطاء مظهر حيوي
-        window.onload = calculateExchange;
+  <div class="results-panel" style="margin-top: 15px; background: rgba(255, 107, 0, 0.03); border-color: rgba(255, 107, 0, 0.2);">
+    <div style="text-align: center; margin-bottom: 10px; color: #FF6B00; font-size: 14px; font-weight: 600;">
+        🛡️ نظام الضمان المالي (Escrow Protocol)
+    </div>
+    <div class="result-item">
+        <span class="result-label">حالة المعاملة:</span>
+        <span class="result-value" id="escrowStatus" style="color: #FFBB00;">في انتظار تفعيل العملية</span>
+    </div>
+    <button id="escrowBtn" class="btn-route" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); margin-top: 5px; display: none;" onclick="triggerEscrow()">
+        تأمين المبلغ في الحساب الوسيط
+    </button>
+</div>
+      window.onload = calculateExchange;
     </script>
 
 </body>
