@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مادي باي العالمية - الموجه الذكي</title>
     <style>
-        /* التنسيق والألوان السيبرانية المدمجة مباشرة */
+        /* التنسيقات السيبرانية وهوية MadiPay البصرية المدمجة */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -23,17 +23,17 @@
             padding: 15px;
         }
 
-        /* واجهة الزجاج المموج - Glassmorphism */
+        /* حاوية الزجاج المموج المحسنة - Glassmorphism */
         .smart-router-card {
-            background: rgba(25, 25, 28, 0.65);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
+            background: rgba(25, 25, 28, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 24px;
             padding: 25px;
             width: 100%;
             max-width: 420px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
         }
 
         .header {
@@ -42,17 +42,19 @@
         }
 
         .header h1 {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 700;
             color: #FFFFFF;
+            letter-spacing: 0.5px;
         }
 
         .header span {
-            color: #FF6B00; /* البرتقالي النيون الخاص بالهوية البصرية */
+            color: #FF6B00; /* برتقالي نيون للشرارة البرمجية */
             font-size: 13px;
             display: block;
-            margin-top: 5px;
+            margin-top: 6px;
             font-weight: 600;
+            text-transform: uppercase;
         }
 
         .input-group {
@@ -69,17 +71,18 @@
         .input-field, .select-field {
             width: 100%;
             padding: 14px 16px;
-            background: rgba(30, 30, 35, 0.8);
+            background: rgba(30, 30, 35, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             color: #FFFFFF;
             font-size: 16px;
             outline: none;
+            transition: all 0.3s ease;
         }
 
         .input-field:focus, .select-field:focus {
             border-color: #FF6B00;
-            box-shadow: 0 0 10px rgba(255, 107, 0, 0.2);
+            box-shadow: 0 0 12px rgba(255, 107, 0, 0.25);
         }
 
         .row {
@@ -103,12 +106,17 @@
             cursor: pointer;
             margin-top: 10px;
             box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .btn-route:active {
+            transform: scale(0.98);
         }
 
         .results-panel {
             margin-top: 25px;
-            background: rgba(16, 185, 129, 0.05);
-            border: 1px dashed rgba(16, 185, 129, 0.2);
+            background: rgba(16, 185, 129, 0.04);
+            border: 1px dashed rgba(16, 185, 129, 0.25);
             border-radius: 16px;
             padding: 18px;
         }
@@ -137,22 +145,23 @@
         }
 
         .final-amount {
-            color: #10B981 !important; /* الأخضر الزمردي المالي */
-            font-size: 18px;
+            color: #10B981 !important; /* أخضر زمردي للسيولة والنجاح */
+            font-size: 19px;
             font-weight: 700;
         }
 
+        /* لوحة بروتوكول الضمان المالي */
         .escrow-panel {
             margin-top: 15px; 
-            background: rgba(255, 107, 0, 0.03); 
-            border: 1px solid rgba(255, 107, 0, 0.2);
+            background: rgba(255, 107, 0, 0.02); 
+            border: 1px solid rgba(255, 107, 0, 0.15);
             border-radius: 16px;
             padding: 18px;
         }
 
         .escrow-title {
             text-align: center; 
-            margin-bottom: 10px; 
+            margin-bottom: 12px; 
             color: #FF6B00; 
             font-size: 14px; 
             font-weight: 600;
@@ -161,7 +170,7 @@
         .btn-escrow {
             background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important; 
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important; 
-            margin-top: 10px; 
+            margin-top: 12px; 
             display: none;
         }
     </style>
@@ -175,8 +184,8 @@
         </div>
 
         <div class="input-group">
-            <label for="amountInput">المبلغ المراد تحويله</label>
-            <input type="number" id="amountInput" class="input-field" placeholder="أدخل المبلغ هنا..." value="100">
+            <label for="amountInput">المبلغ المراد توجيهه</label>
+            <input type="number" id="amountInput" class="input-field" placeholder="أدخل المبلغ..." value="100">
         </div>
 
         <div class="row">
@@ -189,7 +198,7 @@
             </div>
 
             <div class="input-group">
-                <label for="rateTypeSelect">سعر الصرف المستهدف</label>
+                <label for="rateTypeSelect">نوع السعر المستهدف</label>
                 <select id="rateTypeSelect" class="select-field">
                     <option value="parallel">السوق الموازية (السكوار)</option>
                     <option value="official">السعر البنكي الرسمي</option>
@@ -205,11 +214,11 @@
                 <span class="result-value" id="exchangeRateDisplay">- -</span>
             </div>
             <div class="result-item">
-                <span class="result-label">رسوم التوجيه والسيولة (1.5%):</span>
+                <span class="result-label">رسوم المنصة والسيولة (1.5%):</span>
                 <span class="result-value" id="feeDisplay">- -</span>
             </div>
             <div class="result-item">
-                <span class="result-label">المقابل الإجمالي بالدينار:</span>
+                <span class="result-label">المقابل المالي بالدينار:</span>
                 <span class="result-value final-amount" id="finalResultDisplay">- -</span>
             </div>
         </div>
@@ -217,8 +226,8 @@
         <div class="escrow-panel">
             <div class="escrow-title">🛡️ نظام الضمان المالي (Escrow Protocol)</div>
             <div class="result-item">
-                <span class="result-label">حالة المعاملة:</span>
-                <span class="result-value" id="escrowStatus" style="color: #FFBB00;">في انتظار تفعيل العملية</span>
+                <span class="result-label">حالة التغطية النقدية:</span>
+                <span class="result-value" id="escrowStatus" style="color: #FFBB00;">في انتظار الحساب</span>
             </div>
             <button id="escrowBtn" class="btn-route btn-escrow" onclick="triggerEscrow()">
                 تأمين المبلغ في الحساب الوسيط
@@ -227,7 +236,7 @@
     </div>
 
     <script>
-        // منطق احتساب أسعار الصرف الرسمية والموازية
+        // قيم محاكاة لأسعار الصرف (البنكية والموازية للسكوار)
         const exchangeRates = {
             USD: { official: 134.50, parallel: 220.00 },
             EUR: { official: 145.20, parallel: 242.00 }
@@ -240,7 +249,7 @@
             const rateType = document.getElementById('rateTypeSelect').value;
 
             if (isNaN(amount) || amount <= 0) {
-                alert("يرجى إدخال مبلغ صحيح أكبر من الصفر.");
+                alert("يرجى إدخال قيمة صحيحة.");
                 return;
             }
 
@@ -249,10 +258,12 @@
             const fee = grossTotal * (platformFeePercent / 100);
             const finalTotal = grossTotal + fee; 
 
+            // حقن البيانات في الواجهة الحية
             document.getElementById('exchangeRateDisplay').innerText = `${rate.toFixed(2)} دج`;
             document.getElementById('feeDisplay').innerText = `${fee.toFixed(2)} دج`;
             document.getElementById('finalResultDisplay').innerText = `${finalTotal.toFixed(2)} دج`;
 
+            // تنشيط خيارات الضمان المالي
             document.getElementById('escrowBtn').style.display = 'block';
             document.getElementById('escrowStatus').innerText = 'جاهز للتأمين الحركي';
             document.getElementById('escrowStatus').style.color = '#FFBB00';
@@ -264,6 +275,7 @@
             document.getElementById('escrowBtn').style.display = 'none';
         }
 
+        // تشغيل احتساب تلقائي أولي لتهيئة الواجهة جمالياً
         window.onload = calculateExchange;
     </script>
 
