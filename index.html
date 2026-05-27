@@ -583,6 +583,46 @@
 
             updateRouterStatus();
         });
-    </script>
+    </script><script>
+    // إعداد أسعار الصرف الافتراضية (يمكن تحديثها لاحقاً عبر API)
+    const exchangeRates = {
+        USD: { official: 134.50, parallel: 220.00 },
+        EUR: { official: 145.20, parallel: 242.00 }
+    };
+
+    // عمولة المنصة الافتراضية (مثلاً 1.5%)
+    const platformFeePercent = 1.5;
+
+    // الدالة الأساسية لحساب التحويل
+    function calculateExchange() {
+        const amount = parseFloat(document.getElementById('amountInput').value);
+        const currency = document.getElementById('currencySelect').value;
+        const rateType = document.getElementById('rateTypeSelect').value; // official أو parallel
+
+        // التحقق من صحة المبلغ المدخل
+        if (isNaN(amount) || amount <= 0) {
+            alert("يرجى إدخال مبلغ صحيح");
+            return;
+        }
+
+        // جلب سعر الصرف بناءً على العملة ونوع السوق
+        const rate = exchangeRates[currency][rateType];
+        
+        // حساب الناتج الأولي (مثال: تحويل من العملة الأجنبية إلى الدينار)
+        const rawResult = amount * rate;
+        
+        // حساب عمولة المنصة
+        const fee = rawResult * (platformFeePercent / 100);
+        
+        // الصافي النهائي بعد خصم أو إضافة العمولة حسب طبيعة العملية
+        const finalTotal = rawResult - fee;
+
+        // تحديث الواجهة بالنتائج (تأكد من مطابقة الـ IDs مع عناصر الـ HTML لديك)
+        document.getElementById('exchangeRateDisplay').innerText = `${rate} دج`;
+        document.getElementById('feeDisplay').innerText = `${fee.toFixed(2)} دج`;
+        document.getElementById('finalResultDisplay').innerText = `${finalTotal.toFixed(2)} دج`;
+    }
+</script>
+
 </body>
 </html>
