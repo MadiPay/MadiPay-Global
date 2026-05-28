@@ -4,176 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مادي باي العالمية - الموجه الذكي</title>
-    <style>
-        /* التنسيقات السيبرانية وهوية MadiPay البصرية المدمجة */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #121214; /* رمادي فحمي داكن */
-            color: #E2E8F0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 15px;
-        }
-
-        /* حاوية الزجاج المموج المحسنة - Glassmorphism */
-        .smart-router-card {
-            background: rgba(25, 25, 28, 0.75);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 25px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .header h1 {
-            font-size: 26px;
-            font-weight: 700;
-            color: #FFFFFF;
-            letter-spacing: 0.5px;
-        }
-
-        .header span {
-            color: #FF6B00; /* برتقالي نيون للشرارة البرمجية */
-            font-size: 13px;
-            display: block;
-            margin-top: 6px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .input-group {
-            margin-bottom: 18px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 13px;
-            color: #94A3B8;
-            margin-bottom: 8px;
-        }
-
-        .input-field, .select-field {
-            width: 100%;
-            padding: 14px 16px;
-            background: rgba(30, 30, 35, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: #FFFFFF;
-            font-size: 16px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .input-field:focus, .select-field:focus {
-            border-color: #FF6B00;
-            box-shadow: 0 0 12px rgba(255, 107, 0, 0.25);
-        }
-
-        .row {
-            display: flex;
-            gap: 12px;
-        }
-
-        .row .input-group {
-            flex: 1;
-        }
-
-        .btn-route {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #FF6B00 0%, #E05E00 100%);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-            transition: transform 0.2s ease;
-        }
-
-        .btn-route:active {
-            transform: scale(0.98);
-        }
-
-        .results-panel {
-            margin-top: 25px;
-            background: rgba(16, 185, 129, 0.04);
-            border: 1px dashed rgba(16, 185, 129, 0.25);
-            border-radius: 16px;
-            padding: 18px;
-        }
-
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 14px;
-        }
-
-        .result-item:last-child {
-            margin-bottom: 0;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .result-label {
-            color: #94A3B8;
-        }
-
-        .result-value {
-            font-weight: 600;
-            color: #FFFFFF;
-        }
-
-        .final-amount {
-            color: #10B981 !important; /* أخضر زمردي للسيولة والنجاح */
-            font-size: 19px;
-            font-weight: 700;
-        }
-
-        /* لوحة بروتوكول الضمان المالي */
-        .escrow-panel {
-            margin-top: 15px; 
-            background: rgba(255, 107, 0, 0.02); 
-            border: 1px solid rgba(255, 107, 0, 0.15);
-            border-radius: 16px;
-            padding: 18px;
-        }
-
-        .escrow-title {
-            text-align: center; 
-            margin-bottom: 12px; 
-            color: #FF6B00; 
-            font-size: 14px; 
-            font-weight: 600;
-        }
-
-        .btn-escrow {
-            background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important; 
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important; 
-            margin-top: 12px; 
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -236,7 +67,6 @@
     </div>
 
     <script>
-        // قيم محاكاة لأسعار الصرف (البنكية والموازية للسكوار)
         const exchangeRates = {
             USD: { official: 134.50, parallel: 220.00 },
             EUR: { official: 145.20, parallel: 242.00 }
@@ -258,12 +88,10 @@
             const fee = grossTotal * (platformFeePercent / 100);
             const finalTotal = grossTotal + fee; 
 
-            // حقن البيانات في الواجهة الحية
             document.getElementById('exchangeRateDisplay').innerText = `${rate.toFixed(2)} دج`;
             document.getElementById('feeDisplay').innerText = `${fee.toFixed(2)} دج`;
             document.getElementById('finalResultDisplay').innerText = `${finalTotal.toFixed(2)} دج`;
 
-            // تنشيط خيارات الضمان المالي
             document.getElementById('escrowBtn').style.display = 'block';
             document.getElementById('escrowStatus').innerText = 'جاهز للتأمين الحركي';
             document.getElementById('escrowStatus').style.color = '#FFBB00';
@@ -275,7 +103,6 @@
             document.getElementById('escrowBtn').style.display = 'none';
         }
 
-        // تشغيل احتساب تلقائي أولي لتهيئة الواجهة جمالياً
         window.onload = calculateExchange;
     </script>
 
