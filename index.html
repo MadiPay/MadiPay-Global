@@ -3,108 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مادي باي العالمية - الموجه الذكي</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>MadiPay Global | منصة ذكية لتوجيه المدفوعات الرقمية</title>
+    <meta name="description" content="منصة ذكية متطورة لإدارة وتوجيه المدفوعات الرقمية وبوابات الدفع المحلية والعالمية.">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; frame-ancestors 'none';">
+    
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
-    <div class="smart-router-card">
-        <div class="header">
-            <h1>MadiPay Global</h1>
-            <span>Smart Routing System v1.0</span>
-        </div>
-
-        <div class="input-group">
-            <label for="amountInput">المبلغ المراد توجيهه</label>
-            <input type="number" id="amountInput" class="input-field" placeholder="أدخل المبلغ..." value="100">
-        </div>
-
-        <div class="row">
-            <div class="input-group">
-                <label for="currencySelect">العملة الأجنبية</label>
-                <select id="currencySelect" class="select-field">
-                    <option value="EUR">يورو (EUR)</option>
-                    <option value="USD">دولار (USD)</option>
-                </select>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <span class="brand-vortex">MadiPay</span> <span class="brand-sub">Global</span>
             </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#features">المميزات</a></li>
+                    <li><a href="#router">الموجه الذكي</a></li>
+                    <li><a href="#security">الأمان</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-            <div class="input-group">
-                <label for="rateTypeSelect">نوع السعر المستهدف</label>
-                <select id="rateTypeSelect" class="select-field">
-                    <option value="parallel">السوق الموازية (السكوار)</option>
-                    <option value="official">السعر البنكي الرسمي</option>
-                </select>
+    <main class="hero-section">
+        <div class="hero-container">
+            <h1 class="hero-title">منصة ذكية متطورة لإدارة وتوجيه المدفوعات الرقمية</h1>
+            <p class="hero-subtitle">بوابات الدفع المحلية والعالمية تلتقي في مكان واحد لتوفير سيولة دولية وحلول ذكية بأعلى معايير الأمان الإستراتيجي.</p>
+            <div class="cta-group">
+                <a href="#explore" class="btn btn-primary">اكتشف السيولة المتاحة</a>
+                <a href="#docs" class="btn btn-secondary">وثائق الربط البرمجي</a>
             </div>
         </div>
+    </main>
 
-        <button class="btn-route" onclick="calculateExchange()">تفعيل التوجيه الذكي</button>
-
-        <div class="results-panel">
-            <div class="result-item">
-                <span class="result-label">سعر الصرف المعتمد:</span>
-                <span class="result-value" id="exchangeRateDisplay">- -</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">رسوم المنصة والسيولة (1.5%):</span>
-                <span class="result-value" id="feeDisplay">- -</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">المقابل المالي بالدينار:</span>
-                <span class="result-value final-amount" id="finalResultDisplay">- -</span>
-            </div>
+    <footer class="main-footer">
+        <div class="container text-center">
+            <p>&copy; 2026 MadiPay Global. جميع الحقوق محفوظة للمؤسس الاستراتيجي.</p>
         </div>
-
-        <div class="escrow-panel">
-            <div class="escrow-title">🛡️ نظام الضمان المالي (Escrow Protocol)</div>
-            <div class="result-item">
-                <span class="result-label">حالة التغطية النقدية:</span>
-                <span class="result-value" id="escrowStatus" style="color: #FFBB00;">في انتظار الحساب</span>
-            </div>
-            <button id="escrowBtn" class="btn-route btn-escrow" onclick="triggerEscrow()">
-                تأمين المبلغ في الحساب الوسيط
-            </button>
-        </div>
-    </div>
-
-    <script>
-        const exchangeRates = {
-            USD: { official: 134.50, parallel: 220.00 },
-            EUR: { official: 145.20, parallel: 242.00 }
-        };
-        const platformFeePercent = 1.5;
-
-        function calculateExchange() {
-            const amount = parseFloat(document.getElementById('amountInput').value);
-            const currency = document.getElementById('currencySelect').value;
-            const rateType = document.getElementById('rateTypeSelect').value;
-
-            if (isNaN(amount) || amount <= 0) {
-                alert("يرجى إدخال قيمة صحيحة.");
-                return;
-            }
-
-            const rate = exchangeRates[currency][rateType];
-            const grossTotal = amount * rate;
-            const fee = grossTotal * (platformFeePercent / 100);
-            const finalTotal = grossTotal + fee; 
-
-            document.getElementById('exchangeRateDisplay').innerText = `${rate.toFixed(2)} دج`;
-            document.getElementById('feeDisplay').innerText = `${fee.toFixed(2)} دج`;
-            document.getElementById('finalResultDisplay').innerText = `${finalTotal.toFixed(2)} دج`;
-
-            document.getElementById('escrowBtn').style.display = 'block';
-            document.getElementById('escrowStatus').innerText = 'جاهز للتأمين الحركي';
-            document.getElementById('escrowStatus').style.color = '#FFBB00';
-        }
-
-        function triggerEscrow() {
-            document.getElementById('escrowStatus').innerText = 'تم حجز السيولة بأمان في الحساب الوسيط 🔒';
-            document.getElementById('escrowStatus').style.color = '#10B981';
-            document.getElementById('escrowBtn').style.display = 'none';
-        }
-
-        window.onload = calculateExchange;
-    </script>
+    </footer>
 
 </body>
 </html>
