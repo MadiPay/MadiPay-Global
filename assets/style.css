@@ -1,1 +1,220 @@
 
+/* ==========================================================================
+   MadiPay Global - نظام التنسيق المالي المتقدم 2026
+   ========================================================================== */
+
+/* 1. إعدادات المتغيرات والألوان الاستراتيجية (Dark Luxury Theme) */
+:root {
+    --bg-primary: #0b0f19;       /* لون الخلفية الأساسي العميقة */
+    --bg-secondary: #121824;     /* لون الكروت والقوائم */
+    --accent-glow: #00d2ff;      /* لون التوجيه الذكي والوميض الرقمي */
+    --accent-secure: #05cd99;    /* لون الأمان والسيولة الخضراء */
+    --text-main: #ffffff;        /* النص الأساسي */
+    --text-muted: #8f9bba;       /* النصوص الفرعية والمساعدة */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 2. الإعدادات العامة للتحكم وصفر خطأ في الأبعاد */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    font-family: 'Cairo', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 3. تنسيق الهيدر والشعار (Header & Navigation) */
+.main-header {
+    background-color: rgba(18, 24, 36, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.brand-vortex {
+    color: var(--text-main);
+    font-family: 'Orbitron', sans-serif;
+}
+
+.brand-sub {
+    color: var(--accent-glow);
+    font-family: 'Orbitron', sans-serif;
+}
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.main-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+}
+
+.main-nav a:hover {
+    color: var(--accent-glow);
+    text-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
+}
+
+/* 4. قسم الواجهة الترحيبية الصارخة (Hero Section) */
+.hero-section {
+    padding: 180px 0 100px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+/* تأثير الإضاءة الخلفية للشبكة المالية */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0,210,255,0.15) 0%, rgba(0,0,0,0) 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero-container {
+    max-width: 800px;
+    z-index: 1;
+}
+
+.hero-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    margin-bottom: 40px;
+    padding: 0 15px;
+}
+
+/* 5. الأزرار التفاعلية المؤمّنة (Buttons) */
+.cta-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-glow) 0%, #00a2ff 100%);
+    color: #000000;
+    box-shadow: 0 4px 20px rgba(0, 210, 255, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 210, 255, 0.5);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-main);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent-glow);
+    color: var(--accent-glow);
+}
+
+/* 6. التذييل (Footer) */
+.main-footer {
+    background-color: var(--bg-secondary);
+    padding: 30px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 50px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.main-footer p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* 7. التوافق المطلق مع شاشات الهواتف (Responsive Design) */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 1.85rem;
+    }
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    .main-header .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .main-nav ul {
+        gap: 15px;
+    }
+    .cta-group {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 20px;
+    }
+    .btn {
+        width: 100%;
+    }
+}
