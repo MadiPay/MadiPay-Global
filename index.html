@@ -3,225 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>MadiPay Global | Sovereign Financial Ecosystem</title>
-    <meta name="description" content="Sovereign smart gateway for local and global digital payments, electronic commerce routing, and MadiCoin liquidity management.">
-
-    <!-- بروتوكولات حماية وحظر الثغرات الخارجية -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; frame-ancestors 'none';">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta name="referrer" content="no-referrer-when-downgrade">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/style.css">
+    <title>MadiPay Global | منصة التوجيه الذكي</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- الهيدر المطور مع شريط التنقل الرباعي الجديد -->
-    <header class="main-header">
-        <div class="container header-flex">
-            <div class="logo">
-                <span class="brand-vortex">MadiPay</span> <span class="brand-sub">Global</span>
-            </div>
+    <div class="glass-container">
+        <header>
+            <div class="logo">MadiPay <span>Global</span></div>
+            <p class="subtitle">بوابة إدارة وتوجيه المدفوعات الدولية والمحلية بنظام التحليل الذكي</p>
+        </header>
+
+        <main>
+            <!-- نموذج محاكاة الدفع الذكي -->
+            <section class="payment-box">
+                <h3>محاكاة معالجة مدفوعات ذكية (Vortex Routing)</h3>
+                
+                <div class="input-group">
+                    <label for="amount">المبلغ المالي:</label>
+                    <input type="number" id="amount" placeholder="0.00" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="currency">العملة المقبولة:</label>
+                    <select id="currency">
+                        <option value="DZD">الدينار الجزائري (DZD)</option>
+                        <option value="USD">الدولار الأمريكي (USD)</option>
+                        <option value="EUR">اليورو الأوروبي (EUR)</option>
+                    </select>
+                </div>
+
+                <button id="processBtn" onclick="processSimulation()">تشغيل التوجيه الصارم</button>
+            </section>
+
+            <!-- شاشة عرض النتائج الفورية -->
+            <section id="resultBox" class="result-box hidden">
+                <h4>تقرير حالة المعاملة الفورية</h4>
+                <div class="receipt-line">المعرف الرقمي: <span id="resTxn" class="neon-text"></span></div>
+                <div class="receipt-line">البوابة الموجه إليها: <span id="resGateway"></span></div>
+                <div class="receipt-line">الرسوم المستقطعة: <span id="resFee"></span></div>
+                <div class="receipt-line">الإجمالي الكلي: <span id="resTotal" class="emerald-text"></span></div>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2026 MadiPay Global. جميع الحقوق محفوظة لبروتوكول السيادة المشفر.</p>
+        </footer>
+    </div>
+
+    <script>
+        // دالة المحاكاة لربط الواجهة بالمنطق البرمي
+        function processSimulation() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const currency = document.getElementById('currency').value;
             
-            <!-- أزرار التنقل الرباعية المستهدفة -->
-            <nav class="navigation-tabs">
-                <button id="tabBtnRouter" class="tab-btn active" onclick="switchInterface('router')">الموجه الذكي</button>
-                <button id="tabBtnLocal" class="tab-btn" onclick="switchInterface('local')">الخدمات المحلية</button>
-                <button id="tabBtnMerchant" class="tab-btn" onclick="switchInterface('merchant')">المتاجر الإلكترونية</button>
-                <button id="tabBtnWallet" class="tab-btn" onclick="switchInterface('wallet')">المحفظة</button>
-            </nav>
+            if(!amount || amount <= 0) {
+                alert('الرجاء إدخال مبلغ صحيح لبدء الفحص الصارم.');
+                return;
+            }
 
-            <div class="language-selector-wrapper">
-                <select id="globalLangSelector" onchange="changeSystemLanguage()">
-                    <option value="ar">العربية (Arabic)</option>
-                    <option value="en">English</option>
-                    <option value="fr">Français</option>
-                    <option value="es">Español</option>
-                    <option value="zh">中文 (Chinese)</option>
-                    <option value="tr">Türkçe</option>
-                    <option value="de">Deutsch</option>
-                </select>
-            </div>
-        </div>
-    </header>
+            // محاكاة معالجة الـ Smart Router
+            let gateway = "";
+            let feeRate = 0;
 
-    <!-- الواجهة الترحيبية السيادية -->
-    <main class="hero-section">
-        <div class="hero-container">
-            <h1 id="heroTitle" class="hero-title">المنظومة المالية السيادية لإدارة المدفوعات وتدفق السيولة</h1>
-            <p id="heroSubtitle" class="hero-subtitle">ربط المتاجر الإلكترونية العالمية، بوابات الدفع الدولية، والخدمات الحكومية والمحلية في مسار ذكي مشفر واحد.</p>
-        </div>
-    </main>
+            if(currency === 'DZD') {
+                gateway = "Local_Gateway_Vortex (الدفع المحلي)";
+                feeRate = 0.01;
+            } else if (currency === 'USD' && amount >= 1000) {
+                gateway = "International_Liquidity_A (سيولة دولية متقدمة)";
+                feeRate = 0.02;
+            } else {
+                gateway = "Stripe_Global_Route (التوجيه الدولي القياسي)";
+                feeRate = 0.035;
+            }
 
-    <!-- الواجهة الأولى: الموجه الذكي (العملة النقدية / الرقمية) -->
-    <section id="interface-router" class="view-interface">
-        <div class="container router-flex-container">
-            <div class="widget-card">
-                <h3 id="widgetTitle" class="widget-title">الموجه الذكي (العملة النقدية / الرقمية)</h3>
-                
-                <div class="input-grid-split">
-                    <div class="input-group">
-                        <label id="lblAmount" for="inputAmount">المبلغ المراد معالجته:</label>
-                        <input type="number" id="inputAmount" value="100" min="1">
-                    </div>
-                    <div class="input-group">
-                        <label id="lblSourceCurrency" for="sourceCurrency">عملة الإرسال:</label>
-                        <select id="sourceCurrency">
-                            <option value="EUR">EUR (€) - اليورو</option>
-                            <option value="USD">USD ($) - الدولار الأمريكي</option>
-                            <option value="GBP">GBP (£) - الجنيه الإسترليني</option>
-                            <option value="CAD">CAD ($) - الدولار الكندي</option>
-                            <option value="MDC">MadiCoin (MDC)</option>
-                        </select>
-                    </div>
-                </div>
+            const fee = amount * feeRate;
+            const total = amount + fee;
 
-                <div class="input-group">
-                    <label id="lblTargetService" for="targetService">بوابة التسوية العالمية المستهدفة:</label>
-                    <select id="targetService">
-                        <optgroup label="البوابات والشبكات العالمية">
-                            <option value="paypal">PayPal Gateway Secure Rail</option>
-                            <option value="stripe">Stripe Financial Processing</option>
-                            <option value="binance">Binance Pay Crypto Liquidity</option>
-                        </optgroup>
-                    </select>
-                </div>
+            // عرض النتيجة على واجهة الجلاسمورفيزم
+            document.getElementById('resTxn').innerText = 'TXN-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            document.getElementById('resGateway').innerText = gateway;
+            document.getElementById('resFee').innerText = fee.toFixed(2) + ' ' + currency;
+            document.getElementById('resTotal').innerText = total.toFixed(2) + ' ' + currency;
 
-                <div class="input-group">
-                    <label id="lblRateRoute" for="rateRouteType">بروتوكول معالجة السعر (Rate Engine):</label>
-                    <select id="rateRouteType">
-                        <option value="official">السعر البنكي الرسمي (Official Rate)</option>
-                        <option value="square">سعر السوق الموازي (Square Rate - السكوار)</option>
-                        <option value="madicoin">نظام السيولة الذكي عبر مادي كوين (MadiCoin Optimized)</option>
-                    </select>
-                </div>
-
-                <button id="btnExecute" onclick="calculateComprehensiveRoute('global')" class="router-btn">تفعيل الفحص والربط المالي</button>
-
-                <div id="resultBox" class="result-box hidden-element">
-                    <p id="lblResultHeader" class="result-label">مسار التسوية المقدر:</p>
-                    <h4 id="finalOutput" class="result-amount">0.00</h4>
-                    <p id="routingStatus" class="result-status"></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- الواجهة الثانية: بوابة الخدمات المحلية الجزائريّة -->
-    <section id="interface-local" class="view-interface hidden-element">
-        <div class="container router-flex-container">
-            <div class="widget-card">
-                <h3 id="lblLocalTitle" class="widget-title">بوابة الخدمات المحلية</h3>
-                
-                <div class="input-grid-split">
-                    <div class="input-group">
-                        <label id="lblLocalAmount" for="inputLocalAmount">المبلغ بالعملة الأجنبية أو MDC:</label>
-                        <input type="number" id="inputLocalAmount" value="50" min="1">
-                    </div>
-                    <div class="input-group">
-                        <label id="lblLocalSourceCurrency" for="localSourceCurrency">عملة الدفع الأصلية:</label>
-                        <select id="localSourceCurrency">
-                            <option value="EUR">EUR (€)</option>
-                            <option value="USD">USD ($)</option>
-                            <option value="MDC">MadiCoin (MDC)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label id="lblLocalTarget" for="localTargetService">الخدمة المحلية المستهدفة بالسداد الفوري:</label>
-                    <select id="localTargetService">
-                        <option value="baridimob">بريدي موب والبطاقة الذهبية (BaridiMob Direct)</option>
-                        <option value="flexy">فليكسي والاتصالات (Mobilis / Djezzy / Ooredoo)</option>
-                        <option value="idoom">اتصالات الجزائر (Idoom ADSL / Fiber)</option>
-                        <option value="sonelgaz">سونلغاز (تخليص فواتير الكهرباء والغاز)</option>
-                        <option value="yassir">ياسير والخدمات اللوجستية (Yassir API)</option>
-                        <option value="aadl">وكالة عدل (سداد مستحقات السكن السريعة)</option>
-                        <option value="ticket">تذكرتي وسلكني (المنصات الخدمية الحكومية)</option>
-                    </select>
-                </div>
-
-                <button id="btnLocalExecute" onclick="calculateComprehensiveRoute('local')" class="router-btn" style="background: linear-gradient(135deg, #05cd99 0%, #00a8cc 100%);">معالجة وتخليص الخدمة المحلية</button>
-
-                <div id="localResultBox" class="result-box hidden-element">
-                    <p class="result-label">القيمة المستلمة بالدينار الجزائري:</p>
-                    <h4 id="localFinalOutput" class="result-amount" style="color: var(--accent-glow);">0.00 DZD</h4>
-                    <p id="localRoutingStatus" class="result-status"></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- الواجهة الثالثة: بوابة المتاجر الإلكترونية -->
-    <section id="interface-merchant" class="view-interface hidden-element">
-        <div class="container router-flex-container">
-            <div class="widget-card">
-                <h3 id="lblMerchantTitle" class="widget-title">بوابة المتاجر الإلكترونية</h3>
-                <p style="color: var(--text-muted); text-align: center; margin-bottom: 20px; font-size: 0.9rem;">ربط وتوجيه السيولة النقدية تلقائياً من المتاجر العالمية والمنصات التنافسية.</p>
-                
-                <table class="secure-data-table">
-                    <thead>
-                        <tr>
-                            <th>منصة المتجر المشتركة</th>
-                            <th>بروتوكول الربط الإستراتيجي</th>
-                            <th>حالة التدفق والسيولة</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Shopify Store Sync</td>
-                            <td>Webhooks Active (SHA-256)</td>
-                            <td style="color: var(--accent-secure);">مؤمن ومستقر</td>
-                        </tr>
-                        <tr>
-                            <td>WooCommerce Plugin</td>
-                            <td>REST API Secured Connection</td>
-                            <td style="color: var(--accent-secure);">مؤمن ومستقر</td>
-                        </tr>
-                        <tr>
-                            <td>AliExpress Dropshipping</td>
-                            <td>Automated Settlement Rail</td>
-                            <td style="color: #ffaa00;">مزامنة السيولة جارية</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- الواجهة الرابعة: المحفظة -->
-    <section id="interface-wallet" class="view-interface hidden-element">
-        <div class="container router-flex-container">
-            <div class="widget-card">
-                <h3 id="lblWalletTitle" class="widget-title">المحفظة السيادية المعزولة</h3>
-                
-                <div class="wallet-balance-box">
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">إجمالي الأصول والسيولة السيادية داخل الشبكة:</p>
-                    <h2 style="color: var(--accent-secure); font-family: 'Orbitron', sans-serif; margin: 15px 0; font-size: 2.2rem;">45,820.004 MDC</h2>
-                    <p style="color: var(--accent-glow); font-size: 0.8rem; font-family: monospace;">[Post-Quantum Cryptography Core V2 Enabled]</p>
-                </div>
-
-                <div style="margin-top: 25px;">
-                    <h5 style="color: var(--text-main); margin-bottom: 10px; font-size: 0.95rem;">آخر سجلات المعاملات المشفرة كمياً (PQC Block Ledger):</h5>
-                    <div id="quantumLedger" style="background: #121824; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 0.75rem; color: var(--text-muted); text-align: left; line-height: 1.8;">
-                        * BLOCK #10492: PQC-KYBER-7a2e-8f921a - Secured Settlement via BaridiMob<br>
-                        * BLOCK #10491: PQC-KYBER-4f91-3b82df - Cleared PayPal Gateway Handshake
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="main-footer">
-        <div class="container text-center">
-            <p>&copy; 2026 MadiPay Global. Sovereign Ecosystem. All Rights Reserved.</p>
-        </div>
-    </footer>
-
-    <script src="assets/script.js"></script>
+            document.getElementById('resultBox').classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
