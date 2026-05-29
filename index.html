@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>MadiPay Global | منصة ذكية لتوجيه المدفوعات الرقمية</title>
-    <meta name="description" content="منصة ذكية متطورة لإدارة وتوجيه المدفوعات الرقمية وبوابات الدفع المحلية والعالمية.">
+    <title>MadiPay Global | Sovereign Financial Ecosystem</title>
+    <meta name="description" content="Sovereign smart gateway for local and global digital payments, electronic commerce routing, and MadiCoin liquidity management.">
 
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; frame-ancestors 'none';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -15,55 +15,97 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
     <header class="main-header">
-        <div class="container">
+        <div class="container header-flex">
             <div class="logo">
                 <span class="brand-vortex">MadiPay</span> <span class="brand-sub">Global</span>
             </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#router">الموجه الذكي</a></li>
-                    <li><a href="#features">السيادة الأمنية</a></li>
-                </ul>
-            </nav>
+            <div class="language-selector-wrapper">
+                <select id="globalLangSelector" onchange="changeSystemLanguage()">
+                    <option value="ar">العربية (Arabic)</option>
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="es">Español</option>
+                    <option value="zh">中文 (Chinese)</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="de">Deutsch</option>
+                </select>
+            </div>
         </div>
     </header>
 
     <main class="hero-section">
         <div class="hero-container">
-            <h1 class="hero-title">منصة ذكية متطورة لإدارة وتوجيه المدفوعات</h1>
-            <p class="hero-subtitle">حلول سيادية لربط بوابات الدفع المحلية والعالمية وتأمين تدفقات السيولة الدولية بأعلى معايير التشفير.</p>
+            <h1 id="heroTitle" class="hero-title">المنظومة المالية السيادية لإدارة المدفوعات وتدفق السيولة</h1>
+            <p id="heroSubtitle" class="hero-subtitle">ربط المتاجر الإلكترونية العالمية، بوابات الدفع الدولية، والخدمات الحكومية والمحلية في مسار ذكي مشفر واحد.</p>
         </div>
     </main>
 
     <section id="router" class="router-section">
         <div class="container router-flex-container">
             <div class="widget-card">
-                <h3 class="widget-title">محاكي التوجيه الذكي وتدفق السيولة</h3>
+                <h3 id="widgetTitle" class="widget-title">مركز المحاكاة والربط الذكي</h3>
                 
-                <div class="input-group">
-                    <label for="inputAmount">المبلغ المراد توجيهه (EUR):</label>
-                    <input type="number" id="inputAmount" value="100" min="1" placeholder="أدخل القيمة هنا...">
+                <div class="input-grid-split">
+                    <div class="input-group">
+                        <label id="lblAmount" for="inputAmount">المبلغ المراد معالجته:</label>
+                        <input type="number" id="inputAmount" value="100" min="1">
+                    </div>
+                    <div class="input-group">
+                        <label id="lblSourceCurrency" for="sourceCurrency">عملة الإرسال:</label>
+                        <select id="sourceCurrency">
+                            <option value="EUR">EUR (€) - اليورو</option>
+                            <option value="USD">USD ($) - الدولار الأمريكي</option>
+                            <option value="GBP">GBP (£) - الجنيه الإسترليني</option>
+                            <option value="CAD">CAD ($) - الدولار الكندي</option>
+                            <option value="MDC">MadiCoin (MDC)</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="input-group">
-                    <label for="rateType">نوع سعر الصرف المستهدف:</label>
-                    <select id="rateType">
-                        <option value="official">السعر البنكي الرسمي (Official Rate)</option>
-                        <option value="parallel">سعر السوق الموازي (Square Rate)</option>
+                    <label id="lblTargetService" for="targetService">الخدمة المستهدفة وبوابة التسوية:</label>
+                    <select id="targetService">
+                        <optgroup label="البوابات والخدمات العالمية (Global Networks)">
+                            <option value="paypal">PayPal Gateways (سحب وإيداع مؤمن)</option>
+                            <option value="stripe">Stripe Connect Engine (ربط فيزا / ماستركارد)</option>
+                            <option value="binance">Binance Pay System (سيولة رقمية فورية)</option>
+                        </optgroup>
+                        <optgroup label="المتاجر ومنصات التجارة (E-Commerce Integrations)">
+                            <option value="shopify">Shopify API Client Sync</option>
+                            <option value="woocommerce">WooCommerce Webhook Routing</option>
+                            <option value="aliexpress">AliExpress Settlement Dropshipping</option>
+                        </optgroup>
+                        <optgroup label="الخدمات والشبكات المحلية (Algerian Local Services)">
+                            <option value="flexy">فليكسي والاتصالات (Mobilis / Djezzy / Ooredoo)</option>
+                            <option value="idoom">اتصالات الجزائر (Idoom ADSL / Fiber)</option>
+                            <option value="baridimob">بريدي موب والبطاقة الذهبية (BaridiMob Direct)</option>
+                            <option value="sonelgaz">سونلغاز (تخليص فواتير الكهرباء والغاز)</option>
+                            <option value="yassir">ياسير والخدمات اللوجستية (Yassir API)</option>
+                            <option value="aadl">وكالة عدل (سداد مستحقات السكن السريعة)</option>
+                            <option value="ticket">تذكرتي وسلكني (المنصات الخدمية الحكومية)</option>
+                        </optgroup>
                     </select>
                 </div>
 
-                <button onclick="calculateRoute()" class="router-btn">تفعيل فحص مسار السيولة</button>
+                <div class="input-group">
+                    <label id="lblRateRoute" for="rateRouteType">بروتوكول معالجة السعر (Rate Engine):</label>
+                    <select id="rateRouteType">
+                        <option value="official">السعر البنكي الرسمي (Official Rate)</option>
+                        <option value="square">سعر السوق الموازي (Square Rate - السكوار)</option>
+                        <option value="madicoin">نظام السيولة الذكي عبر مادي كوين (MadiCoin Optimized)</option>
+                    </select>
+                </div>
+
+                <button id="btnExecute" onclick="calculateComprehensiveRoute()" class="router-btn">تفعيل الفحص والربط الفوري</button>
 
                 <div id="resultBox" class="result-box hidden-element">
-                    <p class="result-label">القيمة المقدرة بالعملة المحلية (DZD):</p>
-                    <h4 id="finalOutput" class="result-amount">0.00 DZD</h4>
+                    <p id="lblResultHeader" class="result-label">مسار التسوية المقدر:</p>
+                    <h4 id="finalOutput" class="result-amount">0.00</h4>
                     <p id="routingStatus" class="result-status"></p>
                 </div>
             </div>
@@ -72,7 +114,7 @@
 
     <footer class="main-footer">
         <div class="container text-center">
-            <p>&copy; 2026 MadiPay Global. جميع الحقوق محفوظة للمؤسس الاستراتيجي.</p>
+            <p>&copy; 2026 MadiPay Global. Sovereign Ecosystem. All Rights Reserved.</p>
         </div>
     </footer>
 
