@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
     <title>MadiPay Global | منصة ذكية لتوجيه المدفوعات الرقمية</title>
     <meta name="description" content="منصة ذكية متطورة لإدارة وتوجيه المدفوعات الرقمية وبوابات الدفع المحلية والعالمية.">
 
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; frame-ancestors 'none';">
-    
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -29,9 +27,8 @@
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="#features">المميزات</a></li>
                     <li><a href="#router">الموجه الذكي</a></li>
-                    <li><a href="#security">الأمان</a></li>
+                    <li><a href="#features">السيادة الأمنية</a></li>
                 </ul>
             </nav>
         </div>
@@ -39,14 +36,39 @@
 
     <main class="hero-section">
         <div class="hero-container">
-            <h1 class="hero-title">منصة ذكية متطورة لإدارة وتوجيه المدفوعات الرقمية</h1>
-            <p class="hero-subtitle">بوابات الدفع المحلية والعالمية تلتقي في مكان واحد لتوفير سيولة دولية وحلول ذكية بأعلى معايير الأمان الإستراتيجي.</p>
-            <div class="cta-group">
-                <a href="#explore" class="btn btn-primary">اكتشف السيولة المتاحة</a>
-                <a href="#docs" class="btn btn-secondary">وثائق الربط البرمجي</a>
-            </div>
+            <h1 class="hero-title">منصة ذكية متطورة لإدارة وتوجيه المدفوعات</h1>
+            <p class="hero-subtitle">حلول سيادية لربط بوابات الدفع المحلية والعالمية وتأمين تدفقات السيولة الدولية بأعلى معايير التشفير.</p>
         </div>
     </main>
+
+    <section id="router" class="router-section" style="padding: 60px 0; background: #121824; border-top: 1px solid rgba(255,255,255,0.05);">
+        <div class="container" style="max-width: 600px;">
+            <div class="widget-card" style="background: #0b0f19; padding: 30px; border-radius: 12px; border: 1px solid rgba(0, 210, 255, 0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.5);">
+                <h3 style="margin-bottom: 20px; text-align: center; color: #00d2ff;">محاكي التوجيه الذكي وتدفق السيولة</h3>
+                
+                <div class="input-group" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: #8f9bba;">المبلغ المراد توجيهه (EUR):</label>
+                    <input type="number" id="inputAmount" value="100" style="width: 100%; padding: 12px; background: #121824; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 1.1rem;">
+                </div>
+
+                <div class="input-group" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: #8f9bba;">نوع سعر الصرف المستهدف:</label>
+                    <select id="rateType" style="width: 100%; padding: 12px; background: #121824; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; font-family: 'Cairo', sans-serif;">
+                        <option value="official">السعر البنكي الرسمي (Official Rate)</option>
+                        <option value="parallel">سعر السوق الموازي (Square Rate)</option>
+                    </select>
+                </div>
+
+                <button onclick="calculateRoute()" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #00d2ff 0%, #00a2ff 100%); border: none; border-radius: 6px; color: #000; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s ease;">تفعيل فحص مسار السيولة</button>
+
+                <div id="resultBox" style="margin-top: 25px; padding: 15px; background: rgba(5, 205, 153, 0.1); border: 1px dashed #05cd99; border-radius: 6px; display: none;">
+                    <p style="color: #8f9bba; font-size: 0.9rem; margin-bottom: 5px;">القيمة المقدرة بالعملة المحلية (DZD):</p>
+                    <h4 id="finalOutput" style="color: #05cd99; font-size: 1.6rem; font-family: 'Orbitron', sans-serif;">0.00</h4>
+                    <p id="routingStatus" style="color: #00d2ff; font-size: 0.8rem; margin-top: 5px; font-weight: 600;"></p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer class="main-footer">
         <div class="container text-center">
@@ -54,5 +76,6 @@
         </div>
     </footer>
 
+    <script src="assets/script.js"></script>
 </body>
 </html>
