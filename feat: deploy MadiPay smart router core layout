@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MadiPay Global | منصة التوجيه الذكي</title>
+    <style>
+        /* --- الهوية البصرية النخبوية والألوان الاستراتيجية --- */
+        :root {
+            --bg-charcoal: #12161A;       /* الرمادي الفحمي الأساسي */
+            --neon-orange: #FF6B00;       /* البرتقالي النيون للطاقة والعمليات */
+            --emerald-green: #00E676;     /* الأخضر الزمردي للسيولة والنجاح */
+            --glass-bg: rgba(25, 30, 36, 0.65); /* خلفية الزجاج */
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --text-main: #FFFFFF;
+            --text-muted: #8A99AD;
+        }
+
+        /* --- إعادة ضبط المصنع والتصميم المتجاوب للهواتف --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent; /* تحسين اللمس للهواتف */
+        }
+
+        body {
+            background-color: var(--bg-charcoal);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            overflow-x: hidden;
+        }
+
+        /* --- حاوية المحرك الرئيسي (تأثير Glassmorphism) --- */
+        .vortex-container {
+            width: 100%;
+            max-width: 480px; /* مثالي لشاشات الهواتف */
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            margin-top: 20px;
+        }
+
+        /* --- العنوان والشعار الهجين --- */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .brand-header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--text-main), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-header span {
+            color: var(--neon-orange);
+        }
+
+        .badge-router {
+            display: inline-block;
+            font-size: 0.75rem;
+            background: rgba(0, 230, 118, 0.1);
+            color: var(--emerald-green);
+            padding: 4px 12px;
+            border-radius: 12px;
+            margin-top: 8px;
+            border: 1px solid rgba(0, 230, 118, 0.2);
+            font-weight: bold;
+        }
+
+        /* --- عناصر الإدخال والتحكم --- */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper input, .input-wrapper select {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper input:focus, .input-wrapper select:focus {
+            border-color: var(--neon-orange);
+            box-shadow: 0 0 10px rgba(255, 107, 0, 0.2);
+        }
+
+        /* --- مفتاح التبديل الذكي (رسمي / موازي) --- */
+        .market-selector {
+            display: flex;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 14px;
+            padding: 4px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .market-btn {
+            flex: 1;
+            padding: 10px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .market-btn.active {
+            background: var(--neon-orange);
+            color: var(--text-main);
+            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
+        }
+
+        /* --- شاشة عرض النتائج والتوجيه الذكي --- */
+        .router-output {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 25px;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .output-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .output-row:last-child {
+            margin-bottom: 0;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .output-label {
+            color: var(--text-muted);
+        }
+
+        .output-value {
+            font-weight: 700;
+        }
+
+        .output-value.highlight {
+            color: var(--emerald-green);
+        }
+
+        /* --- زر التنفيذ السيادي --- */
+        .btn-execute {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--neon-orange), #FF8800);
+            border: none;
+            border-radius: 14px;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-execute:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="vortex-container">
+        <!-- الرأس الاستراتيجي للمنصة -->
+        <div class="brand-header">
+            <h1>Madi<span>Pay</span> Global</h1>
+            <div class="badge-router">محرك التوجيه السيادي الذكي</div>
+        </div>
+
+        <!-- أداة اختيار نوع السوق (رسمي بنكي / موازي السكوار) -->
+        <div class="market-selector">
+            <button class="market-btn active" id="btn-official" onclick="setMarket('official')">السعر الرسمي (البنك)</button>
+            <button class="market-btn" id="btn-parallel" onclick="setMarket('parallel')">السوق الموازي (السكوار)</button>
+        </div>
+
+        <!-- إدخال المبلغ -->
+        <div class="input-group">
+            <label for="amount">المبلغ المراد توجيهه وتسييله</label>
+            <div class="input-wrapper">
+                <input type="number" id="amount" value="1000" oninput="calculateRouting()" placeholder="أدخل المبلغ...">
+            </div>
+        </div>
+
+        <!-- اختيار العملة -->
+        <div class="input-group">
+            <label for="currency">العملة الأجنبية الواردة</label>
+            <div class="input-wrapper">
+                <select id="currency" onchange="calculateRouting()">
+                    <option value="EUR">اليورو (€)</option>
+                    <option value="USD">الدولار الأمريكي ($)</option>
+                    <option value="GBP">الجنيه الإسترليني (£)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- لوحة مخرجات الخوارزمية الذكية لكشف فروق الأسعار والتوجيه -->
+        <div class="router-output">
+            <div class="output-row">
+                <span class="output-label">معدل الصرف المعتمد:</span>
+                <span class="output-value" id="rate-display">1 يورو = 150.00 د.ج</span>
+            </div>
+            <div class="output-row">
+                <span class="output-label">الرسوم التشغيلية المقدرة:</span>
+                <span class="output-value" id="fees-display">0.5%</span>
+            </div>
+            <div class="output-row">
+                <span class="output-label">صافي القيمة المستحقة بالعملة المحلية:</span>
+                <span class="output-value highlight" id="total-display">150,000.00 د.ج</span>
+            </div>
+        </div>
+
+        <!-- زر معالجة وتوجيه الدفق المالي -->
+        <button class="btn-execute" onclick="executeRouting()">تفعيل التوجيه والتدفق الذكي</button>
+    </div>
+
+    <!-- --- المنطق البرمجي المحرك للمنصة (JavaScript) --- -->
+    <script>
+        // قواعد البيانات والمعدلات (محاكاة حية وقابلة للتحديث)
+        const exchangeRates = {
+            official: { EUR: 150.00, USD: 138.50, GBP: 175.20 },
+            parallel: { EUR: 242.00, USD: 224.00, GBP: 280.00 } // قيم السوق الموازي (السكوار)
+        };
+
+        let currentMarket = 'official';
+
+        // تغيير نوع السوق برمجياً وديناميكياً
+        function setMarket(market) {
+            currentMarket = market;
+            document.getElementById('btn-official').classList.toggle('active', market === 'official');
+            document.getElementById('btn-parallel').classList.toggle('active', market === 'parallel');
+            calculateRouting();
+        }
+
+        // الخوارزمية المصغرة لحساب التدفق، الفروقات والتوجيه الآلي
+        function calculateRouting() {
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
+            const currency = document.getElementById('currency').value;
+            
+            // جلب المعدل بناءً على السوق والعملة المحددة
+            const rate = exchangeRates[currentMarket][currency];
+            
+            // تحديد الرسوم ديناميكياً (مثال: رسوم أقل في الموازي لجذب السيولة)
+            const feePercent = currentMarket === 'official' ? 0.005 : 0.002; 
+            
+            // العمليات الحسابية للهيكل المالي
+            const grossResult = amount * rate;
+            const fees = grossResult * feePercent;
+            const netResult = grossResult - fees;
+
+            // تحديث الواجهة الرسومية فوراً لتظهر للمستخدم
+            document.getElementById('rate-display').innerText = `1 ${currency} = ${rate.toFixed(2)} د.ج`;
+            document.getElementById('fees-display').innerText = `${(feePercent * 100).toFixed(1)}% (${fees.toFixed(2)} د.ج)`;
+            document.getElementById('total-display').innerText = `${netResult.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
+        }
+
+        // أمر التنفيذ الفوري
+        function executeRouting() {
+            const total = document.getElementById('total-display').innerText;
+            alert(`تم تشغيل بروتوكول التوجيه الذكي بنجاح! القيمة الموجهة الجاهزة للتسييل: ${total}`);
+        }
+
+        // تشغيل الحسابات تلقائياً عند تحميل الصفحة لأول مرة
+        window.onload = calculateRouting;
+    </script>
+</body>
+</html>
