@@ -20,18 +20,19 @@
 </head>
 <body>
 
-    <!-- الهيدر المطور مع شريط التنقل الذكي بين الواجهات -->
+    <!-- الهيدر المطور مع شريط التنقل الرباعي الجديد -->
     <header class="main-header">
         <div class="container header-flex">
             <div class="logo">
                 <span class="brand-vortex">MadiPay</span> <span class="brand-sub">Global</span>
             </div>
             
-            <!-- أزرار التنقل بين الواجهات الثلاث -->
+            <!-- أزرار التنقل الرباعية المستهدفة -->
             <nav class="navigation-tabs">
                 <button id="tabBtnRouter" class="tab-btn active" onclick="switchInterface('router')">الموجه الذكي</button>
-                <button id="tabBtnMerchant" class="tab-btn" onclick="switchInterface('merchant')">بوابة المتاجر</button>
-                <button id="tabBtnWallet" class="tab-btn" onclick="switchInterface('wallet')">محفظة MadiCoin</button>
+                <button id="tabBtnLocal" class="tab-btn" onclick="switchInterface('local')">الخدمات المحلية</button>
+                <button id="tabBtnMerchant" class="tab-btn" onclick="switchInterface('merchant')">المتاجر الإلكترونية</button>
+                <button id="tabBtnWallet" class="tab-btn" onclick="switchInterface('wallet')">المحفظة</button>
             </nav>
 
             <div class="language-selector-wrapper">
@@ -56,11 +57,11 @@
         </div>
     </main>
 
-    <!-- الواجهة الأولى: محرك المحاكاة والربط الذكي -->
+    <!-- الواجهة الأولى: الموجه الذكي (العملة النقدية / الرقمية) -->
     <section id="interface-router" class="view-interface">
         <div class="container router-flex-container">
             <div class="widget-card">
-                <h3 id="widgetTitle" class="widget-title">مركز المحاكاة والربط الذكي</h3>
+                <h3 id="widgetTitle" class="widget-title">الموجه الذكي (العملة النقدية / الرقمية)</h3>
                 
                 <div class="input-grid-split">
                     <div class="input-group">
@@ -80,26 +81,12 @@
                 </div>
 
                 <div class="input-group">
-                    <label id="lblTargetService" for="targetService">الخدمة المستهدفة وبوابة التسوية:</label>
+                    <label id="lblTargetService" for="targetService">بوابة التسوية العالمية المستهدفة:</label>
                     <select id="targetService">
-                        <optgroup label="البوابات والخدمات العالمية (Global Networks)">
-                            <option value="paypal">PayPal Gateways (سحب وإيداع مؤمن)</option>
-                            <option value="stripe">Stripe Connect Engine (ربط فيزا / ماستركارد)</option>
-                            <option value="binance">Binance Pay System (سيولة رقمية فورية)</option>
-                        </optgroup>
-                        <optgroup label="المتاجر ومنصات التجارة (E-Commerce Integrations)">
-                            <option value="shopify">Shopify API Client Sync</option>
-                            <option value="woocommerce">WooCommerce Webhook Routing</option>
-                            <option value="aliexpress">AliExpress Settlement Dropshipping</option>
-                        </optgroup>
-                        <optgroup label="الخدمات والشبكات المحلية (Algerian Local Services)">
-                            <option value="flexy">فليكسي والاتصالات (Mobilis / Djezzy / Ooredoo)</option>
-                            <option value="idoom">اتصالات الجزائر (Idoom ADSL / Fiber)</option>
-                            <option value="baridimob">بريدي موب والبطاقة الذهبية (BaridiMob Direct)</option>
-                            <option value="sonelgaz">سونلغاز (تخليص فواتير الكهرباء والغاز)</option>
-                            <option value="yassir">ياسير والخدمات اللوجستية (Yassir API)</option>
-                            <option value="aadl">وكالة عدل (سداد مستحقات السكن السريعة)</option>
-                            <option value="ticket">تذكرتي وسلكني (المنصات الخدمية الحكومية)</option>
+                        <optgroup label="البوابات والشبكات العالمية">
+                            <option value="paypal">PayPal Gateway Secure Rail</option>
+                            <option value="stripe">Stripe Financial Processing</option>
+                            <option value="binance">Binance Pay Crypto Liquidity</option>
                         </optgroup>
                     </select>
                 </div>
@@ -113,7 +100,7 @@
                     </select>
                 </div>
 
-                <button id="btnExecute" onclick="calculateComprehensiveRoute()" class="router-btn">تفعيل الفحص والربط الفوري</button>
+                <button id="btnExecute" onclick="calculateComprehensiveRoute('global')" class="router-btn">تفعيل الفحص والربط المالي</button>
 
                 <div id="resultBox" class="result-box hidden-element">
                     <p id="lblResultHeader" class="result-label">مسار التسوية المقدر:</p>
@@ -124,41 +111,81 @@
         </div>
     </section>
 
-    <!-- الواجهة الثانية: لوحة تحكم إدارة المتاجر والسيولة المحلية -->
+    <!-- الواجهة الثانية: بوابة الخدمات المحلية الجزائريّة -->
+    <section id="interface-local" class="view-interface hidden-element">
+        <div class="container router-flex-container">
+            <div class="widget-card">
+                <h3 id="lblLocalTitle" class="widget-title">بوابة الخدمات المحلية</h3>
+                
+                <div class="input-grid-split">
+                    <div class="input-group">
+                        <label id="lblLocalAmount" for="inputLocalAmount">المبلغ بالعملة الأجنبية أو MDC:</label>
+                        <input type="number" id="inputLocalAmount" value="50" min="1">
+                    </div>
+                    <div class="input-group">
+                        <label id="lblLocalSourceCurrency" for="localSourceCurrency">عملة الدفع الأصلية:</label>
+                        <select id="localSourceCurrency">
+                            <option value="EUR">EUR (€)</option>
+                            <option value="USD">USD ($)</option>
+                            <option value="MDC">MadiCoin (MDC)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label id="lblLocalTarget" for="localTargetService">الخدمة المحلية المستهدفة بالسداد الفوري:</label>
+                    <select id="localTargetService">
+                        <option value="baridimob">بريدي موب والبطاقة الذهبية (BaridiMob Direct)</option>
+                        <option value="flexy">فليكسي والاتصالات (Mobilis / Djezzy / Ooredoo)</option>
+                        <option value="idoom">اتصالات الجزائر (Idoom ADSL / Fiber)</option>
+                        <option value="sonelgaz">سونلغاز (تخليص فواتير الكهرباء والغاز)</option>
+                        <option value="yassir">ياسير والخدمات اللوجستية (Yassir API)</option>
+                        <option value="aadl">وكالة عدل (سداد مستحقات السكن السريعة)</option>
+                        <option value="ticket">تذكرتي وسلكني (المنصات الخدمية الحكومية)</option>
+                    </select>
+                </div>
+
+                <button id="btnLocalExecute" onclick="calculateComprehensiveRoute('local')" class="router-btn" style="background: linear-gradient(135deg, #05cd99 0%, #00a8cc 100%);">معالجة وتخليص الخدمة المحلية</button>
+
+                <div id="localResultBox" class="result-box hidden-element">
+                    <p class="result-label">القيمة المستلمة بالدينار الجزائري:</p>
+                    <h4 id="localFinalOutput" class="result-amount" style="color: var(--accent-glow);">0.00 DZD</h4>
+                    <p id="localRoutingStatus" class="result-status"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الواجهة الثالثة: بوابة المتاجر الإلكترونية -->
     <section id="interface-merchant" class="view-interface hidden-element">
         <div class="container router-flex-container">
             <div class="widget-card">
-                <h3 id="lblMerchantTitle" class="widget-title">لوحة تحكم التجار والسيولة المدمجة</h3>
-                <p style="color: var(--text-muted); text-align: center; margin-bottom: 20px; font-size: 0.9rem;">مراقبة حية لربط الخدمات المحلية وبوابات الدفع العالمية بمتاجرك الإلكترونية.</p>
+                <h3 id="lblMerchantTitle" class="widget-title">بوابة المتاجر الإلكترونية</h3>
+                <p style="color: var(--text-muted); text-align: center; margin-bottom: 20px; font-size: 0.9rem;">ربط وتوجيه السيولة النقدية تلقائياً من المتاجر العالمية والمنصات التنافسية.</p>
                 
                 <table class="secure-data-table">
                     <thead>
                         <tr>
-                            <th>المنصة / الخدمة</th>
-                            <th>الحالة الإستراتيجية</th>
-                            <th>الرصيد المتاح المعلق</th>
+                            <th>منصة المتجر المشتركة</th>
+                            <th>بروتوكول الربط الإستراتيجي</th>
+                            <th>حالة التدفق والسيولة</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Shopify / WooCommerce API</td>
-                            <td style="color: var(--accent-secure);">متصل ومؤمن (Active)</td>
-                            <td>$1,240.50 USD</td>
+                            <td>Shopify Store Sync</td>
+                            <td>Webhooks Active (SHA-256)</td>
+                            <td style="color: var(--accent-secure);">مؤمن ومستقر</td>
                         </tr>
                         <tr>
-                            <td>PayPal Express Checkout</td>
-                            <td style="color: var(--accent-secure);">موجّه تلقائياً (Routed)</td>
-                            <td>€450.00 EUR</td>
+                            <td>WooCommerce Plugin</td>
+                            <td>REST API Secured Connection</td>
+                            <td style="color: var(--accent-secure);">مؤمن ومستقر</td>
                         </tr>
                         <tr>
-                            <td>بريدي موب (BaridiMob Direct)</td>
-                            <td style="color: #ffaa00;">في انتظار التسوية (Pending)</td>
-                            <td>245,000.00 DZD</td>
-                        </tr>
-                        <tr>
-                            <td>اتصالات الجزائر / فليكسي API</td>
-                            <td style="color: var(--accent-secure);">الربط مستقر (Ready)</td>
-                            <td>نظام الدفع الفوري نشط</td>
+                            <td>AliExpress Dropshipping</td>
+                            <td>Automated Settlement Rail</td>
+                            <td style="color: #ffaa00;">مزامنة السيولة جارية</td>
                         </tr>
                     </tbody>
                 </table>
@@ -166,20 +193,20 @@
         </div>
     </section>
 
-    <!-- الواجهة الثالثة: محفظة مادي كوين السيادية المحصنة كمياً -->
+    <!-- الواجهة الرابعة: المحفظة -->
     <section id="interface-wallet" class="view-interface hidden-element">
         <div class="container router-flex-container">
             <div class="widget-card">
-                <h3 id="lblWalletTitle" class="widget-title">محفظة MadiCoin السيادية المحصنة</h3>
+                <h3 id="lblWalletTitle" class="widget-title">المحفظة السيادية المعزولة</h3>
                 
                 <div class="wallet-balance-box">
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">إجمالي رصيد السيولة السيادية المتوفرة داخل الشبكة:</p>
-                    <h2 style="color: var(--accent-glow); font-family: 'Orbitron', sans-serif; margin: 15px 0; font-size: 2.2rem;">45,820.004 MDC</h2>
-                    <p style="color: var(--accent-secure); font-size: 0.8rem; font-family: monospace;">[Post-Quantum Cryptography Core V2 Enabled]</p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">إجمالي الأصول والسيولة السيادية داخل الشبكة:</p>
+                    <h2 style="color: var(--accent-secure); font-family: 'Orbitron', sans-serif; margin: 15px 0; font-size: 2.2rem;">45,820.004 MDC</h2>
+                    <p style="color: var(--accent-glow); font-size: 0.8rem; font-family: monospace;">[Post-Quantum Cryptography Core V2 Enabled]</p>
                 </div>
 
                 <div style="margin-top: 25px;">
-                    <h5 style="color: var(--text-main); margin-bottom: 10px; font-size: 0.95rem;">آخر إثباتات الفحص والتوقيع الكمي (PQC Block Ledger):</h5>
+                    <h5 style="color: var(--text-main); margin-bottom: 10px; font-size: 0.95rem;">آخر سجلات المعاملات المشفرة كمياً (PQC Block Ledger):</h5>
                     <div id="quantumLedger" style="background: #121824; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 0.75rem; color: var(--text-muted); text-align: left; line-height: 1.8;">
                         * BLOCK #10492: PQC-KYBER-7a2e-8f921a - Secured Settlement via BaridiMob<br>
                         * BLOCK #10491: PQC-KYBER-4f91-3b82df - Cleared PayPal Gateway Handshake
