@@ -22,7 +22,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent; /* تحسين اللمس للهواتف */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -39,7 +39,7 @@
         /* --- حاوية المحرك الرئيسي (تأثير Glassmorphism) --- */
         .vortex-container {
             width: 100%;
-            max-width: 480px; /* مثالي لشاشات الهواتف */
+            max-width: 480px;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -47,13 +47,13 @@
             border-radius: 24px;
             padding: 24px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         /* --- العنوان والشعار الهجين --- */
         .brand-header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .brand-header h1 {
@@ -76,46 +76,50 @@
             color: var(--emerald-green);
             padding: 4px 12px;
             border-radius: 12px;
-            margin-top: 8px;
+            margin-top: 6px;
             border: 1px solid rgba(0, 230, 118, 0.2);
             font-weight: bold;
         }
 
-        /* --- عناصر الإدخال والتحكم --- */
-        .input-group {
+        /* --- نظام المحفظة الاستراتيجية التراكمية --- */
+        .wallet-card {
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.1), rgba(0, 230, 118, 0.05));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 16px;
             margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .input-wrapper {
-            position: relative;
             display: flex;
+            justify-content: space-between;
             align-items: center;
         }
 
-        .input-wrapper input, .input-wrapper select {
-            width: 100%;
-            padding: 14px 16px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            color: var(--text-main);
-            font-size: 1rem;
-            font-weight: 600;
-            outline: none;
-            transition: all 0.3s ease;
+        .wallet-info .wallet-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 4px;
         }
 
-        .input-wrapper input:focus, .input-wrapper select:focus {
-            border-color: var(--neon-orange);
-            box-shadow: 0 0 10px rgba(255, 107, 0, 0.2);
+        .wallet-info .wallet-balance {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .wallet-profit {
+            text-align: left;
+        }
+
+        .wallet-profit .profit-label {
+            font-size: 0.75rem;
+            color: var(--emerald-green);
+            display: block;
+        }
+
+        .wallet-profit .profit-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--emerald-green);
         }
 
         /* --- مفتاح التبديل الذكي (رسمي / موازي) --- */
@@ -147,12 +151,43 @@
             box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
         }
 
+        /* --- عناصر الإدخال والتحكم --- */
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .input-wrapper input, .input-wrapper select {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper input:focus, .input-wrapper select:focus {
+            border-color: var(--neon-orange);
+            box-shadow: 0 0 10px rgba(255, 107, 0, 0.2);
+        }
+
         /* --- شاشة عرض النتائج والتوجيه الذكي --- */
         .router-output {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 16px;
             padding: 16px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             border: 1px dashed rgba(255, 255, 255, 0.1);
         }
 
@@ -181,15 +216,19 @@
             color: var(--emerald-green);
         }
 
+        .output-value.orange {
+            color: var(--neon-orange);
+        }
+
         /* --- زر التنفيذ السيادي --- */
         .btn-execute {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: linear-gradient(135deg, var(--neon-orange), #FF8800);
             border: none;
-            border-radius: 14px;
+            border-radius: 12px;
             color: var(--text-main);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
@@ -205,29 +244,36 @@
 <body>
 
     <div class="vortex-container">
-        <!-- الرأس الاستراتيجي للمنصة -->
         <div class="brand-header">
             <h1>Madi<span>Pay</span> Global</h1>
-            <div class="badge-router">محرك التوجيه السيادي الذكي</div>
+            <div class="badge-router">محرك التوجيه والسيادة المالية</div>
         </div>
 
-        <!-- أداة اختيار نوع السوق (رسمي بنكي / موازي السكوار) -->
+        <div class="wallet-card">
+            <div class="wallet-info">
+                <span class="wallet-label">إجمالي السيولة الموجهة</span>
+                <span class="wallet-balance" id="wallet-total">0.00 د.ج</span>
+            </div>
+            <div class="wallet-profit">
+                <span class="profit-label">فروقات فارق السعر المحمية</span>
+                <span class="profit-value" id="wallet-savings">+0.00 د.ج</span>
+            </div>
+        </div>
+
         <div class="market-selector">
             <button class="market-btn active" id="btn-official" onclick="setMarket('official')">السعر الرسمي (البنك)</button>
             <button class="market-btn" id="btn-parallel" onclick="setMarket('parallel')">السوق الموازي (السكوار)</button>
         </div>
 
-        <!-- إدخال المبلغ -->
         <div class="input-group">
-            <label for="amount">المبلغ المراد توجيهه وتسييله</label>
+            <label for="amount">المبلغ بالعملة الأجنبية</label>
             <div class="input-wrapper">
                 <input type="number" id="amount" value="1000" oninput="calculateRouting()" placeholder="أدخل المبلغ...">
             </div>
         </div>
 
-        <!-- اختيار العملة -->
         <div class="input-group">
-            <label for="currency">العملة الأجنبية الواردة</label>
+            <label for="currency">العملة الواردة</label>
             <div class="input-wrapper">
                 <select id="currency" onchange="calculateRouting()">
                     <option value="EUR">اليورو (€)</option>
@@ -237,37 +283,35 @@
             </div>
         </div>
 
-        <!-- لوحة مخرجات الخوارزمية الذكية لكشف فروق الأسعار والتوجيه -->
         <div class="router-output">
             <div class="output-row">
                 <span class="output-label">معدل الصرف المعتمد:</span>
                 <span class="output-value" id="rate-display">1 يورو = 150.00 د.ج</span>
             </div>
             <div class="output-row">
-                <span class="output-label">الرسوم التشغيلية المقدرة:</span>
-                <span class="output-value" id="fees-display">0.5%</span>
+                <span class="output-label">الفارق المالي المكتسب (مقارنة بالرسمي):</span>
+                <span class="output-value orange" id="arbitrage-display">0.00 د.ج</span>
             </div>
             <div class="output-row">
-                <span class="output-label">صافي القيمة المستحقة بالعملة المحلية:</span>
+                <span class="output-label">صافي القيمة النهائية:</span>
                 <span class="output-value highlight" id="total-display">150,000.00 د.ج</span>
             </div>
         </div>
 
-        <!-- زر معالجة وتوجيه الدفق المالي -->
-        <button class="btn-execute" onclick="executeRouting()">تفعيل التوجيه والتدفق الذكي</button>
+        <button class="btn-execute" onclick="executeRouting()">تفعيل التوجيه وحقن السيولة</button>
     </div>
 
-    <!-- --- المنطق البرمجي المحرك للمنصة (JavaScript) --- -->
     <script>
-        // قواعد البيانات والمعدلات (محاكاة حية وقابلة للتحديث)
+        // قواعد البيانات والأسعار الثابتة للمحاكاة الذكية
         const exchangeRates = {
             official: { EUR: 150.00, USD: 138.50, GBP: 175.20 },
-            parallel: { EUR: 242.00, USD: 224.00, GBP: 280.00 } // قيم السوق الموازي (السكوار)
+            parallel: { EUR: 242.00, USD: 224.00, GBP: 280.00 }
         };
 
         let currentMarket = 'official';
+        let accumulatedBalance = 0;
+        let accumulatedSavings = 0;
 
-        // تغيير نوع السوق برمجياً وديناميكياً
         function setMarket(market) {
             currentMarket = market;
             document.getElementById('btn-official').classList.toggle('active', market === 'official');
@@ -275,35 +319,47 @@
             calculateRouting();
         }
 
-        // الخوارزمية المصغرة لحساب التدفق، الفروقات والتوجيه الآلي
         function calculateRouting() {
             const amount = parseFloat(document.getElementById('amount').value) || 0;
             const currency = document.getElementById('currency').value;
             
-            // جلب المعدل بناءً على السوق والعملة المحددة
             const rate = exchangeRates[currentMarket][currency];
+            const officialRate = exchangeRates['official'][currency];
             
-            // تحديد الرسوم ديناميكياً (مثال: رسوم أقل في الموازي لجذب السيولة)
-            const feePercent = currentMarket === 'official' ? 0.005 : 0.002; 
+            // حساب القيمة الصافية الحالية
+            const netResult = amount * rate;
             
-            // العمليات الحسابية للهيكل المالي
-            const grossResult = amount * rate;
-            const fees = grossResult * feePercent;
-            const netResult = grossResult - fees;
+            // حساب الفارق المالي (الربح الناتج عن اختيار السوق الموازي مقارنة بالبنك)
+            let arbitrageProfit = 0;
+            if (currentMarket === 'parallel') {
+                arbitrageProfit = (amount * rate) - (amount * officialRate);
+            }
 
-            // تحديث الواجهة الرسومية فوراً لتظهر للمستخدم
+            // تحديث الواجهة
             document.getElementById('rate-display').innerText = `1 ${currency} = ${rate.toFixed(2)} د.ج`;
-            document.getElementById('fees-display').innerText = `${(feePercent * 100).toFixed(1)}% (${fees.toFixed(2)} د.ج)`;
+            document.getElementById('arbitrage-display').innerText = `${arbitrageProfit.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
             document.getElementById('total-display').innerText = `${netResult.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
+            
+            return { netResult, arbitrageProfit };
         }
 
-        // أمر التنفيذ الفوري
+        // تفاعل الزر وحقن القيم داخل المحفظة بشكل تراكمي دائم
         function executeRouting() {
-            const total = document.getElementById('total-display').innerText;
-            alert(`تم تشغيل بروتوكول التوجيه الذكي بنجاح! القيمة الموجهة الجاهزة للتسييل: ${total}`);
+            const data = calculateRouting();
+            
+            if (data.netResult <= 0) return;
+
+            // تراكم البيانات داخل المحفظة
+            accumulatedBalance += data.netResult;
+            accumulatedSavings += data.arbitrageProfit;
+
+            // تحديث قيم المحفظة الرقمية في الأعلى بأنيميشن سريع
+            document.getElementById('wallet-total').innerText = `${accumulatedBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
+            document.getElementById('wallet-savings').innerText = `+${accumulatedSavings.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
+
+            alert(`🚀 تم معالجة الدفق المالي بنجاح! وترحيل القيمة إلى رصيد المحفظة التراكمي.`);
         }
 
-        // تشغيل الحسابات تلقائياً عند تحميل الصفحة لأول مرة
         window.onload = calculateRouting;
     </script>
 </body>
