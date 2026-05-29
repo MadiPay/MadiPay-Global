@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadiPay Global | المنصة السيادية المتقدمة</title>
+    <title>MadiPay Global | المحرك المالي المتقدم</title>
     <style>
         /* --- الهوية البصرية النخبوية والألوان الاستراتيجية --- */
         :root {
@@ -121,7 +121,7 @@
             background: rgba(0, 0, 0, 0.4);
             border-radius: 14px;
             padding: 4px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -144,7 +144,36 @@
             box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
         }
 
-        /* --- عناصر الإدخال والتحكم --- */
+        /* --- لوحة مؤشر التقلبات والرسوم الديناميكية --- */
+        .volatility-panel {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-bottom: 16px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .volatility-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+        }
+        .volatility-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .volatility-bar-fill {
+            height: 100%;
+            width: 20%;
+            background: var(--emerald-green);
+            transition: all 0.5s ease;
+        }
+
+        /* --- عناصر الإدخال --- */
         .input-group {
             margin-bottom: 14px;
         }
@@ -168,7 +197,7 @@
             outline: none;
         }
 
-        /* --- لوحة مخرجات الخوارزمية الذكية --- */
+        /* --- لوحة مخرجات الخوارزمية --- */
         .router-output {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 16px;
@@ -202,7 +231,7 @@
             color: var(--emerald-green);
         }
 
-        /* --- لوحة التحكم في نظام الضمان --- */
+        /* --- لوحة حماية الضمان --- */
         .escrow-actions-panel {
             background: rgba(255, 179, 0, 0.05);
             border: 1px solid rgba(255, 179, 0, 0.15);
@@ -245,7 +274,6 @@
             color: var(--text-main);
         }
 
-        /* --- زر التنفيذ السيادي الرئيسي --- */
         .btn-execute {
             width: 100%;
             padding: 14px;
@@ -260,7 +288,7 @@
             margin-bottom: 24px;
         }
 
-        /* --- لوحة سجل العمليات (Vortex Ledger) --- */
+        /* --- سجل العمليات (Vortex Ledger) --- */
         .ledger-section {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 16px;
@@ -325,7 +353,6 @@
         .status-success { background: rgba(0, 230, 118, 0.15); color: var(--emerald-green); }
         .status-rejected { background: rgba(255, 61, 0, 0.15); color: var(--danger-red); }
         
-        /* زر مسح البيانات للتحكم الكامل */
         .btn-clear-storage {
             background: transparent;
             border: none;
@@ -344,6 +371,7 @@
             <div class="badge-router">بوابة التوجيه وحماية السيولة المستدامة</div>
         </div>
 
+        <!-- نظام المحفظة المزدوج -->
         <div class="wallet-card">
             <div class="wallet-info">
                 <span class="wallet-label">الرصيد المفرج عنه</span>
@@ -355,13 +383,25 @@
             </div>
         </div>
 
+        <!-- أداة اختيار نوع السوق -->
         <div class="market-selector">
             <button class="market-btn active" id="btn-official" onclick="setMarket('official')">السعر الرسمي (البنك)</button>
             <button class="market-btn" id="btn-parallel" onclick="setMarket('parallel')">السوق الموازي (السكوار)</button>
         </div>
 
+        <!-- لوحة مؤشر التقلبات والرسوم الديناميكية المضافة حديثاً -->
+        <div class="volatility-panel">
+            <div class="volatility-header">
+                <span>مؤشر تقلبات السيولة المخفية: <strong id="vol-txt">منخفض (مستقر)</strong></span>
+                <span>عمولة التوجيه الذكية: <strong id="fee-txt">0.5%</strong></span>
+            </div>
+            <div class="volatility-bar-bg">
+                <div class="volatility-bar-fill" id="vol-bar"></div>
+            </div>
+        </div>
+
         <div class="input-group">
-            <label for="amount">المبلغ بالعملة الأجنبية (الحد الأقصى للمحاكاة: 1,000,000)</label>
+            <label for="amount">المبلغ بالعملة الأجنبية (الحد الأقصى: 1,000,000)</label>
             <div class="input-wrapper">
                 <input type="number" id="amount" value="1000" oninput="calculateRouting()">
             </div>
@@ -373,15 +413,19 @@
                 <select id="currency" onchange="calculateRouting()">
                     <option value="EUR">اليورو (€)</option>
                     <option value="USD">الدولار الأمريكي ($)</option>
-                    <option value="GBP">الجنهم الإسترليني (£)</option>
+                    <option value="GBP">الجنيه الإسترليني (£)</option>
                 </select>
             </div>
         </div>
 
         <div class="router-output">
             <div class="output-row">
-                <span class="output-label">معدل الصرف المعتمد:</span>
+                <span class="output-label">معدل الصرف الخام:</span>
                 <span class="output-value" id="rate-display">1 يورو = 150.00 د.ج</span>
+            </div>
+            <div class="output-row">
+                <span class="output-label">الرسوم المستقطعة:</span>
+                <span class="output-value" id="fee-display" style="color: var(--danger-red);">0.00 د.ج</span>
             </div>
             <div class="output-row">
                 <span class="output-label">صافي القيمة النهائية للتوجيه:</span>
@@ -389,6 +433,7 @@
             </div>
         </div>
 
+        <!-- لوحة التحكم في الضمان -->
         <div class="escrow-actions-panel" id="escrow-panel">
             <p>🛡️ معاملة قيد الحماية المعلقة: <span id="current-pending-txt">0.00 د.ج</span></p>
             <div class="btn-group">
@@ -399,6 +444,7 @@
 
         <button class="btn-execute" id="btn-main-action" onclick="initiateSecureTransaction()">بدء معاملة مشفرة معلقة</button>
 
+        <!-- لوحة سجل العمليات التاريخية (Vortex Ledger) -->
         <div class="ledger-section">
             <div class="ledger-title">
                 <span>سجل التدفقات الماليّة المدققة</span>
@@ -416,7 +462,6 @@
 
         let currentMarket = 'official';
         
-        // جلب البيانات المخزنة محلياً في الهاتف عند التحميل أو البدء من الصفر
         let walletBalance = parseFloat(localStorage.getItem('madi_wallet')) || 0;
         let escrowBalance = parseFloat(localStorage.getItem('madi_escrow')) || 0;
         let activeTransactionAmount = parseFloat(localStorage.getItem('madi_active_tx')) || 0;
@@ -433,18 +478,50 @@
             const amount = parseFloat(document.getElementById('amount').value) || 0;
             const currency = document.getElementById('currency').value;
             const rate = exchangeRates[currentMarket][currency];
-            const netResult = amount * rate;
+            
+            // --- خوارزمية الحسابات المالية والرسوم الديناميكية الفائقة ---
+            let feePercent = 0.005; // 0.5% أساسي للسوق الرسمي
+            let volStatus = "منخفض (مستقر)";
+            let volColor = "var(--emerald-green)";
+            let volWidth = "20%";
+
+            if (currentMarket === 'parallel') {
+                feePercent = 0.012; // 1.2% للسوق الموازي بسبب تقلب السكوار المخفي
+                volStatus = "مرتفع (متقلب)";
+                volColor = "var(--warning-amber)";
+                volWidth = "75%";
+                
+                // تضخيم الرسوم إذا زاد المبلغ عن 10,000 لتغطية مخاطر تسييل السيولة الكبيرة
+                if (amount > 10000) {
+                    feePercent = 0.018; // 1.8%
+                    volStatus = "حرِج (مخاطر سيولة)";
+                    volColor = "var(--danger-red)";
+                    volWidth = "95%";
+                }
+            }
+
+            const rawTotal = amount * rate;
+            const computedFee = rawTotal * feePercent;
+            const netResult = rawTotal - computedFee;
+
+            // تحديث مؤشرات الواجهة التفاعلية
+            document.getElementById('vol-txt').innerText = volStatus;
+            document.getElementById('vol-txt').style.color = volColor;
+            document.getElementById('vol-bar').style.backgroundColor = volColor;
+            document.getElementById('vol-bar').style.width = volWidth;
+            document.getElementById('fee-txt').innerText = `${(feePercent * 100).toFixed(1)}%`;
 
             document.getElementById('rate-display').innerText = `1 ${currency} = ${rate.toFixed(2)} د.ج`;
+            document.getElementById('fee-display').innerText = `${computedFee.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
             document.getElementById('total-display').innerText = `${netResult.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
-            return { netResult, amount, currency, marketName: currentMarket === 'official' ? 'رسمي (البنك)' : 'موازي (السكوار)' };
+            
+            return { netResult, amount, currency, marketName: currentMarket === 'official' ? 'رسمي (البنك)' : 'موازي (السكوار)', computedFee };
         }
 
         function initiateSecureTransaction() {
             const data = calculateRouting();
             if (data.netResult <= 0) return;
 
-            // 🛑 نظام محاكاة جدار الحماية (Cyber Shield Verification)
             if (data.amount > 1000000) {
                 alert("🚨 اختراق حدود الأمان الحجمي! تم رفض تسييل المعاملة تلقائياً لحين التحقق من مصدر السيولة.");
                 const alertTx = {
@@ -515,7 +592,6 @@
             alert("🛑 تم إلغاء المعاملة وسحب التدفق المالي بنجاح.");
         }
 
-        // حفظ البيانات في متصفح الهاتف
         function saveDataToLocalStorage() {
             localStorage.setItem('madi_wallet', walletBalance);
             localStorage.setItem('madi_escrow', escrowBalance);
@@ -561,7 +637,6 @@
             calculateRouting();
         }
 
-        // مسح الذاكرة بالكامل والبدء من جديد
         function clearSavedData() {
             if(confirm("هل أنت متأكد من تصفية السجل والمحفظة بالكامل للمحاكاة؟")) {
                 localStorage.clear();
@@ -573,7 +648,6 @@
             }
         }
 
-        // تشغيل البنية البرمجية المحفوظة فور فتح الصفحة
         window.onload = function() {
             calculateRouting();
             renderLedger();
