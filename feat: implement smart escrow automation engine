@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadiPay Global | منصة التوجيه الذكي</title>
+    <title>MadiPay Global | منصة التوجيه والضمان الذكي</title>
     <style>
         /* --- الهوية البصرية النخبوية والألوان الاستراتيجية --- */
         :root {
-            --bg-charcoal: #12161A;       /* الرمادي الفحمي الأساسي */
-            --neon-orange: #FF6B00;       /* البرتقالي النيون للطاقة والعمليات */
-            --emerald-green: #00E676;     /* الأخضر الزمردي للسيولة والنجاح */
-            --glass-bg: rgba(25, 30, 36, 0.65); /* خلفية الزجاج */
+            --bg-charcoal: #12161A;       
+            --neon-orange: #FF6B00;       
+            --emerald-green: #00E676;     
+            --glass-bg: rgba(25, 30, 36, 0.65); 
             --glass-border: rgba(255, 255, 255, 0.05);
             --text-main: #FFFFFF;
             --text-muted: #8A99AD;
+            --warning-amber: #FFB300;     /* لون التحذير للضمان المعلق */
         }
 
         /* --- إعادة ضبط المصنع والتصميم المتجاوب للهواتف --- */
@@ -50,7 +51,6 @@
             margin-top: 10px;
         }
 
-        /* --- العنوان والشعار الهجين --- */
         .brand-header {
             text-align: center;
             margin-bottom: 20px;
@@ -81,45 +81,39 @@
             font-weight: bold;
         }
 
-        /* --- نظام المحفظة الاستراتيجية التراكمية --- */
+        /* --- نظام المحفظة التراكمية --- */
         .wallet-card {
-            background: linear-gradient(135deg, rgba(255, 107, 0, 0.1), rgba(0, 230, 118, 0.05));
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.08), rgba(0, 230, 118, 0.04));
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 20px;
+            padding: 14px;
+            margin-bottom: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .wallet-info .wallet-label {
-            font-size: 0.8rem;
+        .wallet-info .wallet-label, .escrow-info .escrow-label {
+            font-size: 0.75rem;
             color: var(--text-muted);
             display: block;
             margin-bottom: 4px;
         }
 
         .wallet-info .wallet-balance {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 800;
-            color: var(--text-main);
+            color: var(--emerald-green);
         }
 
-        .wallet-profit {
+        .escrow-info {
             text-align: left;
         }
 
-        .wallet-profit .profit-label {
-            font-size: 0.75rem;
-            color: var(--emerald-green);
-            display: block;
-        }
-
-        .wallet-profit .profit-value {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--emerald-green);
+        .escrow-info .escrow-balance {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--warning-amber);
         }
 
         /* --- مفتاح التبديل الذكي (رسمي / موازي) --- */
@@ -128,7 +122,7 @@
             background: rgba(0, 0, 0, 0.4);
             border-radius: 14px;
             padding: 4px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -138,7 +132,7 @@
             background: transparent;
             border: none;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
             border-radius: 10px;
@@ -153,15 +147,14 @@
 
         /* --- عناصر الإدخال والتحكم --- */
         .input-group {
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .input-group label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
             margin-bottom: 6px;
-            font-weight: 500;
         }
 
         .input-wrapper input, .input-wrapper select {
@@ -171,36 +164,30 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             color: var(--text-main);
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             outline: none;
-            transition: all 0.3s ease;
         }
 
-        .input-wrapper input:focus, .input-wrapper select:focus {
-            border-color: var(--neon-orange);
-            box-shadow: 0 0 10px rgba(255, 107, 0, 0.2);
-        }
-
-        /* --- شاشة عرض النتائج والتوجيه الذكي --- */
+        /* --- لوحة مخرجات الخوارزمية الذكية --- */
         .router-output {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 20px;
+            padding: 14px;
+            margin-bottom: 16px;
             border: 1px dashed rgba(255, 255, 255, 0.1);
         }
 
         .output-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
         }
 
         .output-row:last-child {
             margin-bottom: 0;
-            padding-top: 10px;
+            padding-top: 8px;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -216,11 +203,50 @@
             color: var(--emerald-green);
         }
 
-        .output-value.orange {
-            color: var(--neon-orange);
+        /* --- لوحة التحكم في نظام الضمان (Escrow Controls) --- */
+        .escrow-actions-panel {
+            background: rgba(255, 179, 0, 0.05);
+            border: 1px solid rgba(255, 179, 0, 0.15);
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 16px;
+            display: none; /* تظهر فقط عند وجود دفعة معلقة */
+            text-align: center;
         }
 
-        /* --- زر التنفيذ السيادي --- */
+        .escrow-actions-panel p {
+            font-size: 0.8rem;
+            color: var(--warning-amber);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-sub {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-release {
+            background: var(--emerald-green);
+            color: #000;
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+        }
+
+        /* --- زر التنفيذ السيادي الرئيسي --- */
         .btn-execute {
             width: 100%;
             padding: 14px;
@@ -232,12 +258,6 @@
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
-            transition: transform 0.2s ease, opacity 0.2s ease;
-        }
-
-        .btn-execute:active {
-            transform: scale(0.98);
-            opacity: 0.9;
         }
     </style>
 </head>
@@ -246,17 +266,17 @@
     <div class="vortex-container">
         <div class="brand-header">
             <h1>Madi<span>Pay</span> Global</h1>
-            <div class="badge-router">محرك التوجيه والسيادة المالية</div>
+            <div class="badge-router">بوابة التوجيه وحماية الضمان</div>
         </div>
 
         <div class="wallet-card">
             <div class="wallet-info">
-                <span class="wallet-label">إجمالي السيولة الموجهة</span>
+                <span class="wallet-label">الرصيد المفرج عنه</span>
                 <span class="wallet-balance" id="wallet-total">0.00 د.ج</span>
             </div>
-            <div class="wallet-profit">
-                <span class="profit-label">فروقات فارق السعر المحمية</span>
-                <span class="profit-value" id="wallet-savings">+0.00 د.ج</span>
+            <div class="escrow-info">
+                <span class="escrow-label">السيولة المعلقة (الضمان)</span>
+                <span class="escrow-balance" id="escrow-total">0.00 د.ج</span>
             </div>
         </div>
 
@@ -268,7 +288,7 @@
         <div class="input-group">
             <label for="amount">المبلغ بالعملة الأجنبية</label>
             <div class="input-wrapper">
-                <input type="number" id="amount" value="1000" oninput="calculateRouting()" placeholder="أدخل المبلغ...">
+                <input type="number" id="amount" value="1000" oninput="calculateRouting()">
             </div>
         </div>
 
@@ -289,28 +309,32 @@
                 <span class="output-value" id="rate-display">1 يورو = 150.00 د.ج</span>
             </div>
             <div class="output-row">
-                <span class="output-label">الفارق المالي المكتسب (مقارنة بالرسمي):</span>
-                <span class="output-value orange" id="arbitrage-display">0.00 د.ج</span>
-            </div>
-            <div class="output-row">
-                <span class="output-label">صافي القيمة النهائية:</span>
+                <span class="output-label">صافي القيمة النهائية للتوجيه:</span>
                 <span class="output-value highlight" id="total-display">150,000.00 د.ج</span>
             </div>
         </div>
 
-        <button class="btn-execute" onclick="executeRouting()">تفعيل التوجيه وحقن السيولة</button>
+        <div class="escrow-actions-panel" id="escrow-panel">
+            <p>🛡️ معاملة قيد الحماية المعلقة: <span id="current-pending-txt">0.00 د.ج</span></p>
+            <div class="btn-group">
+                <button class="btn-sub btn-release" onclick="releaseEscrow()">إفراج ونقل للمحفظة</button>
+                <button class="btn-sub btn-cancel" onclick="cancelEscrow()">إلغاء واسترداد</button>
+            </div>
+        </div>
+
+        <button class="btn-execute" id="btn-main-action" onclick="initiateSecureTransaction()">بدء معاملة مشفرة معلقة</button>
     </div>
 
     <script>
-        // قواعد البيانات والأسعار الثابتة للمحاكاة الذكية
         const exchangeRates = {
             official: { EUR: 150.00, USD: 138.50, GBP: 175.20 },
             parallel: { EUR: 242.00, USD: 224.00, GBP: 280.00 }
         };
 
         let currentMarket = 'official';
-        let accumulatedBalance = 0;
-        let accumulatedSavings = 0;
+        let walletBalance = 0;
+        let escrowBalance = 0;
+        let activeTransactionAmount = 0;
 
         function setMarket(market) {
             currentMarket = market;
@@ -322,42 +346,61 @@
         function calculateRouting() {
             const amount = parseFloat(document.getElementById('amount').value) || 0;
             const currency = document.getElementById('currency').value;
-            
             const rate = exchangeRates[currentMarket][currency];
-            const officialRate = exchangeRates['official'][currency];
-            
-            // حساب القيمة الصافية الحالية
             const netResult = amount * rate;
-            
-            // حساب الفارق المالي (الربح الناتج عن اختيار السوق الموازي مقارنة بالبنك)
-            let arbitrageProfit = 0;
-            if (currentMarket === 'parallel') {
-                arbitrageProfit = (amount * rate) - (amount * officialRate);
-            }
 
-            // تحديث الواجهة
             document.getElementById('rate-display').innerText = `1 ${currency} = ${rate.toFixed(2)} د.ج`;
-            document.getElementById('arbitrage-display').innerText = `${arbitrageProfit.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
             document.getElementById('total-display').innerText = `${netResult.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
-            
-            return { netResult, arbitrageProfit };
+            return netResult;
         }
 
-        // تفاعل الزر وحقن القيم داخل المحفظة بشكل تراكمي دائم
-        function executeRouting() {
-            const data = calculateRouting();
+        // 1. بروتوكول تعليق الأموال في الضمان لحين التأكيد
+        function initiateSecureTransaction() {
+            const currentAmount = calculateRouting();
+            if (currentAmount <= 0) return;
+
+            if (escrowBalance > 0) {
+                alert("تنبيه: هناك سيولة معلقة بالفعل في الضمان، قم بإنهاء المعاملة السابقة أولاً.");
+                return;
+            }
+
+            activeTransactionAmount = currentAmount;
+            escrowBalance = currentAmount;
+
+            // تحديث شاشة الضمان والمحفظة
+            document.getElementById('escrow-total').innerText = `${escrowBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
+            document.getElementById('current-pending-txt').innerText = `${escrowBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
             
-            if (data.netResult <= 0) return;
+            // إظهار لوحة التحكم الثنائية للضمان
+            document.getElementById('escrow-panel').style.display = 'block';
+            document.getElementById('btn-main-action').style.opacity = '0.5';
+        }
 
-            // تراكم البيانات داخل المحفظة
-            accumulatedBalance += data.netResult;
-            accumulatedSavings += data.arbitrageProfit;
+        // 2. بروتوكول الإفراج التام ونقل الأموال للمحفظة الحرة
+        function releaseEscrow() {
+            walletBalance += activeTransactionAmount;
+            escrowBalance = 0;
+            activeTransactionAmount = 0;
 
-            // تحديث قيم المحفظة الرقمية في الأعلى بأنيميشن سريع
-            document.getElementById('wallet-total').innerText = `${accumulatedBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
-            document.getElementById('wallet-savings').innerText = `+${accumulatedSavings.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
+            updateUI();
+            alert("✅ تم الإفراج الذكي عن السيولة وترحيلها بنجاح إلى رصيدك الحر المستحق!");
+        }
 
-            alert(`🚀 تم معالجة الدفق المالي بنجاح! وترحيل القيمة إلى رصيد المحفظة التراكمي.`);
+        // 3. بروتوكول إلغاء العملية واسترجاع السيولة
+        function cancelEscrow() {
+            escrowBalance = 0;
+            activeTransactionAmount = 0;
+
+            updateUI();
+            alert("🛑 تم إلغاء المعاملة وسحب التدفق المالي بنجاح دون أي خسائر.");
+        }
+
+        function updateUI() {
+            document.getElementById('wallet-total').innerText = `${walletBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
+            document.getElementById('escrow-total').innerText = `${escrowBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
+            document.getElementById('escrow-panel').style.display = 'none';
+            document.getElementById('btn-main-action').style.opacity = '1';
+            calculateRouting();
         }
 
         window.onload = calculateRouting;
