@@ -23,13 +23,12 @@ body {
 }
 
 .container {
-    width: 90%;
+    width: 95%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 10px;
 }
 
-/* الهيدر وشريط التنقل المطور */
 .main-header {
     background: rgba(11, 15, 25, 0.9);
     backdrop-filter: blur(12px);
@@ -46,29 +45,30 @@ body {
     padding: 15px 0;
 }
 
-.logo { font-size: 1.5rem; font-weight: 700; }
+.logo { font-size: 1.4rem; font-weight: 700; }
 .brand-sub { color: var(--accent-glow); text-shadow: 0 0 10px rgba(0, 210, 255, 0.3); }
 
-/* أزرار وعلامات التبويب للواجهات */
+/* شريط علامات التبويب الرباعي المطور */
 .navigation-tabs {
     display: flex;
-    gap: 10px;
+    gap: 6px;
     background: #121824;
-    padding: 6px;
+    padding: 5px;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.03);
+    flex-wrap: wrap;
 }
 
 .tab-btn {
     background: transparent;
     color: var(--text-muted);
     border: none;
-    padding: 8px 16px;
+    padding: 8px 14px;
     border-radius: 6px;
     cursor: pointer;
     font-family: 'Cairo', sans-serif;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     transition: var(--transition-smooth);
 }
 
@@ -82,7 +82,7 @@ body {
     background: #121824;
     color: var(--accent-glow);
     border: 1px solid rgba(0, 210, 255, 0.3);
-    padding: 8px 12px;
+    padding: 6px 10px;
     border-radius: 6px;
     font-family: 'Cairo', sans-serif;
     font-weight: 600;
@@ -90,15 +90,14 @@ body {
     cursor: pointer;
 }
 
-/* البنية الفوقية للبطاقات */
 .hero-section {
-    padding: 80px 0 40px 0;
+    padding: 60px 0 30px 0;
     text-align: center;
     background: radial-gradient(circle at top, rgba(0, 210, 255, 0.05) 0%, transparent 70%);
 }
 
-.hero-title { font-size: 2.2rem; margin-bottom: 15px; }
-.hero-subtitle { color: var(--text-muted); max-width: 800px; margin: 0 auto; font-size: 1rem; }
+.hero-title { font-size: 2rem; margin-bottom: 15px; }
+.hero-subtitle { color: var(--text-muted); max-width: 800px; margin: 0 auto; font-size: 0.95rem; }
 
 .router-flex-container { max-width: 700px !important; margin-top: 20px; }
 
@@ -106,17 +105,16 @@ body {
     background: var(--bg-secondary);
     border: 1px solid rgba(255, 255, 255, 0.03);
     border-top: 3px solid var(--accent-glow);
-    padding: 35px 25px;
+    padding: 30px 20px;
     border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-.widget-title { margin-bottom: 25px; text-align: center; color: var(--accent-glow); font-size: 1.25rem; }
+.widget-title { margin-bottom: 25px; text-align: center; color: var(--accent-glow); font-size: 1.2rem; }
 
-/* عناصر الإدخال والتحكم */
-.input-group { margin-bottom: 20px; }
+.input-group { margin-bottom: 18px; }
 .input-grid-split { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.input-group label { display: block; color: var(--text-muted); margin-bottom: 8px; font-size: 0.85rem; }
+.input-group label { display: block; color: var(--text-muted); margin-bottom: 6px; font-size: 0.85rem; }
 .input-group input, .input-group select {
     width: 100%; background: #121824; border: 1px solid rgba(255, 255, 255, 0.08);
     color: var(--text-main); padding: 12px; border-radius: 8px; font-family: 'Cairo', sans-serif; outline: none;
@@ -125,54 +123,29 @@ body {
 .router-btn {
     width: 100%; background: linear-gradient(135deg, #00d2ff 0%, #00a8cc 100%);
     color: #060913; border: none; padding: 14px; border-radius: 8px; font-family: 'Cairo', sans-serif;
-    font-weight: 700; cursor: pointer; box-shadow: 0 4px 20px rgba(0, 210, 255, 0.2);
+    font-weight: 700; cursor: pointer; box-shadow: 0 4px 20px rgba(0, 210, 255, 0.2); transition: var(--transition-smooth);
 }
 
-/* تنسيق جداول البيانات الآمنة لواجهة المتاجر */
-.secure-data-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-    font-size: 0.9rem;
-}
+.router-btn:hover { transform: translateY(-1px); }
 
-.secure-data-table th, .secure-data-table td {
-    padding: 12px;
-    text-align: right;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
+.secure-data-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
+.secure-data-table th, .secure-data-table td { padding: 12px; text-align: right; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+.secure-data-table th { color: var(--accent-glow); background: rgba(255, 255, 255, 0.01); }
 
-.secure-data-table th {
-    color: var(--accent-glow);
-    font-weight: 600;
-    background: rgba(255, 255, 255, 0.01);
-}
+.wallet-balance-box { background: #121824; border-radius: 8px; padding: 20px; text-align: center; border: 1px solid rgba(0, 210, 255, 0.1); }
 
-.secure-data-table td { color: var(--text-main); }
-
-/* تنسيق مكونات المحفظة السيادية */
-.wallet-balance-box {
-    background: #121824;
-    border-radius: 8px;
-    padding: 25px;
-    text-align: center;
-    border: 1px solid rgba(0, 210, 255, 0.1);
-}
-
-/* التذييل وعناصر التحكم الجانبية */
-.result-box { margin-top: 25px; background: rgba(5, 205, 153, 0.02); border: 1px dashed rgba(5, 205, 153, 0.3); padding: 20px; border-radius: 8px; text-align: center; }
-.result-amount { color: var(--accent-secure); font-size: 1.7rem; font-family: 'Orbitron', sans-serif; margin-bottom: 10px; }
-.result-status { color: var(--text-muted); font-size: 0.8rem; font-family: monospace; }
+.result-box { margin-top: 25px; background: rgba(5, 205, 153, 0.02); border: 1px dashed rgba(5, 205, 153, 0.3); padding: 18px; border-radius: 8px; text-align: center; }
+.result-amount { color: var(--accent-secure); font-size: 1.6rem; font-family: 'Orbitron', sans-serif; margin-bottom: 8px; }
+.result-status { color: var(--text-muted); font-size: 0.75rem; font-family: monospace; }
 
 .hidden-element { display: none !important; }
 
-.main-footer { padding: 30px 0; border-top: 1px solid rgba(255, 255, 255, 0.03); margin-top: 50px; background: var(--bg-secondary); text-align: center; }
-.main-footer p { color: var(--text-muted); font-size: 0.85rem; }
+.main-footer { padding: 35px 0; border-top: 1px solid rgba(255, 255, 255, 0.03); margin-top: 50px; background: var(--bg-secondary); text-align: center; color: var(--text-muted); font-size: 0.8rem; }
 
-/* التوافق التام مع الهواتف */
+/* معالجة مرونة الشاشات الصغيرة للهواتف */
 @media (max-width: 768px) {
-    .header-flex { flex-direction: column; gap: 15px; text-align: center; }
+    .header-flex { flex-direction: column; gap: 12px; text-align: center; }
     .input-grid-split { grid-template-columns: 1fr; }
     .navigation-tabs { width: 100%; justify-content: center; }
-    .tab-btn { padding: 8px 12px; font-size: 0.8rem; }
+    .tab-btn { flex-grow: 1; text-align: center; padding: 8px 10px; font-size: 0.75rem; }
 }
