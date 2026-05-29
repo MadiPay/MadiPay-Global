@@ -253,3 +253,25 @@ body {
         padding: 20px;
     }
 }
+/* الفئات الهيكلية الجديدة لضمان عزل الـ HTML عن الـ CSS */
+.router-flex-container {
+    max-width: 600px !important;
+}
+
+.widget-title {
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--accent-glow);
+    font-weight: 700;
+}
+
+/* فئة صمام الأمان لإخفاء صندوق النتيجة برمجياً عند بدء التشغيل */
+.hidden-element {
+    display: none;
+}
+
+/* تحسين إضافي لصندوق المدخلات والمؤشرات التفاعلية */
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.9rem;
+}
