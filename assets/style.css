@@ -1,16 +1,15 @@
-
 /* ==========================================================================
    MadiPay Global - نظام التنسيق المالي المتقدم 2026
    ========================================================================== */
 
-/* 1. إعدادات المتغيرات والألوان الاستراتيجية (Dark Luxury Theme) */
+/* 1. إعدادات المتغيرات والألوان الاستراتيجية (Dark Luxury Cyber Theme) */
 :root {
-    --bg-primary: #0b0f19;       /* لون الخلفية الأساسي العميقة */
+    --bg-primary: #0b0f19;       /* الخلفية الأساسية */
     --bg-secondary: #121824;     /* لون الكروت والقوائم */
-    --accent-glow: #00d2ff;      /* لون التوجيه الذكي والوميض الرقمي */
-    --accent-secure: #05cd99;    /* لون الأمان والسيولة الخضراء */
+    --accent-glow: #ff6b00;      /* البرتقالي النيون للتوجيه والنبض الرقمي */
+    --accent-secure: #05cd99;    /* الأخضر الزمردي للأمان والسيولة المستقرة */
     --text-main: #ffffff;        /* النص الأساسي */
-    --text-muted: #8f9bba;       /* النصوص الفرعية والمساعدة */
+    --text-muted: #8f9bba;       /* النصوص الفرعية */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -86,31 +85,17 @@ body {
 
 .main-nav a:hover {
     color: var(--accent-glow);
-    text-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
+    text-shadow: 0 0 8px rgba(255, 107, 0, 0.5);
 }
 
 /* 4. قسم الواجهة الترحيبية الصارخة (Hero Section) */
 .hero-section {
-    padding: 180px 0 100px 0;
+    padding: 180px 0 60px 0;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     position: relative;
-}
-
-/* تأثير الإضاءة الخلفية للشبكة المالية */
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(0,210,255,0.15) 0%, rgba(0,0,0,0) 70%);
-    z-index: 0;
-    pointer-events: none;
 }
 
 .hero-container {
@@ -131,67 +116,125 @@ body {
 .hero-subtitle {
     color: var(--text-muted);
     font-size: 1.15rem;
-    margin-bottom: 40px;
     padding: 0 15px;
 }
 
-/* 5. الأزرار التفاعلية المؤمّنة (Buttons) */
-.cta-group {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
+/* 5. تنسيق محاكي التوجيه الذكي (Router Widget UI) */
+.router-section {
+    padding: 60px 0;
+    background: var(--bg-secondary);
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
 
-.btn {
-    display: inline-block;
-    padding: 12px 30px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
+.widget-card {
+    background: var(--bg-primary);
+    padding: 35px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 107, 0, 0.15);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
     transition: var(--transition-smooth);
-    cursor: pointer;
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, var(--accent-glow) 0%, #00a2ff 100%);
-    color: #000000;
-    box-shadow: 0 4px 20px rgba(0, 210, 255, 0.3);
+.widget-card:hover {
+    border-color: rgba(255, 107, 0, 0.3);
+    box-shadow: 0 12px 50px rgba(255, 107, 0, 0.05);
 }
 
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(0, 210, 255, 0.5);
+.input-group {
+    margin-bottom: 22px;
 }
 
-.btn-secondary {
-    background-color: transparent;
-    color: var(--text-main);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+.input-group label {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 600;
 }
 
-.btn-secondary:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+.input-group input, 
+.input-group select {
+    width: 100%;
+    padding: 14px;
+    background: var(--bg-secondary);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1.05rem;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.input-group input:focus, 
+.input-group select:focus {
     border-color: var(--accent-glow);
+    box-shadow: 0 0 10px rgba(255, 107, 0, 0.15);
+}
+
+.input-group input {
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* زر التفعيل التفاعلي */
+.router-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--accent-glow) 0%, #ff4500 100%);
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(255, 107, 0, 0.25);
+    transition: var(--transition-smooth);
+}
+
+.router-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(255, 107, 0, 0.4);
+}
+
+/* صندوق النتيجة المؤمّن */
+.result-box {
+    margin-top: 25px;
+    padding: 18px;
+    background: rgba(5, 205, 153, 0.04);
+    border: 1px dashed var(--accent-secure);
+    border-radius: 8px;
+}
+
+.result-label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+}
+
+.result-amount {
+    color: var(--accent-secure);
+    font-size: 1.8rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(5, 205, 153, 0.2);
+}
+
+.result-status {
     color: var(--accent-glow);
+    font-size: 0.85rem;
+    margin-top: 8px;
+    font-weight: 600;
+    font-family: 'Orbitron', 'Cairo', sans-serif;
 }
 
 /* 6. التذييل (Footer) */
 .main-footer {
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-primary);
     padding: 30px 0;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    margin-top: 50px;
 }
 
 .text-center {
     text-align: center;
-}
-
-.main-footer p {
-    color: var(--text-muted);
-    font-size: 0.85rem;
 }
 
 /* 7. التوافق المطلق مع شاشات الهواتف (Responsive Design) */
@@ -199,22 +242,14 @@ body {
     .hero-title {
         font-size: 1.85rem;
     }
-    .hero-subtitle {
-        font-size: 1rem;
-    }
     .main-header .container {
         flex-direction: column;
-        gap: 15px;
+        gap: 12px;
     }
     .main-nav ul {
         gap: 15px;
     }
-    .cta-group {
-        flex-direction: column;
-        width: 100%;
-        padding: 0 20px;
-    }
-    .btn {
-        width: 100%;
+    .widget-card {
+        padding: 20px;
     }
 }
