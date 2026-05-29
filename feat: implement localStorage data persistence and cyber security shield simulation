@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadiPay Global | منصة التوجيه والضمان والتدقيق</title>
+    <title>MadiPay Global | المنصة السيادية المتقدمة</title>
     <style>
         /* --- الهوية البصرية النخبوية والألوان الاستراتيجية --- */
         :root {
@@ -18,7 +18,6 @@
             --danger-red: #FF3D00;
         }
 
-        /* --- إعادة ضبط المصنع والتصميم المتجاوب للهواتف --- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -38,7 +37,6 @@
             overflow-x: hidden;
         }
 
-        /* --- حاوية المحرك الرئيسي (تأثير Glassmorphism) --- */
         .vortex-container {
             width: 100%;
             max-width: 480px;
@@ -262,7 +260,7 @@
             margin-bottom: 24px;
         }
 
-        /* --- لوحة سجل العمليات (Vortex Ledger) المضافة حديثاً --- */
+        /* --- لوحة سجل العمليات (Vortex Ledger) --- */
         .ledger-section {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 16px;
@@ -287,7 +285,6 @@
             padding-right: 4px;
         }
 
-        /* تصميم بطاقة العملية داخل السجل */
         .ledger-item {
             background: rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.03);
@@ -327,6 +324,16 @@
         .status-hold { background: rgba(255, 179, 0, 0.15); color: var(--warning-amber); }
         .status-success { background: rgba(0, 230, 118, 0.15); color: var(--emerald-green); }
         .status-rejected { background: rgba(255, 61, 0, 0.15); color: var(--danger-red); }
+        
+        /* زر مسح البيانات للتحكم الكامل */
+        .btn-clear-storage {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -334,10 +341,9 @@
     <div class="vortex-container">
         <div class="brand-header">
             <h1>Madi<span>Pay</span> Global</h1>
-            <div class="badge-router">بوابة التوجيه وحماية الضمان والتسجيل</div>
+            <div class="badge-router">بوابة التوجيه وحماية السيولة المستدامة</div>
         </div>
 
-        <!-- نظام المحفظة المزدوج -->
         <div class="wallet-card">
             <div class="wallet-info">
                 <span class="wallet-label">الرصيد المفرج عنه</span>
@@ -349,14 +355,13 @@
             </div>
         </div>
 
-        <!-- أداة اختيار نوع السوق -->
         <div class="market-selector">
             <button class="market-btn active" id="btn-official" onclick="setMarket('official')">السعر الرسمي (البنك)</button>
             <button class="market-btn" id="btn-parallel" onclick="setMarket('parallel')">السوق الموازي (السكوار)</button>
         </div>
 
         <div class="input-group">
-            <label for="amount">المبلغ بالعملة الأجنبية</label>
+            <label for="amount">المبلغ بالعملة الأجنبية (الحد الأقصى للمحاكاة: 1,000,000)</label>
             <div class="input-wrapper">
                 <input type="number" id="amount" value="1000" oninput="calculateRouting()">
             </div>
@@ -368,7 +373,7 @@
                 <select id="currency" onchange="calculateRouting()">
                     <option value="EUR">اليورو (€)</option>
                     <option value="USD">الدولار الأمريكي ($)</option>
-                    <option value="GBP">الجنيه الإسترليني (£)</option>
+                    <option value="GBP">الجنهم الإسترليني (£)</option>
                 </select>
             </div>
         </div>
@@ -384,7 +389,6 @@
             </div>
         </div>
 
-        <!-- لوحة التحكم في الضمان -->
         <div class="escrow-actions-panel" id="escrow-panel">
             <p>🛡️ معاملة قيد الحماية المعلقة: <span id="current-pending-txt">0.00 د.ج</span></p>
             <div class="btn-group">
@@ -395,15 +399,12 @@
 
         <button class="btn-execute" id="btn-main-action" onclick="initiateSecureTransaction()">بدء معاملة مشفرة معلقة</button>
 
-        <!-- لوحة سجل العمليات التاريخية المحقونة حديثاً (Vortex Ledger) -->
         <div class="ledger-section">
             <div class="ledger-title">
                 <span>سجل التدفقات الماليّة المدققة</span>
-                <span style="font-size: 0.7rem; color: var(--text-muted);" id="tx-count">0 عمليات</span>
+                <button class="btn-clear-storage" onclick="clearSavedData()">تصفية السجل</button>
             </div>
-            <div class="ledger-list" id="ledger-container">
-                <!-- العمليات ستُحقن هنا ديناميكياً بواسطة الجافا سكريبت -->
-            </div>
+            <div class="ledger-list" id="ledger-container"></div>
         </div>
     </div>
 
@@ -414,10 +415,12 @@
         };
 
         let currentMarket = 'official';
-        let walletBalance = 0;
-        let escrowBalance = 0;
-        let activeTransactionAmount = 0;
-        let transactions = []; // مصفوفة لحفظ العمليات في الذاكرة الحية
+        
+        // جلب البيانات المخزنة محلياً في الهاتف عند التحميل أو البدء من الصفر
+        let walletBalance = parseFloat(localStorage.getItem('madi_wallet')) || 0;
+        let escrowBalance = parseFloat(localStorage.getItem('madi_escrow')) || 0;
+        let activeTransactionAmount = parseFloat(localStorage.getItem('madi_active_tx')) || 0;
+        let transactions = JSON.parse(localStorage.getItem('madi_tx_list')) || [];
 
         function setMarket(market) {
             currentMarket = market;
@@ -437,10 +440,27 @@
             return { netResult, amount, currency, marketName: currentMarket === 'official' ? 'رسمي (البنك)' : 'موازي (السكوار)' };
         }
 
-        // بدء المعاملة وإضافتها للسجل كـ "معلقة"
         function initiateSecureTransaction() {
             const data = calculateRouting();
             if (data.netResult <= 0) return;
+
+            // 🛑 نظام محاكاة جدار الحماية (Cyber Shield Verification)
+            if (data.amount > 1000000) {
+                alert("🚨 اختراق حدود الأمان الحجمي! تم رفض تسييل المعاملة تلقائياً لحين التحقق من مصدر السيولة.");
+                const alertTx = {
+                    id: Date.now(),
+                    amountInput: data.amount,
+                    currency: data.currency,
+                    market: data.marketName,
+                    amountOutput: data.netResult,
+                    status: 'rejected',
+                    statusTxt: 'مرفوضة أمنياً'
+                };
+                transactions.unshift(alertTx);
+                saveDataToLocalStorage();
+                renderLedger();
+                return;
+            }
 
             if (escrowBalance > 0) {
                 alert("تنبيه: هناك سيولة معلقة بالفعل في الضمان، قم بإنهاء المعاملة السابقة أولاً.");
@@ -450,7 +470,6 @@
             activeTransactionAmount = data.netResult;
             escrowBalance = data.netResult;
 
-            // إنشاء كائن المعاملة وحفظه في السجل
             const tx = {
                 id: Date.now(),
                 amountInput: data.amount,
@@ -460,34 +479,28 @@
                 status: 'hold',
                 statusTxt: 'قيد الانتظار'
             };
-            transactions.unshift(tx); // إضافة في أول القائمة
+            transactions.unshift(tx);
 
-            document.getElementById('escrow-total').innerText = `${escrowBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
-            document.getElementById('current-pending-txt').innerText = `${escrowBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
-            
-            document.getElementById('escrow-panel').style.display = 'block';
-            document.getElementById('btn-main-action').style.opacity = '0.5';
-            
+            saveDataToLocalStorage();
             renderLedger();
+            showEscrowPanel();
         }
 
-        // الإفراج عن المعاملة وتحديث حالتها في السجل إلى "ناجحة"
         function releaseEscrow() {
             walletBalance += activeTransactionAmount;
             escrowBalance = 0;
             activeTransactionAmount = 0;
 
-            // تحديث حالة أول معاملة معلقة في المصفوفة
             if(transactions.length > 0 && transactions[0].status === 'hold') {
                 transactions[0].status = 'success';
                 transactions[0].statusTxt = 'مكتملة ومفرجة';
             }
 
+            saveDataToLocalStorage();
             updateUI();
-            alert("✅ تم الإفراج الذكي عن السيولة وترحيلها بنجاح إلى رصيدك الحر المستحق!");
+            alert("✅ تم الإفراج الذكي عن السيولة وترحيلها بنجاح إلى رصيدك الحر!");
         }
 
-        // إلغاء المعاملة وتحديث حالتها في السجل إلى "مرفوضة"
         function cancelEscrow() {
             escrowBalance = 0;
             activeTransactionAmount = 0;
@@ -497,22 +510,29 @@
                 transactions[0].statusTxt = 'مستردة / ملغاة';
             }
 
+            saveDataToLocalStorage();
             updateUI();
-            alert("🛑 تم إلغاء المعاملة وسحب التدفق المالي بنجاح دون أي خسائر.");
+            alert("🛑 تم إلغاء المعاملة وسحب التدفق المالي بنجاح.");
         }
 
-        // بناء وعرض عناصر السجل برمجياً داخل الواجهة
+        // حفظ البيانات في متصفح الهاتف
+        function saveDataToLocalStorage() {
+            localStorage.setItem('madi_wallet', walletBalance);
+            localStorage.setItem('madi_escrow', escrowBalance);
+            localStorage.setItem('madi_active_tx', activeTransactionAmount);
+            localStorage.setItem('madi_tx_list', JSON.stringify(transactions));
+        }
+
         function renderLedger() {
             const container = document.getElementById('ledger-container');
             container.innerHTML = '';
-            document.getElementById('tx-count').innerText = `${transactions.length} عمليات`;
 
             transactions.forEach(tx => {
                 const item = document.createElement('div');
                 item.className = 'ledger-item';
                 item.innerHTML = `
                     <div class="ledger-meta">
-                        <span>توجيه تدفق ${tx.amountInput} ${tx.currency}</span>
+                        <span>توجيه تدفق ${tx.amountInput.toLocaleString()} ${tx.currency}</span>
                         <span class="tx-market">السوق: ${tx.market}</span>
                     </div>
                     <div class="ledger-amount">
@@ -524,6 +544,14 @@
             });
         }
 
+        function showEscrowPanel() {
+            document.getElementById('wallet-total').innerText = `${walletBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
+            document.getElementById('escrow-total').innerText = `${escrowBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
+            document.getElementById('current-pending-txt').innerText = `${escrowBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
+            document.getElementById('escrow-panel').style.display = 'block';
+            document.getElementById('btn-main-action').style.opacity = '0.5';
+        }
+
         function updateUI() {
             document.getElementById('wallet-total').innerText = `${walletBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
             document.getElementById('escrow-total').innerText = `${escrowBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
@@ -533,7 +561,27 @@
             calculateRouting();
         }
 
-        window.onload = calculateRouting;
+        // مسح الذاكرة بالكامل والبدء من جديد
+        function clearSavedData() {
+            if(confirm("هل أنت متأكد من تصفية السجل والمحفظة بالكامل للمحاكاة؟")) {
+                localStorage.clear();
+                walletBalance = 0;
+                escrowBalance = 0;
+                activeTransactionAmount = 0;
+                transactions = [];
+                updateUI();
+            }
+        }
+
+        // تشغيل البنية البرمجية المحفوظة فور فتح الصفحة
+        window.onload = function() {
+            calculateRouting();
+            renderLedger();
+            document.getElementById('wallet-total').innerText = `${walletBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
+            if (escrowBalance > 0) {
+                showEscrowPanel();
+            }
+        };
     </script>
 </body>
 </html>
