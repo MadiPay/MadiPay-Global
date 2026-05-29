@@ -7,6 +7,7 @@
     <title>MadiPay Global | Sovereign Financial Ecosystem</title>
     <meta name="description" content="Sovereign smart gateway for local and global digital payments, electronic commerce routing, and MadiCoin liquidity management.">
 
+    <!-- بروتوكولات حماية وحظر الثغرات الخارجية -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; frame-ancestors 'none';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
@@ -19,11 +20,20 @@
 </head>
 <body>
 
+    <!-- الهيدر المطور مع شريط التنقل الذكي بين الواجهات -->
     <header class="main-header">
         <div class="container header-flex">
             <div class="logo">
                 <span class="brand-vortex">MadiPay</span> <span class="brand-sub">Global</span>
             </div>
+            
+            <!-- أزرار التنقل بين الواجهات الثلاث -->
+            <nav class="navigation-tabs">
+                <button id="tabBtnRouter" class="tab-btn active" onclick="switchInterface('router')">الموجه الذكي</button>
+                <button id="tabBtnMerchant" class="tab-btn" onclick="switchInterface('merchant')">بوابة المتاجر</button>
+                <button id="tabBtnWallet" class="tab-btn" onclick="switchInterface('wallet')">محفظة MadiCoin</button>
+            </nav>
+
             <div class="language-selector-wrapper">
                 <select id="globalLangSelector" onchange="changeSystemLanguage()">
                     <option value="ar">العربية (Arabic)</option>
@@ -38,6 +48,7 @@
         </div>
     </header>
 
+    <!-- الواجهة الترحيبية السيادية -->
     <main class="hero-section">
         <div class="hero-container">
             <h1 id="heroTitle" class="hero-title">المنظومة المالية السيادية لإدارة المدفوعات وتدفق السيولة</h1>
@@ -45,7 +56,8 @@
         </div>
     </main>
 
-    <section id="router" class="router-section">
+    <!-- الواجهة الأولى: محرك المحاكاة والربط الذكي -->
+    <section id="interface-router" class="view-interface">
         <div class="container router-flex-container">
             <div class="widget-card">
                 <h3 id="widgetTitle" class="widget-title">مركز المحاكاة والربط الذكي</h3>
@@ -107,6 +119,71 @@
                     <p id="lblResultHeader" class="result-label">مسار التسوية المقدر:</p>
                     <h4 id="finalOutput" class="result-amount">0.00</h4>
                     <p id="routingStatus" class="result-status"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الواجهة الثانية: لوحة تحكم إدارة المتاجر والسيولة المحلية -->
+    <section id="interface-merchant" class="view-interface hidden-element">
+        <div class="container router-flex-container">
+            <div class="widget-card">
+                <h3 id="lblMerchantTitle" class="widget-title">لوحة تحكم التجار والسيولة المدمجة</h3>
+                <p style="color: var(--text-muted); text-align: center; margin-bottom: 20px; font-size: 0.9rem;">مراقبة حية لربط الخدمات المحلية وبوابات الدفع العالمية بمتاجرك الإلكترونية.</p>
+                
+                <table class="secure-data-table">
+                    <thead>
+                        <tr>
+                            <th>المنصة / الخدمة</th>
+                            <th>الحالة الإستراتيجية</th>
+                            <th>الرصيد المتاح المعلق</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Shopify / WooCommerce API</td>
+                            <td style="color: var(--accent-secure);">متصل ومؤمن (Active)</td>
+                            <td>$1,240.50 USD</td>
+                        </tr>
+                        <tr>
+                            <td>PayPal Express Checkout</td>
+                            <td style="color: var(--accent-secure);">موجّه تلقائياً (Routed)</td>
+                            <td>€450.00 EUR</td>
+                        </tr>
+                        <tr>
+                            <td>بريدي موب (BaridiMob Direct)</td>
+                            <td style="color: #ffaa00;">في انتظار التسوية (Pending)</td>
+                            <td>245,000.00 DZD</td>
+                        </tr>
+                        <tr>
+                            <td>اتصالات الجزائر / فليكسي API</td>
+                            <td style="color: var(--accent-secure);">الربط مستقر (Ready)</td>
+                            <td>نظام الدفع الفوري نشط</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- الواجهة الثالثة: محفظة مادي كوين السيادية المحصنة كمياً -->
+    <section id="interface-wallet" class="view-interface hidden-element">
+        <div class="container router-flex-container">
+            <div class="widget-card">
+                <h3 id="lblWalletTitle" class="widget-title">محفظة MadiCoin السيادية المحصنة</h3>
+                
+                <div class="wallet-balance-box">
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">إجمالي رصيد السيولة السيادية المتوفرة داخل الشبكة:</p>
+                    <h2 style="color: var(--accent-glow); font-family: 'Orbitron', sans-serif; margin: 15px 0; font-size: 2.2rem;">45,820.004 MDC</h2>
+                    <p style="color: var(--accent-secure); font-size: 0.8rem; font-family: monospace;">[Post-Quantum Cryptography Core V2 Enabled]</p>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <h5 style="color: var(--text-main); margin-bottom: 10px; font-size: 0.95rem;">آخر إثباتات الفحص والتوقيع الكمي (PQC Block Ledger):</h5>
+                    <div id="quantumLedger" style="background: #121824; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 0.75rem; color: var(--text-muted); text-align: left; line-height: 1.8;">
+                        * BLOCK #10492: PQC-KYBER-7a2e-8f921a - Secured Settlement via BaridiMob<br>
+                        * BLOCK #10491: PQC-KYBER-4f91-3b82df - Cleared PayPal Gateway Handshake
+                    </div>
                 </div>
             </div>
         </div>
