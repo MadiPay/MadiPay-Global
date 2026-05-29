@@ -1,151 +1,166 @@
-/* ==========================================================================
-   MadiPay Global - نظام التنسيق الموحد والشامل (Cyber Luxury Theme)
-   ========================================================================== */
-
+/* إعدادات الخطوط والخلفية الفحمية النخبوية */
 :root {
-    --bg-primary: #060913;
-    --bg-secondary: #0b0f19;
-    --accent-glow: #00d2ff;
-    --accent-secure: #05cd99;
-    --text-main: #ffffff;
-    --text-muted: #8f9bba;
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --bg-charcoal: #121214;
+    --card-glass: rgba(30, 30, 35, 0.75);
+    --neon-orange: #FF6B00;
+    --emerald-green: #00E676;
+    --text-light: #E2E8F0;
+    --text-muted: #94A3B8;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
 body {
-    background-color: var(--bg-primary);
-    color: var(--text-main);
-    font-family: 'Cairo', 'Orbitron', sans-serif;
-    line-height: 1.6;
-    overflow-x: hidden;
+    background-color: var(--bg-charcoal);
+    color: var(--text-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: flex;
+    padding: 40px 20px;
 }
 
-.container {
-    width: 95%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 10px;
-}
-
-.main-header {
-    background: rgba(11, 15, 25, 0.9);
+/* نمط زجاجي متطور Glassmorphism */
+.glass-container {
+    background: var(--card-glass);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 40px;
+    width: 100%;
+    max-width: 550px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 
-.header-flex {
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: var(--neon-orange);
+    text-shadow: 0 0 15px var(--neon-orange);
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+/* النماذج والمدخلات النيونية */
+.payment-box h3 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: var(--text-light);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 8px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.input-group input, .input-group select {
+    width: 100%;
+    padding: 14px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+.input-group input:focus, .input-group select:focus {
+    border-color: var(--neon-orange);
+    box-shadow: 0 0 10px rgba(255, 107, 0, 0.3);
+}
+
+button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--neon-orange), #FF8800);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(255, 107, 0, 0.4);
+    transition: 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(255, 107, 0, 0.6);
+}
+
+/* شاشة استلام النتيجة الصارمة */
+.result-box {
+    margin-top: 30px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    padding: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.hidden {
+    display: none;
+}
+
+.receipt-line {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: var(--text-muted);
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 15px 0;
 }
 
-.logo { font-size: 1.4rem; font-weight: 700; }
-.brand-sub { color: var(--accent-glow); text-shadow: 0 0 10px rgba(0, 210, 255, 0.3); }
-
-/* شريط علامات التبويب الرباعي المطور */
-.navigation-tabs {
-    display: flex;
-    gap: 6px;
-    background: #121824;
-    padding: 5px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    flex-wrap: wrap;
-}
-
-.tab-btn {
-    background: transparent;
-    color: var(--text-muted);
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: 'Cairo', sans-serif;
+.receipt-line span {
+    color: var(--text-light);
     font-weight: 600;
-    font-size: 0.85rem;
-    transition: var(--transition-smooth);
 }
 
-.tab-btn.active, .tab-btn:hover {
-    background: var(--bg-primary);
-    color: var(--accent-glow);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+.neon-text {
+    color: var(--neon-orange) !important;
 }
 
-.language-selector-wrapper select {
-    background: #121824;
-    color: var(--accent-glow);
-    border: 1px solid rgba(0, 210, 255, 0.3);
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 600;
-    outline: none;
-    cursor: pointer;
+.emerald-text {
+    color: var(--emerald-green) !important;
+    text-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
 }
 
-.hero-section {
-    padding: 60px 0 30px 0;
+footer {
+    margin-top: 35px;
     text-align: center;
-    background: radial-gradient(circle at top, rgba(0, 210, 255, 0.05) 0%, transparent 70%);
+    font-size: 0.75rem;
+    color: var(--text-muted);
 }
 
-.hero-title { font-size: 2rem; margin-bottom: 15px; }
-.hero-subtitle { color: var(--text-muted); max-width: 800px; margin: 0 auto; font-size: 0.95rem; }
-
-.router-flex-container { max-width: 700px !important; margin-top: 20px; }
-
-.widget-card {
-    background: var(--bg-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    border-top: 3px solid var(--accent-glow);
-    padding: 30px 20px;
-    border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-}
-
-.widget-title { margin-bottom: 25px; text-align: center; color: var(--accent-glow); font-size: 1.2rem; }
-
-.input-group { margin-bottom: 18px; }
-.input-grid-split { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.input-group label { display: block; color: var(--text-muted); margin-bottom: 6px; font-size: 0.85rem; }
-.input-group input, .input-group select {
-    width: 100%; background: #121824; border: 1px solid rgba(255, 255, 255, 0.08);
-    color: var(--text-main); padding: 12px; border-radius: 8px; font-family: 'Cairo', sans-serif; outline: none;
-}
-
-.router-btn {
-    width: 100%; background: linear-gradient(135deg, #00d2ff 0%, #00a8cc 100%);
-    color: #060913; border: none; padding: 14px; border-radius: 8px; font-family: 'Cairo', sans-serif;
-    font-weight: 700; cursor: pointer; box-shadow: 0 4px 20px rgba(0, 210, 255, 0.2); transition: var(--transition-smooth);
-}
-
-.router-btn:hover { transform: translateY(-1px); }
-
-.secure-data-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
-.secure-data-table th, .secure-data-table td { padding: 12px; text-align: right; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-.secure-data-table th { color: var(--accent-glow); background: rgba(255, 255, 255, 0.01); }
-
-.wallet-balance-box { background: #121824; border-radius: 8px; padding: 20px; text-align: center; border: 1px solid rgba(0, 210, 255, 0.1); }
-
-.result-box { margin-top: 25px; background: rgba(5, 205, 153, 0.02); border: 1px dashed rgba(5, 205, 153, 0.3); padding: 18px; border-radius: 8px; text-align: center; }
-.result-amount { color: var(--accent-secure); font-size: 1.6rem; font-family: 'Orbitron', sans-serif; margin-bottom: 8px; }
-.result-status { color: var(--text-muted); font-size: 0.75rem; font-family: monospace; }
-
-.hidden-element { display: none !important; }
-
-.main-footer { padding: 35px 0; border-top: 1px solid rgba(255, 255, 255, 0.03); margin-top: 50px; background: var(--bg-secondary); text-align: center; color: var(--text-muted); font-size: 0.8rem; }
-
-/* معالجة مرونة الشاشات الصغيرة للهواتف */
-@media (max-width: 768px) {
-    .header-flex { flex-direction: column; gap: 12px; text-align: center; }
-    .input-grid-split { grid-template-columns: 1fr; }
-    .navigation-tabs { width: 100%; justify-content: center; }
-    .tab-btn { flex-grow: 1; text-align: center; padding: 8px 10px; font-size: 0.75rem; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
