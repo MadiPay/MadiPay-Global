@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadiPay Global | منصة التوجيه والضمان الذكي</title>
+    <title>MadiPay Global | منصة التوجيه والضمان والتدقيق</title>
     <style>
         /* --- الهوية البصرية النخبوية والألوان الاستراتيجية --- */
         :root {
@@ -14,7 +14,8 @@
             --glass-border: rgba(255, 255, 255, 0.05);
             --text-main: #FFFFFF;
             --text-muted: #8A99AD;
-            --warning-amber: #FFB300;     /* لون التحذير للضمان المعلق */
+            --warning-amber: #FFB300;     
+            --danger-red: #FF3D00;
         }
 
         /* --- إعادة ضبط المصنع والتصميم المتجاوب للهواتف --- */
@@ -81,7 +82,7 @@
             font-weight: bold;
         }
 
-        /* --- نظام المحفظة التراكمية --- */
+        /* --- نظام المحفظة المزدوج --- */
         .wallet-card {
             background: linear-gradient(135deg, rgba(255, 107, 0, 0.08), rgba(0, 230, 118, 0.04));
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -116,7 +117,7 @@
             color: var(--warning-amber);
         }
 
-        /* --- مفتاح التبديل الذكي (رسمي / موازي) --- */
+        /* --- مفتاح التبديل الذكي --- */
         .market-selector {
             display: flex;
             background: rgba(0, 0, 0, 0.4);
@@ -203,14 +204,14 @@
             color: var(--emerald-green);
         }
 
-        /* --- لوحة التحكم في نظام الضمان (Escrow Controls) --- */
+        /* --- لوحة التحكم في نظام الضمان --- */
         .escrow-actions-panel {
             background: rgba(255, 179, 0, 0.05);
             border: 1px solid rgba(255, 179, 0, 0.15);
             border-radius: 14px;
             padding: 12px;
             margin-bottom: 16px;
-            display: none; /* تظهر فقط عند وجود دفعة معلقة */
+            display: none; 
             text-align: center;
         }
 
@@ -258,7 +259,74 @@
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+            margin-bottom: 24px;
         }
+
+        /* --- لوحة سجل العمليات (Vortex Ledger) المضافة حديثاً --- */
+        .ledger-section {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 16px;
+        }
+
+        .ledger-title {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ledger-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 180px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        /* تصميم بطاقة العملية داخل السجل */
+        .ledger-item {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .ledger-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .ledger-meta .tx-market {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .ledger-amount {
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .status-badge {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 2px;
+        }
+
+        .status-hold { background: rgba(255, 179, 0, 0.15); color: var(--warning-amber); }
+        .status-success { background: rgba(0, 230, 118, 0.15); color: var(--emerald-green); }
+        .status-rejected { background: rgba(255, 61, 0, 0.15); color: var(--danger-red); }
     </style>
 </head>
 <body>
@@ -266,9 +334,10 @@
     <div class="vortex-container">
         <div class="brand-header">
             <h1>Madi<span>Pay</span> Global</h1>
-            <div class="badge-router">بوابة التوجيه وحماية الضمان</div>
+            <div class="badge-router">بوابة التوجيه وحماية الضمان والتسجيل</div>
         </div>
 
+        <!-- نظام المحفظة المزدوج -->
         <div class="wallet-card">
             <div class="wallet-info">
                 <span class="wallet-label">الرصيد المفرج عنه</span>
@@ -280,6 +349,7 @@
             </div>
         </div>
 
+        <!-- أداة اختيار نوع السوق -->
         <div class="market-selector">
             <button class="market-btn active" id="btn-official" onclick="setMarket('official')">السعر الرسمي (البنك)</button>
             <button class="market-btn" id="btn-parallel" onclick="setMarket('parallel')">السوق الموازي (السكوار)</button>
@@ -314,6 +384,7 @@
             </div>
         </div>
 
+        <!-- لوحة التحكم في الضمان -->
         <div class="escrow-actions-panel" id="escrow-panel">
             <p>🛡️ معاملة قيد الحماية المعلقة: <span id="current-pending-txt">0.00 د.ج</span></p>
             <div class="btn-group">
@@ -323,6 +394,17 @@
         </div>
 
         <button class="btn-execute" id="btn-main-action" onclick="initiateSecureTransaction()">بدء معاملة مشفرة معلقة</button>
+
+        <!-- لوحة سجل العمليات التاريخية المحقونة حديثاً (Vortex Ledger) -->
+        <div class="ledger-section">
+            <div class="ledger-title">
+                <span>سجل التدفقات الماليّة المدققة</span>
+                <span style="font-size: 0.7rem; color: var(--text-muted);" id="tx-count">0 عمليات</span>
+            </div>
+            <div class="ledger-list" id="ledger-container">
+                <!-- العمليات ستُحقن هنا ديناميكياً بواسطة الجافا سكريبت -->
+            </div>
+        </div>
     </div>
 
     <script>
@@ -335,6 +417,7 @@
         let walletBalance = 0;
         let escrowBalance = 0;
         let activeTransactionAmount = 0;
+        let transactions = []; // مصفوفة لحفظ العمليات في الذاكرة الحية
 
         function setMarket(market) {
             currentMarket = market;
@@ -351,48 +434,94 @@
 
             document.getElementById('rate-display').innerText = `1 ${currency} = ${rate.toFixed(2)} د.ج`;
             document.getElementById('total-display').innerText = `${netResult.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
-            return netResult;
+            return { netResult, amount, currency, marketName: currentMarket === 'official' ? 'رسمي (البنك)' : 'موازي (السكوار)' };
         }
 
-        // 1. بروتوكول تعليق الأموال في الضمان لحين التأكيد
+        // بدء المعاملة وإضافتها للسجل كـ "معلقة"
         function initiateSecureTransaction() {
-            const currentAmount = calculateRouting();
-            if (currentAmount <= 0) return;
+            const data = calculateRouting();
+            if (data.netResult <= 0) return;
 
             if (escrowBalance > 0) {
                 alert("تنبيه: هناك سيولة معلقة بالفعل في الضمان، قم بإنهاء المعاملة السابقة أولاً.");
                 return;
             }
 
-            activeTransactionAmount = currentAmount;
-            escrowBalance = currentAmount;
+            activeTransactionAmount = data.netResult;
+            escrowBalance = data.netResult;
 
-            // تحديث شاشة الضمان والمحفظة
+            // إنشاء كائن المعاملة وحفظه في السجل
+            const tx = {
+                id: Date.now(),
+                amountInput: data.amount,
+                currency: data.currency,
+                market: data.marketName,
+                amountOutput: data.netResult,
+                status: 'hold',
+                statusTxt: 'قيد الانتظار'
+            };
+            transactions.unshift(tx); // إضافة في أول القائمة
+
             document.getElementById('escrow-total').innerText = `${escrowBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
             document.getElementById('current-pending-txt').innerText = `${escrowBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
             
-            // إظهار لوحة التحكم الثنائية للضمان
             document.getElementById('escrow-panel').style.display = 'block';
             document.getElementById('btn-main-action').style.opacity = '0.5';
+            
+            renderLedger();
         }
 
-        // 2. بروتوكول الإفراج التام ونقل الأموال للمحفظة الحرة
+        // الإفراج عن المعاملة وتحديث حالتها في السجل إلى "ناجحة"
         function releaseEscrow() {
             walletBalance += activeTransactionAmount;
             escrowBalance = 0;
             activeTransactionAmount = 0;
 
+            // تحديث حالة أول معاملة معلقة في المصفوفة
+            if(transactions.length > 0 && transactions[0].status === 'hold') {
+                transactions[0].status = 'success';
+                transactions[0].statusTxt = 'مكتملة ومفرجة';
+            }
+
             updateUI();
             alert("✅ تم الإفراج الذكي عن السيولة وترحيلها بنجاح إلى رصيدك الحر المستحق!");
         }
 
-        // 3. بروتوكول إلغاء العملية واسترجاع السيولة
+        // إلغاء المعاملة وتحديث حالتها في السجل إلى "مرفوضة"
         function cancelEscrow() {
             escrowBalance = 0;
             activeTransactionAmount = 0;
 
+            if(transactions.length > 0 && transactions[0].status === 'hold') {
+                transactions[0].status = 'rejected';
+                transactions[0].statusTxt = 'مستردة / ملغاة';
+            }
+
             updateUI();
             alert("🛑 تم إلغاء المعاملة وسحب التدفق المالي بنجاح دون أي خسائر.");
+        }
+
+        // بناء وعرض عناصر السجل برمجياً داخل الواجهة
+        function renderLedger() {
+            const container = document.getElementById('ledger-container');
+            container.innerHTML = '';
+            document.getElementById('tx-count').innerText = `${transactions.length} عمليات`;
+
+            transactions.forEach(tx => {
+                const item = document.createElement('div');
+                item.className = 'ledger-item';
+                item.innerHTML = `
+                    <div class="ledger-meta">
+                        <span>توجيه تدفق ${tx.amountInput} ${tx.currency}</span>
+                        <span class="tx-market">السوق: ${tx.market}</span>
+                    </div>
+                    <div class="ledger-amount">
+                        <span>${tx.amountOutput.toLocaleString('ar-DZ')} د.ج</span>
+                        <div><span class="status-badge status-${tx.status}">${tx.statusTxt}</span></div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
         }
 
         function updateUI() {
@@ -400,6 +529,7 @@
             document.getElementById('escrow-total').innerText = `${escrowBalance.toLocaleString('ar-DZ', { minimumFractionDigits: 2 })} د.ج`;
             document.getElementById('escrow-panel').style.display = 'none';
             document.getElementById('btn-main-action').style.opacity = '1';
+            renderLedger();
             calculateRouting();
         }
 
