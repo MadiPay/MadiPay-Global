@@ -1,4 +1,50 @@
-/* إعدادات توزيع وتناسق واجهة الاختيارات المتعددة */
+/* ==========================================================================
+   MadiPay Global - نظام التنسيق الموحد والشامل (Cyber Luxury Theme)
+   ========================================================================== */
+
+:root {
+    --bg-primary: #060913;      /* العمق السيادي المظلم */
+    --bg-secondary: #0b0f19;    /* لون الكروت والحاويات */
+    --accent-glow: #00d2ff;     /* وهج التكنولوجيا والربط */
+    --accent-secure: #05cd99;   /* بروتوكول الأمان الأخضر */
+    --text-main: #ffffff;       /* النصوص الرئيسية */
+    --text-muted: #8f9bba;      /* النصوص الجانبية */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* التصفير الجذري وإعدادات الخطوط */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    font-family: 'Cairo', 'Orbitron', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: var(--transition-smooth);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* الهيدر ونظام اختيار اللغات المنقسم */
+.main-header {
+    background: rgba(11, 15, 25, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
 .header-flex {
     display: flex;
     justify-content: space-between;
@@ -6,33 +52,213 @@
     padding: 15px 0;
 }
 
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.brand-vortex {
+    color: var(--text-main);
+}
+
+.brand-sub {
+    color: var(--accent-glow);
+    text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+}
+
 .language-selector-wrapper select {
     background: #121824;
-    color: #00d2ff;
+    color: var(--accent-glow);
     border: 1px solid rgba(0, 210, 255, 0.3);
-    padding: 8px 12px;
+    padding: 8px 16px;
     border-radius: 6px;
     font-family: 'Cairo', sans-serif;
     font-weight: 600;
     outline: none;
     cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.language-selector-wrapper select:focus {
+    border-color: var(--accent-secure);
+    box-shadow: 0 0 10px rgba(5, 205, 153, 0.2);
+}
+
+/* الواجهة الترحيبية الكبرى */
+.hero-section {
+    padding: 100px 0 60px 0;
+    text-align: center;
+    background: radial-gradient(circle at top, rgba(0, 210, 255, 0.05) 0%, transparent 70%);
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #ffffff 0%, #bdc4d6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* كرت محاكي التوجيه المركزي */
+.router-section {
+    padding: 40px 0;
+}
+
+.router-flex-container {
+    max-width: 650px !important;
+}
+
+.widget-card {
+    background: var(--bg-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-top: 3px solid var(--accent-glow);
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.widget-title {
+    margin-bottom: 30px;
+    text-align: center;
+    color: var(--accent-glow);
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+/* توزيع حقول المدخلات */
+.input-group {
+    margin-bottom: 22px;
 }
 
 .input-grid-split {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: 20px;
+}
+
+.input-group label {
+    display: block;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.input-group input, 
+.input-group select {
+    width: 100%;
+    background: #121824;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-main);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.input-group input:focus, 
+.input-group select:focus {
+    border-color: var(--accent-glow);
+    box-shadow: 0 0 12px rgba(0, 210, 255, 0.15);
 }
 
 optgroup {
     background: #0b0f19;
-    color: #8f9bba;
+    color: var(--text-muted);
     font-weight: 700;
 }
 
-@media (max-width: 600px) {
+/* زر التفعيل التكنولوجي */
+.router-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #00d2ff 0%, #00a8cc 100%);
+    color: #060913;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 20px rgba(0, 210, 255, 0.2);
+}
+
+.router-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0, 210, 255, 0.35);
+}
+
+/* صندوق النتائج الديناميكي */
+.result-box {
+    margin-top: 30px;
+    background: rgba(5, 205, 153, 0.03);
+    border: 1px dashed rgba(5, 205, 153, 0.3);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: var(--transition-smooth);
+}
+
+.result-label {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+}
+
+.result-amount {
+    color: var(--accent-secure);
+    font-size: 1.8rem;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 10px;
+}
+
+.result-status {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-family: monospace;
+}
+
+/* صمام الإخفاء البرمجي */
+.hidden-element {
+    display: none;
+}
+
+/* التذييل الفاخر */
+.main-footer {
+    padding: 40px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    margin-top: 60px;
+    background: var(--bg-secondary);
+}
+
+.main-footer p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* التوافق الكامل مع الشاشات والهواتف */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
     .input-grid-split {
         grid-template-columns: 1fr;
         gap: 0;
+    }
+    .widget-card {
+        padding: 25px 20px;
     }
 }
