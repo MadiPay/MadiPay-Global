@@ -4,6 +4,17 @@ An elite, mobile-first FinTech core application engineered for dynamic payment r
 
 ## ⚡ Core Architecture & Features
 
+### 🌐 System Data-Flow Architecture
+
+```mermaid
+graph TD
+    A[Mobile Client UI] -->|Initiate Tx| B(CyberShield Core Router)
+    B -->|Step 1: AML Velocity Check| C{AML Audit Engine}
+    C -->|Exceeds 1M / Suspicious| D[Status: HOLD / REJECTED]
+    C -->|Approved| E[Autonomous Escrow Lock]
+    E -->|Dual-Action Settlement| F[Vortex Ledger System]
+    F -->|Secure Write| G[(Encrypted LocalStorage)]
+
 ### 1. Smart Currency Routing Engine
 * **Dual-Market Analytics:** Real-time simulation bridging official banking rates and parallel market liquidity rates.
 * **Dynamic Net Calculation:** Instant computation of routing values based on the selected financial market.
