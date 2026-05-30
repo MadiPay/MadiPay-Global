@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadiPay Global | منصة التوجيه الذكي</title>
+    <title>MadiPay Global - Elite Smart Router</title>
     <style>
-        /* --- العودة إلى الهوية البصرية النخبوية والألوان الاستراتيجية --- */
+        /* --- الهوية البصرية السيادية (Cyber-Style & Glassmorphism) --- */
         :root {
-            --bg-charcoal: #12161A;       /* الرمادي الفاخر */
-            --neon-orange: #FF6B00;       /* البرتقالي الحيوي */
-            --emerald-green: #00E676;     /* الأخضر الزمردي */
-            --glass-bg: rgba(25, 30, 36, 0.65); 
-            --glass-border: rgba(255, 255, 255, 0.05);
-            --text-main: #FFFFFF;
+            --bg-charcoal: #12161A;
+            --accent-orange: #FF6B00;
+            --accent-green: #00E676;
+            --text-white: #FFFFFF;
             --text-muted: #8A99AD;
-            --warning-amber: #FFB300;     
-            --danger-red: #FF3D00;
+            --glass-bg: rgba(25, 32, 40, 0.65);
+            --glass-border: rgba(255, 107, 0, 0.15);
         }
 
         * {
@@ -23,432 +21,384 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-charcoal);
-            color: var(--text-main);
+            color: var(--text-white);
             min-height: 100vh;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px;
-            overflow-x: hidden;
         }
 
-        .vortex-container {
+        .app-container {
             width: 100%;
             max-width: 480px;
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             padding: 24px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            margin-top: 10px;
         }
 
-        .brand-header {
+        .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 28px;
         }
 
-        .brand-header h1 {
-            font-size: 1.8rem;
+        .header h1 {
+            font-size: 24px;
             font-weight: 800;
             letter-spacing: 1px;
-            background: linear-gradient(135deg, var(--text-main), var(--text-muted));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-white);
         }
 
-        .brand-header span {
-            color: var(--neon-orange);
+        .header h1 span {
+            color: var(--accent-orange);
         }
 
-        .badge-router {
-            display: inline-block;
-            font-size: 0.75rem;
-            background: rgba(0, 230, 118, 0.1);
-            color: var(--emerald-green);
-            padding: 4px 12px;
-            border-radius: 12px;
+        .header p {
+            color: var(--text-muted);
+            font-size: 12px;
             margin-top: 6px;
-            border: 1px solid rgba(0, 230, 118, 0.2);
-            font-weight: bold;
+            line-height: 1.6;
         }
 
-        /* --- نظام المحفظة المزدوج --- */
         .wallet-card {
-            background: linear-gradient(135deg, rgba(255, 107, 0, 0.08), rgba(0, 230, 118, 0.04));
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.1), rgba(0, 230, 118, 0.05));
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
-            padding: 14px;
-            margin-bottom: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wallet-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .wallet-balance {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-top: 5px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 8px;
         }
 
-        .wallet-info .wallet-label, .escrow-info .escrow-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
+        .wallet-balance span {
+            color: var(--accent-green);
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
             display: block;
-            margin-bottom: 4px;
-        }
-
-        .wallet-info .wallet-balance {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--emerald-green);
-        }
-
-        .escrow-info {
-            text-align: left;
-        }
-
-        .escrow-info .escrow-balance {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--warning-amber);
-        }
-
-        /* --- مفتاح التبديل الاستراتيجي --- */
-        .market-selector {
-            display: flex;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 14px;
-            padding: 4px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .market-btn {
-            flex: 1;
-            padding: 10px;
-            background: transparent;
-            border: none;
+            font-size: 13px;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 10px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(10, 14, 18, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: var(--text-white);
+            font-size: 16px;
             transition: all 0.3s ease;
         }
 
-        .market-btn.active {
-            background: var(--neon-orange);
-            color: var(--text-main);
-            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
-        }
-
-        /* --- لوحة الرصد ومؤشر التقلبات الحية --- */
-        .volatility-panel {
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 12px;
-            padding: 10px 14px;
-            margin-bottom: 16px;
-            font-size: 0.75rem;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-        }
-        .volatility-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-            color: var(--text-muted);
-        }
-        .volatility-bar-bg {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .volatility-bar-fill {
-            height: 100%;
-            width: 20%;
-            background: var(--emerald-green);
-            transition: all 0.5s ease;
-        }
-
-        /* --- عناصر الإدخال الحيوية --- */
-        .input-group {
-            margin-bottom: 14px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-        }
-
-        .input-wrapper input, .input-wrapper select {
-            width: 100%;
-            padding: 12px 14px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: var(--text-main);
-            font-size: 0.95rem;
-            font-weight: 600;
+        .form-control:focus {
             outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 10px rgba(255, 107, 0, 0.2);
         }
 
-        /* --- لوحة مخرجات الخوارزمية الذكية --- */
-        .router-output {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
-            padding: 14px;
-            margin-bottom: 16px;
-            border: 1px dashed rgba(255, 255, 255, 0.1);
+        select.form-control {
+            cursor: pointer;
         }
 
-        .output-row {
+        .btn-submit {
+            width: 100%;
+            background: var(--accent-orange);
+            color: var(--text-white);
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+        }
+
+        .btn-submit:hover {
+            background: #e05e00;
+        }
+
+        .routing-status {
+            margin-top: 24px;
+            background: rgba(10, 14, 18, 0.5);
+            border-radius: 14px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: none;
+        }
+
+        .status-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+        }
+
+        .status-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        .badge {
+            background: rgba(0, 230, 118, 0.15);
+            color: var(--accent-green);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
             margin-bottom: 8px;
-            font-size: 0.85rem;
         }
 
-        .output-row:last-child {
-            margin-bottom: 0;
-            padding-top: 8px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .output-label {
+        .data-row .label {
             color: var(--text-muted);
         }
 
-        .output-value {
-            font-weight: 700;
+        .data-row .value {
+            color: var(--text-white);
+            font-weight: 500;
         }
 
-        .output-value.highlight {
-            color: var(--emerald-green);
-        }
-
-        /* --- لوحة حماية الضمان المعلق --- */
-        .escrow-actions-panel {
-            background: rgba(255, 179, 0, 0.05);
-            border: 1px solid rgba(255, 179, 0, 0.15);
-            border-radius: 14px;
-            padding: 12px;
-            margin-bottom: 16px;
-            display: none; 
-            text-align: center;
-        }
-
-        .escrow-actions-panel p {
-            font-size: 0.8rem;
-            color: var(--warning-amber);
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-sub {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .btn-release {
-            background: var(--emerald-green);
-            color: #000;
-        }
-
-        .btn-cancel {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-        }
-
-        .btn-execute {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--neon-orange), #FF8800);
-            border: none;
-            border-radius: 12px;
-            color: var(--text-main);
-            font-size: 1.05rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
-            margin-bottom: 24px;
-        }
-
-        /* --- سجل العمليات التاريخي المدقق (Ledger) --- */
         .ledger-section {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 16px;
+            margin-top: 24px;
         }
 
         .ledger-title {
-            font-size: 0.9rem;
-            color: var(--text-main);
+            font-size: 14px;
+            color: var(--text-muted);
             margin-bottom: 12px;
-            font-weight: 700;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .ledger-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 180px;
-            overflow-y: auto;
-            padding-right: 4px;
+            font-weight: 600;
         }
 
         .ledger-item {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 10px;
-            padding: 10px;
+            padding: 12px;
+            margin-bottom: 8px;
+            font-size: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.8rem;
         }
 
-        .ledger-meta {
+        .ledger-info {
             display: flex;
             flex-direction: column;
             gap: 2px;
         }
 
-        .ledger-meta .tx-market {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-
         .ledger-amount {
-            font-weight: 700;
-            text-align: left;
-        }
-
-        .status-badge {
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 6px;
             font-weight: bold;
-            display: inline-block;
-            margin-top: 2px;
-        }
-
-        .status-hold { background: rgba(255, 179, 0, 0.15); color: var(--warning-amber); }
-        .status-success { background: rgba(0, 230, 118, 0.15); color: var(--emerald-green); }
-        .status-rejected { background: rgba(255, 61, 0, 0.15); color: var(--danger-red); }
-        
-        .btn-clear-storage {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            cursor: pointer;
-            text-decoration: underline;
+            color: var(--accent-green);
         }
     </style>
 </head>
 <body>
 
-    <div class="vortex-container">
-        <div class="brand-header">
-            <h1>Madi<span>Pay</span> Global</h1>
-            <div class="badge-router">بوابة التوجيه وحماية السيولة المستدامة</div>
+    <div class="app-container">
+        <div class="header">
+            <h1>MadiPay <span>Global</span></h1>
+            <p>منصة ذكية متطورة لإدارة وتوجيه المدفوعات الرقمية وبوابات الدفع المحصنة</p>
         </div>
 
         <div class="wallet-card">
-            <div class="wallet-info">
-                <span class="wallet-label">الرصيد المفرج عنه</span>
-                <span class="wallet-balance" id="wallet-total">0.00 د.ج</span>
-            </div>
-            <div class="escrow-info">
-                <span class="escrow-label">السيولة المعلقة (الضمان)</span>
-                <span class="escrow-balance" id="escrow-total">0.00 د.ج</span>
-            </div>
+            <div class="wallet-label">الرصيد المتوفر في المحفظة السيادية</div>
+            <div class="wallet-balance" id="walletBalance">0.00 <span>MadiCoin</span></div>
         </div>
 
-        <div class="market-selector">
-            <button class="market-btn active" id="btn-official" onclick="setMarket('official')">السعر الرسمي (البنك)</button>
-            <button class="market-btn" id="btn-parallel" onclick="setMarket('parallel')">السوق الموازي (السكوار)</button>
+        <div class="form-group">
+            <label for="marketSelect">سوق التوجيه الذكي (التحليل المزدوج)</label>
+            <select id="marketSelect" class="form-control" onchange="MadiRouter.updateMarketRates()">
+                <option value="official">السوق الرسمي المعياري (Official Bank Rates)</option>
+                <option value="parallel">السوق الموازي المرن (Parallel Liquidity Market)</option>
+            </select>
         </div>
 
-        <div class="volatility-panel">
-            <div class="volatility-header">
-                <span>مؤشر تقلبات السيولة المخفية: <strong id="vol-txt">منخفض (مستقر)</strong></span>
-                <span>عمولة التوجيه الذكية: <strong id="fee-txt">0.5%</strong></span>
-            </div>
-            <div class="volatility-bar-bg">
-                <div class="volatility-bar-fill" id="vol-bar"></div>
-            </div>
+        <div class="form-group">
+            <label for="amountInput">المبلغ المراد توجيهه وتأمينه</label>
+            <input type="number" id="amountInput" class="form-control" placeholder="أدخل قيمة المبلغ..." min="1" oninput="MadiRouter.updateMarketRates()">
         </div>
 
-        <div class="input-group">
-            <label for="amount">المبلغ بالعملة الأجنبية</label>
-            <div class="input-wrapper">
-                <input type="number" id="amount" value="1000" oninput="calculateRouting()">
+        <button class="btn-submit" onclick="MadiRouter.executeRoute()">تفعيل التوجيه والضمان المستقل</button>
+
+        <div class="routing-status" id="routingStatusBox">
+            <div class="status-header">
+                <span class="status-title">⚡ محرك التوجيه الفوري (Vortex Core)</span>
+                <span class="badge" id="statusBadge">نشط ومعتمد</span>
+            </div>
+            <div class="data-row">
+                <span class="label">السعر المحتسب للوحدة:</span>
+                <span class="value" id="calculatedRate">0.00</span>
+            </div>
+            <div class="data-row">
+                <span class="label">صافي القيمة بعد المعالجة:</span>
+                <span class="value" id="netValue">0.00</span>
+            </div>
+            <div class="data-row">
+                <span class="label">بروتوكول حجز السيولة (Escrow Lock):</span>
+                <span class="value" id="escrowLockStatus" style="color: #FF6B00; font-weight: bold;">قيد الانتظار</span>
             </div>
         </div>
-
-        <div class="input-group">
-            <label for="currency">العملة الواردة</label>
-            <div class="input-wrapper">
-                <select id="currency" onchange="calculateRouting()">
-                    <option value="EUR">اليورو (€)</option>
-                    <option value="USD">الدولار الأمريكي ($)</option>
-                    <option value="GBP">الجنيه الإسترليني (£)</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="router-output">
-            <div class="output-row">
-                <span class="output-label">معدل الصرف الخام:</span>
-                <span class="output-value" id="rate-display">1 يورو = 150.00 د.ج</span>
-            </div>
-            <div class="output-row">
-                <span class="output-label">الرسوم المستقطعة:</span>
-                <span class="output-value" id="fee-display" style="color: var(--danger-red);">0.00 د.ج</span>
-            </div>
-            <div class="output-row">
-                <span class="output-label">صافي القيمة النهائية للتوجيه:</span>
-                <span class="output-value highlight" id="total-display">150,000.00 د.ج</span>
-            </div>
-        </div>
-
-        <div class="escrow-actions-panel" id="escrow-panel">
-            <p>🛡️ معاملة قيد الحماية المعلقة: <span id="current-pending-txt">0.00 د.ج</span></p>
-            <div class="btn-group">
-                <button class="btn-sub btn-release" onclick="releaseEscrow()">إفراج ونقل للمحفظة</button>
-                <button class="btn-sub btn-cancel" onclick="cancelEscrow()">إلغاء واسترداد</button>
-            </div>
-        </div>
-
-        <button class="btn-execute" id="btn-main-action" onclick="initiateSecureTransaction()">بدء معاملة مشفرة معلقة</button>
 
         <div class="ledger-section">
-            <div class="ledger-title">
-                <span>سجل التدفقات الماليّة المدققة</span>
-                <button class="btn-clear-storage" onclick="clearSavedData()">تصفية السجل</button>
-            </div>
-            <div class="ledger-list" id="ledger-container"></div>
+            <div class="ledger-title">سجل المعاملات المحصن (Immutable Logs)</div>
+            <div id="ledgerLogs"></div>
         </div>
     </div>
 
-    <script src="assets/js/main.js"></script>
+    <script>
+        const MadiRouter = {
+            rates: {
+                official: 1.00,
+                parallel: 1.45
+            },
+            
+            init: function() {
+                if (!localStorage.getItem('madi_balance')) {
+                    localStorage.setItem('madi_balance', '5000.00');
+                }
+                if (!localStorage.getItem('madi_ledger')) {
+                    localStorage.setItem('madi_ledger', JSON.stringify([]));
+                }
+                this.renderUI();
+            },
+
+            renderUI: function() {
+                const balance = parseFloat(localStorage.getItem('madi_balance')).toFixed(2);
+                document.getElementById('walletBalance').innerHTML = balance + ' <span style="color: #00E676; font-size: 18px;">MadiCoin</span>';
+                this.renderLedger();
+            },
+
+            updateMarketRates: function() {
+                const market = document.getElementById('marketSelect').value;
+                const rate = this.rates[market];
+                const amount = parseFloat(document.getElementById('amountInput').value) || 0;
+                
+                if(amount > 0) {
+                    document.getElementById('routingStatusBox').style.display = 'block';
+                    document.getElementById('calculatedRate').innerText = rate.toFixed(2) + ' لكل وحدة';
+                    document.getElementById('netValue').innerText = (amount * rate).toFixed(2) + ' MadiCoin';
+                } else {
+                    document.getElementById('routingStatusBox').style.display = 'none';
+                }
+            },
+
+            executeRoute: function() {
+                const amount = parseFloat(document.getElementById('amountInput').value);
+                const market = document.getElementById('marketSelect').value;
+                let currentBalance = parseFloat(localStorage.getItem('madi_balance'));
+
+                if (isNaN(amount) || amount <= 0) {
+                    alert('خطأ: يرجى إدخال مبلغ صحيح وصالح للمعالجة.');
+                    return;
+                }
+
+                if (amount > currentBalance) {
+                    alert('خطأ الأمن المالي: الرصيد الحالي غير كافٍ لإتمام حجز السيولة.');
+                    return;
+                }
+
+                const rate = this.rates[market];
+                const finalNet = amount * rate;
+                
+                currentBalance -= amount;
+                localStorage.setItem('madi_balance', currentBalance.toString());
+
+                const ledger = JSON.parse(localStorage.getItem('madi_ledger'));
+                const newTransaction = {
+                    id: 'TXN-' + Math.floor(100000 + Math.random() * 900000),
+                    date: new Date().toLocaleTimeString('ar-EG'),
+                    market: market === 'official' ? 'رسمي' : 'موازي',
+                    amount: amount.toFixed(2),
+                    net: finalNet.toFixed(2)
+                };
+                
+                ledger.unshift(newTransaction);
+                localStorage.setItem('madi_ledger', JSON.stringify(ledger));
+
+                document.getElementById('routingStatusBox').style.display = 'block';
+                document.getElementById('calculatedRate').innerText = rate.toFixed(2);
+                document.getElementById('netValue').innerText = finalNet.toFixed(2) + ' MadiCoin';
+                
+                const escrowStatus = document.getElementById('escrowLockStatus');
+                escrowStatus.innerText = 'تم التوجيه والحجز بنجاح (Locked)';
+                escrowStatus.style.color = '#00E676';
+
+                document.getElementById('amountInput').value = '';
+                this.renderUI();
+            },
+
+            renderLedger: function() {
+                const ledger = JSON.parse(localStorage.getItem('madi_ledger'));
+                const container = document.getElementById('ledgerLogs');
+                container.innerHTML = '';
+
+                if (ledger.length === 0) {
+                    container.innerHTML = '<div class="ledger-item" style="color: #8A99AD; text-align:center; display:block;">لا توجد معاملات مسجلة حتى الآن.</div>';
+                    return;
+                }
+
+                ledger.forEach(function(txn) {
+                    const item = document.createElement('div');
+                    item.className = 'ledger-item';
+                    item.innerHTML = `
+                        <div class="ledger-info">
+                            <span style="font-weight:600; color:#FFFFFF;">${txn.id} | سوق ${txn.market}</span>
+                            <span style="color:#8A99AD; font-size:10px;">الوقت: ${txn.date}</span>
+                        </div>
+                        <div class="ledger-amount">+${txn.net} MC</div>
+                    `;
+                    container.appendChild(item);
+                });
+            }
+        };
+
+        window.onload = function() {
+            MadiRouter.init();
+        };
+    </script>
 </body>
 </html>
