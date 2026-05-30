@@ -68,7 +68,6 @@
             line-height: 1.6;
         }
 
-        /* بوابات تسجيل الدخول والتحقق الآمن */
         .auth-box { 
             background: rgba(10, 14, 18, 0.6); 
             border: 1px solid rgba(255, 255, 255, 0.05); 
@@ -170,7 +169,7 @@
             display: flex; 
             justify-content: space-between; 
             font-size: 13px; 
-            margin-bottom: anon; 
+            margin-bottom: 6px; 
         }
 
         .data-row .label { 
@@ -263,17 +262,17 @@
     <script>
         // --- إعدادات الاتصال بنواة السحاب الحقيقية الخاصة بمشروعك ---
         const SUPABASE_URL = "https://bfyqcuqpjmigdioguhbe.supabase.co"; 
-        // تنبيه: ضع بين العلامتين أدناه مفتاح الـ anon / public key الطويل الخاص بك والظاهر في إعدادات Supabase API ليتم تفعيل السيرفر فوراً
-        const SUPABASE_ANON_KEY = "ضغ_هنا_مفتاح_anon_الخاص_بموجز_مشروعك"; 
+        
+        // ملاحظة أمنية: إذا كان لديك مفتاح anon الصقْه هنا، وإلا اترك السلسلة الافتراضية أدناه وسيعمل التطبيق بنظام الحماية الذاتية المحلي دون كراش
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeXFjdXFwam1pZ2Rpb2d1aGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5ODMxMDYsImV4cCI6MjA5NTU1OTEwNn0.demo_key_placeholder"; 
         
         let supabaseClient = null;
         
-        // التحقق الذكي لمنع الـ Crash إذا لم يتم وضع المفتاح بعد
-        if (SUPABASE_ANON_KEY && SUPABASE_ANON_KEY !== "ضغ_هنا_مفتاح_anon_الخاص_بموجز_مشروعك") {
+        if (SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.includes("demo_key_placeholder")) {
             try {
                 supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             } catch (e) {
-                console.error("Supabase Initialization Error:", e);
+                console.error("Supabase Init Error:", e);
             }
         }
 
@@ -281,7 +280,6 @@
             currentUser: null,
             rates: { official: 1.00, parallel: 1.45 },
 
-            // إنشاء حساب حقيقي في قاعدة البيانات
             signUp: async function() {
                 const email = document.getElementById('authEmail').value;
                 const password = document.getElementById('authPassword').value;
@@ -289,7 +287,8 @@
                 if(!email || !password) { alert("خطأ: الحقول لا يمكن أن تكون فارغة."); return; }
                 
                 if(!supabaseClient) {
-                    alert("نظام الحماية: تم إنشاء الحساب محلياً بنجاح (وضع المعاينة الفورية). ضع مفتاحك السري لربطه بقاعدة بيانات فرانكفورت.");
+                    alert("وضع المعاينة الآمنة: تم تسجيل الحساب محلياً بنجاح! ضع مفتاح anon الحقيقي للربط بخادم فرانكفورت.");
+                    this.simulateLocalLogin(email);
                     return;
                 }
                 
@@ -298,7 +297,6 @@
                 else { alert("تم تسجيل المستخدم بنجاح في قاعدة البيانات الحية! يمكنك تسجيل الدخول الآن."); }
             },
 
-            // تسجيل دخول آمن والتحقق من الهوية
             signIn: async function() {
                 const email = document.getElementById('authEmail').value;
                 const password = document.getElementById('authPassword').value;
@@ -322,17 +320,15 @@
             simulateLocalLogin: function(email) {
                 this.currentUser = { email: email };
                 this.activateSystem(email);
-                console.log("MadiPay Shield: Running in secure offline simulation mode.");
             },
 
             activateSystem: function(email) {
                 document.getElementById('authBox').style.display = 'none';
                 document.getElementById('mainWalletCore').style.display = 'block';
-                document.getElementById('userIdentity').innerText = "المعرف الرقمي للمستخدم: " + email;
+                document.getElementById('userIdentity').innerText = "المعرف الرقمي للمخدم: " + email;
                 this.fetchLiveDatabase();
             },
 
-            // جلب الأرصدة والعمليات الحقيقية
             fetchLiveDatabase: function() {
                 if(!localStorage.getItem('madi_live_balance')) {
                     localStorage.setItem('madi_live_balance', '10000.00');
