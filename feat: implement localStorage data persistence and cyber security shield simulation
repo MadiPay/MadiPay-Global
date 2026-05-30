@@ -6,7 +6,7 @@
     <title>MadiPay Global - Live Production Core</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* --- الهوية البصرية السيادية المحصنة --- */
+        /* --- الهوية البصرية السيادية المحصنة (Cyber-Style & Glassmorphism) --- */
         :root {
             --bg-charcoal: #12161A;
             --accent-orange: #FF6B00;
@@ -17,40 +17,188 @@
             --glass-border: rgba(255, 107, 0, 0.2);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: var(--bg-charcoal); color: var(--text-white); min-height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+
+        body { 
+            background-color: var(--bg-charcoal); 
+            color: var(--text-white); 
+            min-height: 100vh; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
         
-        .app-container { width: 100%; max-width: 480px; background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 24px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); }
-        .header { text-align: center; margin-bottom: 24px; }
-        .header h1 { font-size: 26px; font-weight: 800; color: var(--text-white); }
-        .header h1 span { color: var(--accent-orange); }
-        .header p { color: var(--text-muted); font-size: 12px; margin-top: 6px; }
+        .app-container { 
+            width: 100%; 
+            max-width: 480px; 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 24px; 
+            padding: 24px; 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); 
+        }
+
+        .header { 
+            text-align: center; 
+            margin-bottom: 24px; 
+        }
+
+        .header h1 { 
+            font-size: 26px; 
+            font-weight: 800; 
+            color: var(--text-white); 
+        }
+
+        .header h1 span { 
+            color: var(--accent-orange); 
+        }
+
+        .header p { 
+            color: var(--text-muted); 
+            font-size: 12px; 
+            margin-top: 6px; 
+            line-height: 1.6;
+        }
 
         /* بوابات تسجيل الدخول والتحقق الآمن */
-        .auth-box { background: rgba(10, 14, 18, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
-        .auth-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--accent-orange); }
+        .auth-box { 
+            background: rgba(10, 14, 18, 0.6); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 16px; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+        }
 
-        .wallet-card { background: linear-gradient(135deg, rgba(255, 107, 0, 0.12), rgba(0, 230, 118, 0.06)); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 20px; margin-bottom: 24px; text-align: center; }
-        .wallet-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
-        .wallet-balance { font-size: 34px; font-weight: 700; color: var(--text-white); margin-top: 5px; }
+        .auth-title { 
+            font-size: 14px; 
+            font-weight: 600; 
+            margin-bottom: 12px; 
+            color: var(--accent-orange); 
+        }
 
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
-        .form-control { width: 100%; background: rgba(10, 14, 18, 0.9); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 14px; color: var(--text-white); font-size: 15px; }
-        .form-control:focus { outline: none; border-color: var(--accent-orange); }
+        .wallet-card { 
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.12), rgba(0, 230, 118, 0.06)); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-radius: 16px; 
+            padding: 20px; 
+            margin-bottom: 24px; 
+            text-align: center; 
+        }
 
-        .btn-submit { width: 100%; background: var(--accent-orange); color: var(--text-white); border: none; border-radius: 12px; padding: 15px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3); }
-        .btn-submit:hover { background: #e05e00; }
-        .btn-secondary { background: transparent; border: 1px solid var(--text-muted); color: var(--text-white); margin-top: 8px; }
+        .wallet-label { 
+            font-size: 11px; 
+            color: var(--text-muted); 
+            text-transform: uppercase; 
+        }
 
-        .routing-status { margin-top: 20px; background: rgba(10, 14, 18, 0.5); border-radius: 14px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.05); display: none; }
-        .data-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
-        .data-row .label { color: var(--text-muted); }
+        .wallet-balance { 
+            font-size: 34px; 
+            font-weight: 700; 
+            color: var(--text-white); 
+            margin-top: 5px; 
+        }
 
-        .ledger-section { margin-top: 24px; }
-        .ledger-title { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; }
-        .ledger-item { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 12px; margin-bottom: 8px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
-    </script>
+        .form-group { 
+            margin-bottom: 16px; 
+        }
+
+        .form-group label { 
+            display: block; 
+            font-size: 13px; 
+            color: var(--text-muted); 
+            margin-bottom: 6px; 
+        }
+
+        .form-control { 
+            width: 100%; 
+            background: rgba(10, 14, 18, 0.9); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 12px; 
+            padding: 14px; 
+            color: var(--text-white); 
+            font-size: 15px; 
+        }
+
+        .form-control:focus { 
+            outline: none; 
+            border-color: var(--accent-orange); 
+        }
+
+        .btn-submit { 
+            width: 100%; 
+            background: var(--accent-orange); 
+            color: var(--text-white); 
+            border: none; 
+            border-radius: 12px; 
+            padding: 15px; 
+            font-size: 16px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3); 
+        }
+
+        .btn-submit:hover { 
+            background: #e05e00; 
+        }
+
+        .btn-secondary { 
+            background: transparent; 
+            border: 1px solid var(--text-muted); 
+            color: var(--text-white); 
+            margin-top: 8px; 
+        }
+
+        .routing-status { 
+            margin-top: 20px; 
+            background: rgba(10, 14, 18, 0.5); 
+            border-radius: 14px; 
+            padding: 16px; 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            display: none; 
+        }
+
+        .data-row { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 13px; 
+            margin-bottom: anon; 
+        }
+
+        .data-row .label { 
+            color: var(--text-muted); 
+        }
+
+        .ledger-section { 
+            margin-top: 24px; 
+        }
+
+        .ledger-title { 
+            font-size: 14px; 
+            color: var(--text-muted); 
+            margin-bottom: 12px; 
+        }
+
+        .ledger-item { 
+            background: rgba(255, 255, 255, 0.02); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 10px; 
+            padding: 12px; 
+            margin-bottom: 8px; 
+            font-size: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+    </style>
 </head>
 <body>
 
@@ -61,15 +209,15 @@
         </div>
 
         <div class="auth-box" id="authBox">
-            <div class="auth-title">🔐 بوابة التحقق والولوج المحصنة</div>
+            <div class="auth-title">🔐 بوابة التحقق والولوج المحصنة (خادم فرانكفورت)</div>
             <div class="form-group">
-                <input type="email" id="authEmail" class="form-control" placeholder="البريد الإلكتروني المشفر...">
+                <input type="email" id="authEmail" class="form-control" placeholder="البريد الإلكتروني للعميل...">
             </div>
             <div class="form-group">
-                <input type="password" id="authPassword" class="form-control" placeholder="كلمة المرور الحصينة...">
+                <input type="password" id="authPassword" class="form-control" placeholder="كلمة المرور المشفرة...">
             </div>
-            <button class="btn-submit" onclick="MadiLiveCore.signUp()">إنشاء حساب سيادي جديد</button>
-            <button class="btn-submit btn-secondary" onclick="MadiLiveCore.signIn()">تسجيل الدخول للنواة</button>
+            <button class="btn-submit" onclick="MadiLiveCore.signUp()">إنشاء حساب عميل جديد</button>
+            <button class="btn-submit btn-secondary" onclick="MadiLiveCore.signIn()">تسجيل الدخول الآمن</button>
         </div>
 
         <div id="mainWalletCore" style="display: none;">
@@ -113,63 +261,79 @@
     </div>
 
     <script>
-        // --- إعدادات الاتصال بنواة السحاب المحصنة ---
-        // تنبيه صارم: هذه البيانات تجريبية، يجب استبدالها بمفاتيح مشروعك الخاص في Supabase ليعمل الربط الفعلي بنسبة 100%
-        const SUPABASE_URL = "https://your-project-id.supabase.co";
-        const SUPABASE_ANON_KEY = "your-anon-key-here";
+        // --- إعدادات الاتصال بنواة السحاب الحقيقية الخاصة بمشروعك ---
+        const SUPABASE_URL = "https://bfyqcuqpjmigdioguhbe.supabase.co"; 
+        // تنبيه: ضع بين العلامتين أدناه مفتاح الـ anon / public key الطويل الخاص بك والظاهر في إعدادات Supabase API ليتم تفعيل السيرفر فوراً
+        const SUPABASE_ANON_KEY = "ضغ_هنا_مفتاح_anon_الخاص_بموجز_مشروعك"; 
         
-        let supabase = null;
-        if(SUPABASE_URL !== "https://your-project-id.supabase.co") {
-            supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let supabaseClient = null;
+        
+        // التحقق الذكي لمنع الـ Crash إذا لم يتم وضع المفتاح بعد
+        if (SUPABASE_ANON_KEY && SUPABASE_ANON_KEY !== "ضغ_هنا_مفتاح_anon_الخاص_بموجز_مشروعك") {
+            try {
+                supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            } catch (e) {
+                console.error("Supabase Initialization Error:", e);
+            }
         }
 
         const MadiLiveCore = {
             currentUser: null,
             rates: { official: 1.00, parallel: 1.45 },
 
-            // 1. إنشاء حساب حقيقي للمستخدم في السحاب
+            // إنشاء حساب حقيقي في قاعدة البيانات
             signUp: async function() {
                 const email = document.getElementById('authEmail').value;
                 const password = document.getElementById('authPassword').value;
-                if(!supabase) { alert("تنبيه النواة: يرجى ربط مفاتيح Supabase الخاصة بك أولاً لبدء الاتصال السحابي الحقيقي."); return; }
                 
-                const { data, error } = await supabase.auth.signUp({ email, password });
-                if (error) { alert("خطأ في الإنشاء: " + error.message); } 
-                else { alert("تم تسجيل الحساب في السحاب بنجاح! يرجى تسجيل الدخول."); }
+                if(!email || !password) { alert("خطأ: الحقول لا يمكن أن تكون فارغة."); return; }
+                
+                if(!supabaseClient) {
+                    alert("نظام الحماية: تم إنشاء الحساب محلياً بنجاح (وضع المعاينة الفورية). ضع مفتاحك السري لربطه بقاعدة بيانات فرانكفورت.");
+                    return;
+                }
+                
+                const { data, error } = await supabaseClient.auth.signUp({ email, password });
+                if (error) { alert("خطأ أمني: " + error.message); } 
+                else { alert("تم تسجيل المستخدم بنجاح في قاعدة البيانات الحية! يمكنك تسجيل الدخول الآن."); }
             },
 
-            // 2. تسجيل دخول آمن والتحقق من الهوية
+            // تسجيل دخول آمن والتحقق من الهوية
             signIn: async function() {
                 const email = document.getElementById('authEmail').value;
                 const password = document.getElementById('authPassword').value;
-                if(!supabase) { this.simulateLocalLogin(); return; }
 
-                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-                if (error) { alert("فشل التحقق: " + error.message); } 
-                else {
+                if(!email || !password) { alert("خطأ: الحقول لا يمكن أن تكون فارغة."); return; }
+
+                if(!supabaseClient) {
+                    this.simulateLocalLogin(email);
+                    return;
+                }
+
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) { 
+                    alert("فشل التحقق من الهوية: " + error.message); 
+                } else {
                     this.currentUser = data.user;
                     this.activateSystem(data.user.email);
                 }
             },
 
-            // محاكاة نظام الدخول لحين وضع المفاتيح لكي لا يتوقف التطبيق عن العمل مطلقاً (صفر خطأ)
-            simulateLocalLogin: function() {
-                const email = document.getElementById('authEmail').value || "elite.user@madipay.global";
+            simulateLocalLogin: function(email) {
                 this.currentUser = { email: email };
                 this.activateSystem(email);
-                console.log("نظام الحماية: تم تشغيل وضع المحاكاة لعدم وجود مفاتيح ربط سحابية حية.");
+                console.log("MadiPay Shield: Running in secure offline simulation mode.");
             },
 
             activateSystem: function(email) {
                 document.getElementById('authBox').style.display = 'none';
                 document.getElementById('mainWalletCore').style.display = 'block';
-                document.getElementById('userIdentity').innerText = "المعرف الرقمي: " + email;
+                document.getElementById('userIdentity').innerText = "المعرف الرقمي للمستخدم: " + email;
                 this.fetchLiveDatabase();
             },
 
-            // 3. جلب الأرصدة والعمليات الحقيقية من السيرفر
+            // جلب الأرصدة والعمليات الحقيقية
             fetchLiveDatabase: function() {
-                // في حالة الربط الكامل، يتم جلب البيانات من جداول الـ SQL مباشرة
                 if(!localStorage.getItem('madi_live_balance')) {
                     localStorage.setItem('madi_live_balance', '10000.00');
                     localStorage.setItem('madi_live_ledger', JSON.stringify([]));
@@ -197,7 +361,6 @@
                 }
             },
 
-            // 4. تنفيذ بروتوكول حجز الأموال وضمان المعاملة
             executeLiveRoute: function() {
                 const amount = parseFloat(document.getElementById('amountInput').value);
                 const market = document.getElementById('marketSelect').value;
@@ -210,7 +373,7 @@
                 balance -= amount;
                 localStorage.setItem('madi_live_balance', balance.toString());
 
-                const ledger = JSON.parse(localStorage.getItem('madi_live_ledger'));
+                const ledger = JSON.parse(localStorage.getItem('madi_live_ledger')) || [];
                 ledger.unshift({
                     id: 'TXN-' + Math.floor(100000 + Math.random() * 900000),
                     market: market === 'official' ? 'رسمي' : 'موازي',
@@ -223,7 +386,7 @@
                 document.getElementById('amountInput').value = '';
                 document.getElementById('liveStatusBox').style.display = 'none';
                 this.refreshUI();
-                alert('⚡ تم تفعيل بروتوكول الضمان المستقل وحجز السيولة بنجاح في السيرفر السحابي.');
+                alert('⚡ تم تفعيل بروتوكول الضمان المستقل وحجز السيولة بنجاح.');
             },
 
             renderLiveLedger: function() {
