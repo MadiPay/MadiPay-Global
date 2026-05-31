@@ -1,554 +1,59 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadiPay Global - Live Production Core</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        /* --- الهوية البصرية السيادية المحصنة (Cyber-Style & Glassmorphism) --- */
-        :root {
-            --bg-charcoal: #12161A;
-            --accent-orange: #FF6B00;
-            --accent-green: #00E676;
-            --text-white: #FFFFFF;
-            --text-muted: #8A99AD;
-            --glass-bg: rgba(25, 32, 40, 0.75);
-            --glass-border: rgba(255, 107, 0, 0.2);
-        }
-
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-        }
-
-        body { 
-            background-color: var(--bg-charcoal); 
-            color: var(--text-white); 
-            min-height: 100vh; 
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-        }
-        
-        .app-container { 
-            width: 100%; 
-            max-width: 480px; 
-            background: var(--glass-bg); 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px); 
-            border: 1px solid var(--glass-border); 
-            border-radius: 24px; 
-            padding: 24px; 
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); 
-        }
-
-        .header { 
-            text-align: center; 
-            margin-bottom: 24px; 
-        }
-
-        .header h1 { 
-            font-size: 26px; 
-            font-weight: 800; 
-            color: var(--text-white); 
-        }
-
-        .header h1 span { 
-            color: var(--accent-orange); 
-        }
-
-        .header p { 
-            color: var(--text-muted); 
-            font-size: 12px; 
-            margin-top: 6px; 
-            line-height: 1.6;
-        }
-
-        .auth-box { 
-            background: rgba(10, 14, 18, 0.6); 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-            border-radius: 16px; 
-            padding: 20px; 
-            margin-bottom: 20px; 
-        }
-
-        .auth-title { 
-            font-size: 14px; 
-            font-weight: 600; 
-            margin-bottom: 12px; 
-            color: var(--accent-orange); 
-        }
-
-        .wallet-card { 
-            background: linear-gradient(135deg, rgba(255, 107, 0, 0.12), rgba(0, 230, 118, 0.06)); 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            border-radius: 16px; 
-            padding: 20px; 
-            margin-bottom: 24px; 
-            text-align: center; 
-        }
-
-        .wallet-label { 
-            font-size: 11px; 
-            color: var(--text-muted); 
-            text-transform: uppercase; 
-        }
-
-        .wallet-balance { 
-            font-size: 34px; 
-            font-weight: 700; 
-            color: var(--text-white); 
-            margin-top: 5px; 
-        }
-
-        .form-group { 
-            margin-bottom: 16px; 
-        }
-
-        .form-group label { 
-            display: block; 
-            font-size: 13px; 
-            color: var(--text-muted); 
-            margin-bottom: 6px; 
-        }
-
-        .form-control { 
-            width: 100%; 
-            background: rgba(10, 14, 18, 0.9); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 12px; 
-            padding: 14px; 
-            color: var(--text-white); 
-            font-size: 15px; 
-        }
-
-        .form-control:focus { 
-            outline: none; 
-            border-color: var(--accent-orange); 
-        }
-
-        .btn-submit { 
-            width: 100%; 
-            background: var(--accent-orange); 
-            color: var(--text-white); 
-            border: none; 
-            border-radius: 12px; 
-            padding: 15px; 
-            font-size: 16px; 
-            font-weight: 600; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3); 
-        }
-
-        .btn-submit:hover { 
-            background: #e05e00; 
-        }
-
-        .btn-secondary { 
-            background: transparent; 
-            border: 1px solid var(--text-muted); 
-            color: var(--text-white); 
-            margin-top: 8px; 
-        }
-
-        .routing-status { 
-            margin-top: 20px; 
-            background: rgba(10, 14, 18, 0.5); 
-            border-radius: 14px; 
-            padding: 16px; 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-            display: none; 
-        }
-
-        .data-row { 
-            display: flex; 
-            justify-content: space-between; 
-            font-size: 13px; 
-            margin-bottom: 6px; 
-        }
-
-        .data-row .label { 
-            color: var(--text-muted); 
-        }
-
-        .ledger-section { 
-            margin-top: 24px; 
-        }
-
-        .ledger-title { 
-            font-size: 14px; 
-            color: var(--text-muted); 
-            margin-bottom: 12px; 
-        }
-
-        .ledger-item { 
-            background: rgba(255, 255, 255, 0.02); 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-            border-radius: 10px; 
-            padding: 12px; 
-            margin-bottom: 8px; 
-            font-size: 12px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
-    </style>
-</head>
-<body>
-
-    <div class="app-container">
-        <div class="header">
-            <h1>MadiPay <span>Global</span></h1>
-            <p>النواة الحية والمشفرة لإدارة الحوالات والضمان المستقل</p>
-        </div>
-
-        <div class="auth-box" id="authBox">
-            <div class="auth-title">🔐 بوابة التحقق والولوج المحصنة (خادم فرانكفورت)</div>
-            <div class="form-group">
-                <input type="email" id="authEmail" class="form-control" placeholder="البريد الإلكتروني للعميل...">
-            </div>
-            <div class="form-group">
-                <input type="password" id="authPassword" class="form-control" placeholder="كلمة المرور المشفرة...">
-            </div>
-            <button class="btn-submit" onclick="MadiLiveCore.signUp()">إنشاء حساب عميل جديد</button>
-            <button class="btn-submit btn-secondary" onclick="MadiLiveCore.signIn()">تسجيل الدخول الآمن</button>
-        </div>
-
-        <div id="mainWalletCore" style="display: none;">
-            <div class="wallet-card">
-                <div class="wallet-label">الرصيد الفعلي في السحاب المشفر</div>
-                <div class="wallet-balance" id="liveBalance">0.00 <span style="color: var(--accent-green); font-size:16px;">MadiCoin</span></div>
-                <div id="userIdentity" style="font-size: 10px; color: var(--text-muted); margin-top: 5px;"></div>
-            </div>
-
-            <div class="form-group">
-                <label for="marketSelect">سوق التوجيه الذكي (التحليل المزدوج)</label>
-                <select id="marketSelect" class="form-control" onchange="MadiLiveCore.calculateLiveRate()">
-                    <option value="official">السوق الرسمي المعياري (Official Rates)</option>
-                    <option value="parallel">السوق الموازي المرن (Parallel Rates)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="amountInput">المبلغ المراد توجيهه وتأمينه</label>
-                <input type="number" id="amountInput" class="form-control" placeholder="أدخل قيمة المبلغ..." oninput="MadiLiveCore.calculateLiveRate()">
-            </div>
-
-            <button class="btn-submit" onclick="MadiLiveCore.executeLiveRoute()">إرسال وتفعيل بروتوكول الضمان السحابي</button>
-
-            <div class="routing-status" id="liveStatusBox">
-                <div class="data-row">
-                    <span class="label">السعر المحتسب للوحدة:</span>
-                    <span id="liveRate" class="value">0.00</span>
-                </div>
-                <div class="data-row">
-                    <span class="label">صافي القيمة المستلمة:</span>
-                    <span id="liveNet" class="value">0.00</span>
-                </div>
-            </div>
-
-            <div class="ledger-section">
-                <div class="ledger-title">دفتر الأستاذ السحابي غير القابل للتزوير (Live Ledger)</div>
-                <div id="liveLedgerLogs"></div>
-            </div>
-        </div>
+<div class="vortex-glass-card" id="mainCard">
+    <div class="lang-switcher">
+        <button onclick="switchLang('ar')" class="lang-btn active">العربية</button>
+        <button onclick="switchLang('en')" class="lang-btn">English</button>
     </div>
 
-    <script>
-        // --- إعدادات الاتصال بنواة السحاب الحقيقية الخاصة بمشروعك ---
-        const SUPABASE_URL = "https://bfyqcuqpjmigdioguhbe.supabase.co"; 
-        
-        // ملاحظة أمنية: إذا كان لديك مفتاح anon الصقْه هنا، وإلا اترك السلسلة الافتراضية أدناه وسيعمل التطبيق بنظام الحماية الذاتية المحلي دون كراش
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeXFjdXFwam1pZ2Rpb2d1aGJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5ODMxMDYsImV4cCI6MjA5NTU1OTEwNn0.demo_key_placeholder"; 
-        
-        let supabaseClient = null;
-        
-        if (SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.includes("demo_key_placeholder")) {
-            try {
-                supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            } catch (e) {
-                console.error("Supabase Init Error:", e);
-            }
-        }
-
-        const MadiLiveCore = {
-            currentUser: null,
-            rates: { official: 1.00, parallel: 1.45 },
-
-            signUp: async function() {
-                const email = document.getElementById('authEmail').value;
-                const password = document.getElementById('authPassword').value;
-                
-                if(!email || !password) { alert("خطأ: الحقول لا يمكن أن تكون فارغة."); return; }
-                
-                if(!supabaseClient) {
-                    alert("وضع المعاينة الآمنة: تم تسجيل الحساب محلياً بنجاح! ضع مفتاح anon الحقيقي للربط بخادم فرانكفورت.");
-                    this.simulateLocalLogin(email);
-                    return;
-                }
-                
-                const { data, error } = await supabaseClient.auth.signUp({ email, password });
-                if (error) { alert("خطأ أمني: " + error.message); } 
-                else { alert("تم تسجيل المستخدم بنجاح في قاعدة البيانات الحية! يمكنك تسجيل الدخول الآن."); }
-            },
-
-            signIn: async function() {
-                const email = document.getElementById('authEmail').value;
-                const password = document.getElementById('authPassword').value;
-
-                if(!email || !password) { alert("خطأ: الحقول لا يمكن أن تكون فارغة."); return; }
-
-                if(!supabaseClient) {
-                    this.simulateLocalLogin(email);
-                    return;
-                }
-
-                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-                if (error) { 
-                    alert("فشل التحقق من الهوية: " + error.message); 
-                } else {
-                    this.currentUser = data.user;
-                    this.activateSystem(data.user.email);
-                }
-            },
-
-            simulateLocalLogin: function(email) {
-                this.currentUser = { email: email };
-                this.activateSystem(email);
-            },
-
-            activateSystem: function(email) {
-                document.getElementById('authBox').style.display = 'none';
-                document.getElementById('mainWalletCore').style.display = 'block';
-                document.getElementById('userIdentity').innerText = "المعرف الرقمي للمخدم: " + email;
-                this.fetchLiveDatabase();
-            },
-
-            fetchLiveDatabase: function() {
-                if(!localStorage.getItem('madi_live_balance')) {
-                    localStorage.setItem('madi_live_balance', '10000.00');
-                    localStorage.setItem('madi_live_ledger', JSON.stringify([]));
-                }
-                this.refreshUI();
-            },
-
-            refreshUI: function() {
-                const balance = parseFloat(localStorage.getItem('madi_live_balance')).toFixed(2);
-                document.getElementById('liveBalance').innerHTML = balance + ' <span style="color: var(--accent-green); font-size:16px;">MadiCoin</span>';
-                this.renderLiveLedger();
-            },
-
-            calculateLiveRate: function() {
-                const market = document.getElementById('marketSelect').value;
-                const rate = this.rates[market];
-                const amount = parseFloat(document.getElementById('amountInput').value) || 0;
-
-                if (amount > 0) {
-                    document.getElementById('liveStatusBox').style.display = 'block';
-                    document.getElementById('liveRate').innerText = rate.toFixed(2);
-                    document.getElementById('liveNet').innerText = (amount * rate).toFixed(2) + ' MC';
-                } else {
-                    document.getElementById('liveStatusBox').style.display = 'none';
-                }
-            },
-
-            executeLiveRoute: function() {
-                const amount = parseFloat(document.getElementById('amountInput').value);
-                const market = document.getElementById('marketSelect').value;
-                let balance = parseFloat(localStorage.getItem('madi_live_balance'));
-
-                if (isNaN(amount) || amount <= 0) { alert('خطأ في المعالجة: القيمة المدخلة غير صالحة.'); return; }
-                if (amount > balance) { alert('رفض الأمان السحابي: السيولة غير كافية لإتمام الحجز.'); return; }
-
-                const finalNet = amount * this.rates[market];
-                balance -= amount;
-                localStorage.setItem('madi_live_balance', balance.toString());
-
-                const ledger = JSON.parse(localStorage.getItem('madi_live_ledger')) || [];
-                ledger.unshift({
-                    id: 'TXN-' + Math.floor(100000 + Math.random() * 900000),
-                    market: market === 'official' ? 'رسمي' : 'موازي',
-                    amount: amount.toFixed(2),
-                    net: finalNet.toFixed(2),
-                    time: new Date().toLocaleTimeString('ar-EG')
-                });
-                localStorage.setItem('madi_live_ledger', JSON.stringify(ledger));
-
-                document.getElementById('amountInput').value = '';
-                document.getElementById('liveStatusBox').style.display = 'none';
-                this.refreshUI();
-                alert('⚡ تم تفعيل بروتوكول الضمان المستقل وحجز السيولة بنجاح.');
-            },
-
-            renderLiveLedger: function() {
-                const ledger = JSON.parse(localStorage.getItem('madi_live_ledger')) || [];
-                const container = document.getElementById('liveLedgerLogs');
-                container.innerHTML = '';
-
-                if(ledger.length === 0) {
-                    container.innerHTML = '<div style="color:var(--text-muted); text-align:center; font-size:12px; padding:10px;">لا يوجد معاملات حية مسجلة في الشبكة.</div>';
-                    return;
-                }
-
-                ledger.forEach(txn => {
-                    const el = document.createElement('div');
-                    el.className = 'ledger-item';
-                    el.innerHTML = `<div><strong>${txn.id}</strong> (سوق ${txn.market})<br><small style="color:var(--text-muted)">${txn.time}</small></div><div style="color:var(--accent-green); font-weight:bold;">+${txn.net} MC</div>`;
-                    container.appendChild(el);
-                });
-            }
-        };
-    </script>
-    <script>
-// 1. طبقة التشفير الذاتي والتحقق من سلامة البيانات (CyberShield)
-const CyberShield = {
-    _getKey() {
-        const secret = "MadiPay_Elite_2026_Quantum_Sec";
-        return btoa(secret).split('').reverse().join('');
-    },
-
-    secureSave(key, data) {
-        const stringData = JSON.stringify(data);
-        let cipherText = btoa(unescape(encodeURIComponent(stringData)));
-        const checksum = btoa(cipherText.slice(0, 10));
-        localStorage.setItem(`MP_${key}`, cipherText);
-        localStorage.setItem(`MP_SIG_${key}`, checksum);
-    },
-
-    secureLoad(key) {
-        const cipherText = localStorage.getItem(`MP_${key}`);
-        const checksum = localStorage.getItem(`MP_SIG_${key}`);
-        
-        if (!cipherText || !checksum) return null;
-
-        // صمام الأمان: كشف التلاعب بالبيانات محلياً
-        if (btoa(cipherText.slice(0, 10)) !== checksum) {
-            this.triggerEmergencyLock();
-            return null;
-        }
-
-        try {
-            const decrypted = decodeURIComponent(escape(atob(cipherText)));
-            return JSON.parse(decrypted);
-        } catch (e) {
-            this.triggerEmergencyLock();
-            return null;
-        }
-    },
-
-    triggerEmergencyLock() {
-        localStorage.clear();
-        // إشعار الأمان المتوافق مع ألوان النيون البرتقالية والرمادي الفحمي
-        alert("🚨 Cyber-Shield Notification:\n[CRITICAL] Security Breach / Data Tampering Detected.\nSystem Frozen. Session Liquidated.");
-        window.location.reload();
-    }
-};
-
-// 2. محرك مكافحة غسيل الأموال والتفتيت المالي (AMLEngine)
-const AMLEngine = {
-    MAX_THRESHOLD: 1000000, 
-    TIME_WINDOW: 60000, // دقيقة واحدة
-
-    validateTransaction(amount, walletId) {
-        const currentTx = parseFloat(amount);
-        
-        if (currentTx >= this.MAX_THRESHOLD) {
-            return { status: "REJECTED", reason: "AML Threshold Exceeded (Single Tx)" };
-        }
-
-        let auditLog = CyberShield.secureLoad("audit_trail") || [];
-        const now = Date.now();
-        
-        const recentVolume = auditLog
-            .filter(tx => tx.walletId === walletId && (now - tx.timestamp) < this.TIME_WINDOW && tx.status === "SUCCESS")
-            .reduce((sum, tx) => sum + tx.amount, 0);
-
-        if ((recentVolume + currentTx) >= this.MAX_THRESHOLD) {
-            return { status: "HOLD", reason: "Velocity Limit Hit: Suspected Structuring" };
-        }
-
-        return { status: "APPROVED" };
-    }
-};
-
-// 3. دالة معالجة العمليات الذكية (Smart Routing Bridge)
-function processMadiPayTransaction(walletId, amount, targetMarket) {
-    console.log(`%c[MadiPay Router] Routing operational request for: ${amount} units...`, "color: #FF6B00; font-weight: bold;");
-
-    // تشغيل فحص الـ AML الذكي قبل أي إجراء
-    const amlCheck = AMLEngine.validateTransaction(amount, walletId);
-    
-    let auditLog = CyberShield.secureLoad("audit_trail") || [];
-    const now = Date.now();
-
-    if (amlCheck.status !== "APPROVED") {
-        // تسجيل العملية المرفوضة أو المعلقة في السجل المشفر للتدقيق
-        auditLog.push({ walletId, amount: parseFloat(amount), timestamp: now, status: amlCheck.status, market: targetMarket });
-        CyberShield.secureSave("audit_trail", auditLog);
-        
-        // هنا يمكنك استدعاء دالة تحديث واجهة المستخدم الرسومية (UI) لتظهر باللون البرتقالي النيون للـ HOLD أو الأحمر للـ REJECTED
-        updateVortexLedgerUI(amlCheck.status, amlCheck.reason);
-        return;
-    }
-
-    // إذا تمت الموافقة: تنفيذ بروتوكول الضمان الذاتي (Escrow Protocol)
-    auditLog.push({ walletId, amount: parseFloat(amount), timestamp: now, status: "SUCCESS", market: targetMarket });
-    CyberShield.secureSave("audit_trail", auditLog);
-    
-    // تحديث الواجهة باللون الأخضر الزمردي المتألق (Emerald Green #00E676)
-    updateVortexLedgerUI("SUCCESS", "Transaction Routed Successfully through Vortex Ledger.");
-}
-
-// دالة وسيطة لتحديث حالة الواجهة (تعدلها حسب أسماء الـ IDs في الـ HTML لديك)
-function updateVortexLedgerUI(status, text) {
-    const statusPanel = document.getElementById("vortex-status-display"); // غير الاسم حسب الـ ID عندك
-    if (statusPanel) {
-        statusPanel.innerText = `[${status}] - ${text}`;
-        if (status === "SUCCESS") statusPanel.style.color = "#00E676"; // أخضر زمردي
-        if (status === "HOLD") statusPanel.style.color = "#FF6B00";    // برتقالي نيون
-        if (status === "REJECTED") statusPanel.style.color = "#FF3333";
-    }
-}
-</script>
-<div class="vortex-glass-card">
     <div class="card-header">
         <span class="status-dot blink"></span>
-        <h3>MadiPay Live Transparency Matrix</h3>
+        <h3 id="txtTitle">مصفوفة الشفافية وتكامل الخدمات</h3>
     </div>
-    <p class="card-subtitle">تتبع فوري ومكشوف لآلية التوجيه الذكي واحتساب الرسوم الصفرية</p>
+    <p class="card-subtitle" id="txtSubtitle">دمج المتاجر العالمية والخدمات المحلية مع التوجيه المتعدد للعملات</p>
     
     <div class="simulation-box">
         <div class="input-group">
-            <label>المبلغ المراد تحويله ($):</label>
-            <input type="number" id="txAmount" value="100" min="1" oninput="runVortexRouting()">
+            <label id="lblService">نوع الخدمة المدمجة:</label>
+            <select id="serviceType" onchange="runAdvancedVortex()">
+                <option value="ecommerce" id="optEcom">متجر إلكتروني عالمي (API Integration)</option>
+                <option value="local" id="optLocal">خدمات وتجارة محلية (Local Retail)</option>
+                <option value="global" id="optGlobal">تحويل دولي عبر الحدود (Cross-Border)</option>
+            </select>
+        </div>
+
+        <div class="input-grid-two">
+            <div class="input-sub">
+                <label id="lblAmount">المبلغ:</label>
+                <input type="number" id="vortexAmount" value="100" min="1" oninput="runAdvancedVortex()">
+            </div>
+            <div class="input-sub">
+                <label id="lblCurrency">العملة النقدية/الرقمية:</label>
+                <select id="vortexCurrency" onchange="runAdvancedVortex()">
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="DZD">DZD (د.ج)</option>
+                    <option value="USDT">USDT (Crypto)</option>
+                </select>
+            </div>
         </div>
         
         <div class="results-grid">
             <div class="result-item">
-                <span class="label">رسوم بنكية تقليدية (جشعة):</span>
-                <span class="value high" id="legacyFee">$0.00</span>
+                <span class="label" id="lblLegacy">الرسوم التقليدية الاحتكارية:</span>
+                <span class="value high" id="advLegacyFee">$0.00</span>
             </div>
             <div class="result-item text-emerald">
-                <span class="label">رسوم MadiPay الحقيقية:</span>
-                <span class="value emerald" id="madiPayFee">$0.00</span>
+                <span class="label" id="lblMadiPay">رسوم بروتوكول MadiPay العادلة:</span>
+                <span class="value emerald" id="advMadiPayFee">$0.00</span>
             </div>
             <div class="result-item">
-                <span class="label">حالة التوجيه الذكي:</span>
-                <span class="value neon-orange" id="routingStatus">Ready</span>
+                <span class="label" id="lblStatus">قناة التوجيه النشطة:</span>
+                <span class="value neon-orange" id="advRoutingStatus">Ready</span>
             </div>
         </div>
 
         <div class="crypto-log">
-            <h4>سجل تشفير البيانات وحماية الشبكة (CyberShield):</h4>
-            <pre id="cryptoConsole">Initializing CyberShield Matrix...</pre>
+            <h4 id="lblLogTitle">سجل محرك التوجيه والسيولة الحية:</h4>
+            <pre id="advCryptoConsole">Initializing Unified Ledger System...</pre>
         </div>
     </div>
 </div>
-
-</body>
-</html>
