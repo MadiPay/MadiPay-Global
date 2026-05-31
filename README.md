@@ -1,19 +1,22 @@
-# MadiPay Global - Smart Routing & Escrow Protocol
+# MadiPay Global - Decentralized Smart Routing & Unified Escrow Protocol
 🚀
 
-An elite, mobile-first finTech core application engineered for dynamic payment routing, multi-market liquidity bridging, and secure decentralized escrow management. Designed with a high-end cyber-style visual identity using Glassmorphic architecture.
+An elite, cross-border, mobile-first FinTech core ecosystem engineered for dynamic payment routing, multi-market liquidity bridging, and secure multi-signature escrow management. Designed with a high-end cyber-style visual identity using Glassmorphic architecture, built to empower merchants and individuals worldwide through absolute financial transparency.
 
-## ⚡ Core Architecture & Features
+---
 
-### 🌐 System Data-Flow Architecture
+## ⚡ Unified Core Architecture
+
+### 🌐 System Data-Flow & Integration Architecture
 
 ```mermaid
 graph TD
-    A[Mobile Client UI] -->|Initiate Tx| B(CyberShield Core Router)
-    B -->|Step 1: AML Velocity Check| C(AML Audit Engine)
+    A[Global/Local Merchants & APIs] -->|Initiate Order| B(Vortex Multi-Currency Router)
+    B -->|Fiat / Crypto Split| C{Liquidity Optimization Engine}
     
-    C -->|Exceeds 1W / Suspicious| D[Status: HOLD / REJECTED]
-    C -->|Approved| E[Autonomous Escrow Lock]
+    C -->|Fiat Gateway| D[Local & Global Banking Rails]
+    C -->|Crypto Ledger| E[Decentralized Stablecoin Pools]
     
-    E -->|Dual-Action Settlement| F(Vortex Ledger System)
-    F -->|Secure Write| G[(Encrypted LocalStorage)]
+    D & E -->|Security Check| F(CyberShield Anti-Tamper Core)
+    F -->|Verified Transaction| G[Autonomous Escrow Protocol]
+    G -->|Dual-Action Settlement| H[(Encrypted Distributed Ledger)]
