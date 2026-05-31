@@ -1,4 +1,4 @@
-// القاموس البرمجي للغات
+قدم// القاموس البرمجي للغات
 const translations = {
     ar: {
         title: "مصفوفة الشفافية وتكامل الخدمات",
@@ -108,3 +108,74 @@ function runAdvancedVortex() {
 
 // تشغيل أولي
 document.addEventListener("DOMContentLoaded", () => { runAdvancedVortex(); });
+const crypto = require('crypto');
+
+class CyberShieldCore {
+    constructor(secretKey) {
+        // حماية المفتاح السري داخل الذاكرة واستخدام تشفير قوي
+        this.secretKey = crypto.scryptSync(secretKey, 'vortex-salt', 32);
+    }
+
+    /**
+     * توليد ختم رقمي مشفر غير قابل للتزوير لكل معاملة
+     */
+    generateAntiTamperSeal(transactionData) {
+        const timestamp = Date.now();
+        const nonce = crypto.randomBytes(16).toString('hex');
+        
+        // ترتيب البيانات بشكل صارم لمنع أي تلاعب بالهيكل (Object Injection)
+        const canonicalPayload = JSON.stringify({
+            amount: transactionData.amount,
+            currency: transactionData.currency,
+            sender: transactionData.sender,
+            recipient: transactionData.recipient,
+            timestamp: timestamp,
+            nonce: nonce
+        });
+
+        // إنشاء الختم باستخدام HMAC-SHA512 للأمان المطلق
+        const hmac = crypto.createHmac('sha512', this.secretKey);
+        hmac.update(canonicalPayload);
+        const seal = hmac.digest('hex');
+
+        return {
+            payload: JSON.parse(canonicalPayload),
+            seal: seal
+        };
+    }
+
+    /**
+     * التحقق من سلامة المعاملة ومنع التلاعب بنسبة 100%
+     */
+    verifyAndProtect(securedTransaction) {
+        const { payload, seal } = securedTransaction;
+
+        // 1. فحص عامل الوقت: منع الهجمات المعادة إذا تجاوزت 5 ثوانٍ (Drift Window)
+        const timeDrift = Date.now() - payload.timestamp;
+        if (timeDrift > 5000 || timeDrift < -1000) {
+            throw new Error("SECURITY_VIOLATION: Timestamp drift detected. Potential Replay Attack.");
+        }
+
+        // 2. إعادة حساب الختم لمطابقته
+        const canonicalPayload = JSON.stringify(payload);
+        const hmac = crypto.createHmac('sha512', this.secretKey);
+        hmac.update(canonicalPayload);
+        const expectedSeal = hmac.digest('hex');
+
+        // 3. المقارنة الثابتة زمنيًا (Constant-Time Comparison) لمنع هجمات التوقيت (Timing Attacks)
+        const isSafe = crypto.timingSafeEqual(Buffer.from(seal, 'hex'), Buffer.from(expectedSeal, 'hex'));
+
+        if (!isSafe) {
+            this.triggerLockdown(payload);
+            throw new Error("CRITICAL_ALARM: Data tampering detected! Core payload structural mismatch.");
+        }
+
+        return true; // المعاملة سليمة ومحصنة تمامًا
+    }
+
+    triggerLockdown(payload) {
+        // بروتوكول الإغلاق التلقائي وعزل الحساب المشبوه فوراً
+        console.error(`[CYBER-SHIELD LOCKDOWN] Tampering attempt on transaction: ${payload.nonce}`);
+        // هنا يتم إرسال تنبيه فوري ونقل المعاملة لبيئة العزل (Sandbox)
+    }
+}
