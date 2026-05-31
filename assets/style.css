@@ -9,3 +9,91 @@
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), 
                 0 0 15px rgba(255, 102, 0, 0.05); 
 }
+.vortex-glass-card {
+    background: rgba(24, 24, 27, 0.8); /* Charcoal Gray */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 102, 0, 0.25); /* Neon Orange Border */
+    border-radius: 16px;
+    padding: 24px;
+    color: #ffffff;
+    max-width: 600px;
+    margin: 30px auto;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    direction: rtl; /* لتنسيق الكتابة العربية بشكل سليم */
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 12px;
+    margin-bottom: 15px;
+}
+
+.blink {
+    width: 12px;
+    height: 12px;
+    background-color: #00ff87; /* Emerald Green */
+    border-radius: 50%;
+    animation: vortexPulse 2s infinite;
+}
+
+.simulation-box .input-group {
+    margin-bottom: 20px;
+}
+
+.simulation-box input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 102, 0, 0.5);
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.result-item {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.neon-orange { color: #ff6600; font-weight: bold; }
+.emerald { color: #00ff87; font-weight: bold; }
+.high { color: #ff4444; text-decoration: line-through; }
+
+.crypto-log h4 {
+    margin: 15px 0 8px 0;
+    color: #ff6600;
+}
+
+.crypto-log pre {
+    background: #0a0a0c;
+    border-right: 3px solid #ff6600; /* مؤشر برتقالي جهة اليمين للعربية */
+    padding: 12px;
+    color: #00ff87;
+    font-size: 0.85rem;
+    overflow-x: auto;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    direction: ltr; /* السجل البرمجي يظل يساراً للحفاظ على شكل الـ Logs */
+    text-align: left;
+}
+
+@keyframes vortexPulse {
+    0% { transform: scale(0.95); opacity: 0.5; box-shadow: 0 0 0 0 rgba(0, 255, 135, 0.4); }
+    70% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 8px rgba(0, 255, 135, 0); }
+    100% { transform: scale(0.95); opacity: 0.5; box-shadow: 0 0 0 0 rgba(0, 255, 135, 0); }
+}
