@@ -515,6 +515,40 @@ function updateVortexLedgerUI(status, text) {
     }
 }
 </script>
+<div class="vortex-glass-card">
+    <div class="card-header">
+        <span class="status-dot blink"></span>
+        <h3>MadiPay Live Transparency Matrix</h3>
+    </div>
+    <p class="card-subtitle">تتبع فوري ومكشوف لآلية التوجيه الذكي واحتساب الرسوم الصفرية</p>
+    
+    <div class="simulation-box">
+        <div class="input-group">
+            <label>المبلغ المراد تحويله ($):</label>
+            <input type="number" id="txAmount" value="100" min="1" oninput="runVortexRouting()">
+        </div>
+        
+        <div class="results-grid">
+            <div class="result-item">
+                <span class="label">رسوم بنكية تقليدية (جشعة):</span>
+                <span class="value high" id="legacyFee">$0.00</span>
+            </div>
+            <div class="result-item text-emerald">
+                <span class="label">رسوم MadiPay الحقيقية:</span>
+                <span class="value emerald" id="madiPayFee">$0.00</span>
+            </div>
+            <div class="result-item">
+                <span class="label">حالة التوجيه الذكي:</span>
+                <span class="value neon-orange" id="routingStatus">Ready</span>
+            </div>
+        </div>
+
+        <div class="crypto-log">
+            <h4>سجل تشفير البيانات وحماية الشبكة (CyberShield):</h4>
+            <pre id="cryptoConsole">Initializing CyberShield Matrix...</pre>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
