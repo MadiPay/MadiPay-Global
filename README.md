@@ -1,26 +1,3 @@
-# MadiPay Global - Decentralized Smart Routing & Unified Escrow Protocol
-
-An AI-driven, cross-border fintech core ecosystem engineered for dynamic payment routing, multi-market liquidity bridging, and secure multi-signature escrow management. Designed with a high-end cybersecurity visual identity using Glassmorphic architecture, built to empower merchants and individuals worldwide through absolute financial transparency.
-
----
-
-## ⚡ Unified Core Architecture & Independent Agent Integration
-
-This section details how the MadiPay Core integrates autonomous AI agents for dynamic decision-making, pathfinding, and multi-currency liquidity optimization.
-
-### 🤖 Agent Architecture & Decision Loop
-
-The MadiPay autonomous agent ecosystem operates on a continuous four-pillar loop:
-1. **Perception (Data Ingestion):** Monitors blockchain confirmation times, local utility rates, and cross-border pool depths.
-2. **Planning (Task Decomposition):** Decomposes complex financial goals (e.g., "Bridge $1M to local rails with minimum slippage") into atomic, sequential transactions.
-3. **Memory (Local Vector Context):** Utilizes semantic search over past transaction behavior to isolate counterparty risk profiles.
-4. **Action (Execution Layers):** Triggers deterministic multi-sig escrow contracts and infrastructure tools.
-
-### 📄 Production-Ready Agent Blueprint
-
-Below is the integrated, complete Python implementation of the **MadiPay Autonomous Routing Agent Core**. This file is self-contained, handling state management, task decomposition, and simulated execution loop validation with zero external dependencies.
-
-```python
 """
 MadiPay Global - Autonomous Routing Agent Core
 File: src/agent_core.py
@@ -97,6 +74,16 @@ class MadiPayRoutingAgent:
 # --- VERIFICATION BLOCK ---
 if __name__ == "__main__":
     print("Executing Core Agent Logic Verification...")
+    agent = MadiPayRoutingAgent(agent_id="Vortex-SmartRouter-01")
+    
+    # Target macro operation to be parsed by the agent
+    final_json_blueprint = agent.compile_agent_plan_object(
+        macro_goal="Bridge cross-border liquidity to local utility networks", 
+        amount=250000.00
+    )
+    
+    print("\n[MadiPay Agent Output Blueprint JSON]:")
+    print(final_json_blueprint)
     agent = MadiPayRoutingAgent(agent_id="Vortex-SmartRouter-01")
     
     # Target macro operation to be parsed by the agent
