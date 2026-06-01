@@ -31,7 +31,6 @@ class MadiPayRoutingAgent:
         logging.info(f"[{self.agent_id}] Decomposing macro goal: '{macro_goal}' for Amount: {amount}")
         context = self.ingest_market_context()
         
-        # Deterministic Pathfinding based on local liquidity constraints
         if amount <= context["binance_usdt_pool"] and context["local_utility_rail_status"] == "ONLINE":
             return [
                 {
@@ -71,16 +70,12 @@ class MadiPayRoutingAgent:
             self.state = "ERROR"
             return json.dumps({"agent_id": self.agent_id, "status": "FAILED", "reason": str(e)})
 
-# --- VERIFICATION BLOCK ---
 if __name__ == "__main__":
     print("Executing Core Agent Logic Verification...")
     agent = MadiPayRoutingAgent(agent_id="Vortex-SmartRouter-01")
-    
-    # Target macro operation to be parsed by the agent
     final_json_blueprint = agent.compile_agent_plan_object(
         macro_goal="Bridge cross-border liquidity to local utility networks", 
         amount=250000.00
     )
-    
     print("\n[MadiPay Agent Output Blueprint JSON]:")
     print(final_json_blueprint)
