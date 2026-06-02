@@ -1,22 +1,25 @@
+import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+from dotenv import load_dotenv
 from crypto_shield import CryptoShield
 from smart_router import SmartRouter
+from wallets import MadiPayWalletManager
+
+load_dotenv()
 
 app = Flask(__name__)
+CORS(app)  # تفعيل CORS للسماح لتطبيق الهاتف (Capacitor) بالاتصال دون قيود المتصفح المتشددة
 
-# تهيئة الوحدات التي بنيناها سابقاً
-SYSTEM_KEY = "MadiPay_Secure_Super_Secret_Key_2026"
+SYSTEM_KEY = os.getenv("MADIPAY_SECRET_KEY", "Fallback_Temporary_Default_Key_Safe")
+
 shield = CryptoShield(SYSTEM_KEY)
 router = SmartRouter()
+wallet_manager = MadiPayWalletManager()  # تهيئة مدير المحافظ الرقمية
 
 @app.route('/api/v1/route-payment', methods=['POST'])
 def handle_payment_routing():
-    """
-    نقطة النهاية (Endpoint) لاستقبال طلبات الدفع من التطبيق،
-    التحقق من سلامتها سيبرانياً، ثم توجيهها عبر المسار المالي الأمثل.
-    """
     try:
-        # 1. استقبال البيانات القادمة من واجهة الجافا سكريبت
         content = request.get_json()
         if not content:
             return jsonify({"status": "error", "message": "لم يتم إرسال بيانات المعاملة"}), 400
@@ -28,7 +31,7 @@ def handle_payment_routing():
         if not transaction_data or not received_signature:
             return jsonify({"status": "error", "message": "بيانات المعاملة أو التوقيع الرقمي ناقصة"}), 400
 
-        # 2. طبقة الأمن السيبراني: فحص سلامة المعاملة ومنع التلاعب (التكامل)
+        # 1. الأمن السيبراني: التحقق من التوقيع الرقمي لمنع التلاعب
         is_secure = shield.verify_transaction_integrity(transaction_data, received_signature)
         if not is_secure:
             return jsonify({
@@ -36,14 +39,24 @@ def handle_payment_routing():
                 "message": "تحذير أمني: تم رصد تلاعب في البيانات! التوقيع الرقمي غير متطابق."
             }), 403
 
-        # 3. طبقة التوجيه الذكي: حساب المسار الأمثل مالياً وزمنياً
+        sender_id = transaction_data.get("sender_wallet")
         amount = float(transaction_data.get("amount", 0))
+
+        # 2. الفحص المالي: التحقق من وجود رصيد كافٍ في محفظة العميل قبل الحساب
+        current_balance = wallet_manager.get_wallet_balance(sender_id)
+        if current_balance is None:
+            return jsonify({"status": "error", "message": "المحفظة غير موجودة أو تم تجميدها أمنياً"}), 404
+        
+        if current_balance < amount:
+            return jsonify({"status": "error", "message": "فشل العملية: رصيد المحفظة الحالي لا يكفي لتغطية هذا المبلغ"}), 400
+
+        # 3. طبقة التوجيه: حساب المسار المالي الأمثل بعد التأكد من الملاءة المالية
         routing_result = router.find_optimal_route(amount, optimization_strategy=strategy)
 
-        # 4. إعادة النتيجة الآمنة إلى واجهة المستخدم
         return jsonify({
             "status": "success",
-            "message": "تم التحقق من أمان المعاملة وتوجيهها بنجاح",
+            "message": "تم التحقق سيبرانياً ومالياً، وجاري معالجة التوجيه الآمن",
+            "current_available_balance": current_balance,
             "routing": routing_result
         }), 200
 
@@ -51,5 +64,4 @@ def handle_payment_routing():
         return jsonify({"status": "error", "message": f"خطأ في النظام الداخلي: {str(e)}"}), 500
 
 if __name__ == '__main__':
-    # تشغيل الخادم محلياً للاختبار والتطوير
     app.run(host='0.0.0.0', port=5000, debug=True)
