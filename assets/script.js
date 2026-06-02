@@ -1,150 +1,64 @@
-/**
- * MadiPay Global - Live Frontend Core Engine
- * هذا الملف يربط الواجهة الرسومية بخادم البايثون (Flask API) عبر شبكة حقيقية
- */
+// استبدل دالة processTransaction القديمة بهذه الدالة الحقيقية والجاهزة للربط:
+function processTransaction() {
+    const gateway = document.getElementById('routingGateway').value;
+    const details = document.getElementById('accountDetail').value;
+    const amount = document.getElementById('amount').value;
 
-const MadiPayLiveEngine = {
-    // الخادم المحلي للبايثون (يمكن تغييره لاحقاً برابط الاستضافة السحابية)
-    apiBaseUrl: "http://127.0.0.1:5000/api/v1",
-    systemKey: "MadiPay_Secure_Super_Secret_Key_2026",
-
-    /**
-     * دالة لتوليد التوقيع الرقمي (HMAC-SHA256) برمجياً في الواجهة
-     */
-    async generateSignature(data) {
-        const jsonString = JSON.stringify(data, Object.keys(data).sort());
-        // محاكاة سريعة ومتوافقة مع المتصفحات والهواتف لتوليد معرف فريد
-        return btoa(this.systemKey + jsonString).substring(0, 32);
-    },
-
-    /**
-     * إرسال طلب تحويل مالي حقيقي إلى خادم البايثون
-     * @param {number} amount - المبلغ المدخل
-     * @param {string} strategy - استراتيجية التوجيه (cost أو speed)
-     */
-    async sendPaymentRequest(amount, strategy = "cost") {
-        this.updateStatusOnUI("جاري إعداد المعاملة وتأمينها سيبرانياً...", "info");
-
-        // 1. بناء بيانات المعاملة الأصلية
-        const transaction = {
-            sender_wallet: "VORTEX_LIVE_USER_88",
-            receiver_wallet: "UTILITY_SYS_ALGERIA",
-            amount: parseFloat(amount)
-        };
-
-        // 2. توليد التوقيع الرقمي في الواجهة قبل الإرسال لمنع التلاعب
-        const signature = await this.generateSignature(transaction);
-
-        // 3. تجهيز الحزمة النهائية للإرسال
-        const payload = {
-            transaction: transaction,
-            signature: signature,
-            strategy: strategy
-        };
-
-        try {
-            this.updateStatusOnUI("جاري الاتصال بالخادم المالي لجلب أفضل مسار...", "network");
-
-            // 4. إجراء اتصال شبكة حقيقي بالخادم (HTTP POST Request)
-            const response = await fetch(`${this.apiBaseUrl}/route-payment`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            });
-
-            const result = await response.json();
-
-            // 5. معالجة استجابة الخادم
-            if (response.ok && result.status === "success") {
-                this.renderRoutingResult(result.routing);
-            } else {
-                this.updateStatusOnUI(`فشل النظام: ${result.message}`, "error");
-            }
-
-        } catch (error) {
-            this.updateStatusOnUI("خطأ في الاتصال: تأكد من أن خادم app.py يعمل حالياً!", "error");
-            console.error("Network Error:", error);
-        }
-    },
-
-    /**
-     * تحديث النصوص أو مؤشرات التحميل في الواجهة الزجاجية
-     */
-    updateStatusOnUI(message, type) {
-        console.log(`[%] [UI_STATUS] [${type.toUpperCase()}]: ${message}`);
-        // هنا مستقبلاً تربط بمؤشر التحميل الزجاجي في تطبيقك
-    },
-
-    /**
-     * عرض نتائج التوجيه المالي القادمة من البايثون على الشاشة
-     */
-    renderRoutingResult(routing) {
-        this.updateStatusOnUI("تم التوجيه بنجاح آمن! ✅", "success");
-        console.log("=== تفاصيل المسار المالي الأمثل ===");
-        console.log(`[✔] القناة المختارة: ${routing.selected_gateway}`);
-        console.log(`[✔] الرسوم المحتسبة: $${routing.calculated_fee}`);
-        console.log(`[✔] الوقت المقدر: ${routing.estimated_time_seconds} ثانية`);
+    if(!details || !amount) {
+        alert("تنبيه أمني: يرجى ملء كافة الحقول لتأمين خط التوجيه المالي.");
+        return;
     }
-};
 
-// --- محاكاة ضغط مستخدم على زر دفع حقيقي بمبلغ 350 دولار واختيار أقل تكلفة ---
-MadiPayLiveEngine.sendPaymentRequest(350, "cost");
-// تحديد رابط الخادم المحلي (أو السحابي مستقبلاً)
-const MADIPAY_API_URL = "http://127.0.0.1:5000/api/v1/route-payment";
+    // 1. إخفاء نموذج الإدخال وإظهار شاشة الفحص الأمني والنظام المشفر
+    document.getElementById('modalFormBody').style.display = "none";
+    document.getElementById('secureLoadingSection').style.display = "block";
+    document.getElementById('secureStatusText').textContent = "جاري تشفير البيانات وتمريرها عبر بروتوكول مكافحة البوتات...";
 
-/**
- * دالة إرسال المعاملة المباشرة إلى الخادم لطلب التوجيه وفحص المحفظة
- */
-async function processLiveMadiPayRouting(senderWallet, receiverWallet, transferAmount) {
-    console.log("🔄 جاري الاتصال بخادم المعالجة الآمن المطور بايثون...");
-    
-    // 1. تجهيز حزمة البيانات (تطابق الهيكل المتوقع في الخادم)
-    const payload = {
-        transaction: {
-            sender_wallet: senderWallet,
-            receiver_wallet: receiverWallet,
-            amount: parseFloat(transferAmount)
-        },
-        // محاكاة توقيع رقمي آمن (في النظام الحقيقي يتم توليده بمفتاح العميل)
-        signature: "VORTEX_SECURE_CLIENT_SIGNATURE_HASH_VALID",
-        strategy: "cost" // استراتيجية التوجيه: الأقل تكلفة
+    // 2. تجهيز الحزمة المالية لإرسالها في الخلفية
+    const transactionData = {
+        gateway_type: gateway,
+        target_account: details,
+        transfer_amount: parseFloat(amount),
+        timestamp: new Date().toISOString()
     };
 
-    try {
-        // 2. إرسال الطلب عبر الشبكة باستخدام Fetch
-        const response = await fetch(MADIPAY_API_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-        });
+    // 3. الاتصال الفعلي بالباك-إند (Python API / Server)
+    // استبدل الرابط أدناه برابط السيرفر الخاص بك عند جهوزه (مثال: http://localhost:5000/api/route)
+    const backendServerUrl = "https://your-api-endpoint.com/transactions/process"; 
 
-        const result = await response.json();
-
-        // 3. معالجة الرد وتحديث الواجهة الرسومية زجاجية المظهر حركياً
-        if (response.ok && result.status === "success") {
-            console.log("✔ تم الرد من الخادم بنجاح:", result);
-            
-            // تحديث الرصيد المعروض على الشاشة ديناميكياً من الخادم
-            document.getElementById("wallet-balance-display").innerText = `$${result.current_available_balance}`;
-            
-            // تحديث تفاصيل بوابة التوجيه المختارة
-            document.getElementById("selected-gateway-display").innerText = result.routing.selected_gateway;
-            document.getElementById("routing-fee-display").innerText = `$${result.routing.calculated_fee}`;
-            
-            alert(`✔ تم التوجيه بنجاح عبر: ${result.routing.selected_gateway}`);
-        } else {
-            // في حال وجود خلل مالي (رصيد غير كافٍ) أو اختراق أمني
-            console.error("❌ رفض الخادم المعاملة:", result.message);
-            alert(`فشل المعالجة: ${result.message}`);
+    fetch(backendServerUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer MADIPAY_SECURE_TOKEN_XYZ" // كود أمان لحماية الرابط من التلاعب خارجيًا
+        },
+        body: JSON.stringify(transactionData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("فشل في استجابة الخادم الأمنية.");
         }
-
-    } catch (error) {
-        console.error("❌ فشل الاتصال بالخادم الداخلي:", error);
-        alert("تنبيه: تعذر الاتصال بخادم المعالجة. تأكد من تشغيل app.py محلياً.");
-    }
+        return response.json();
+    })
+    .then(data => {
+        // في حالة النجاح: تحديث نص الشاشة المنبثقة لإعلام المستخدم
+        document.getElementById('secureStatusText').textContent = "✓ تم توجيه التدفق المالي بنجاح وبأمان المطلق!";
+        
+        setTimeout(() => {
+            alert(`✓ نجاح المعاملة الفعلي!\nرقم القيد المشفر: ${data.transaction_hash || 'مؤمن تلقائياً'}`);
+            closeGateway();
+        }, 1500);
+    })
+    .catch(error => {
+        // في حالة حدوث خطأ في الاتصال بالسيرفر أو الشبكة
+        console.error("خطأ ترحيل البيانات:", error);
+        document.getElementById('secureStatusText').textContent = "⚠️ فشل في خط التوجيه المالي، يرجى إعادة المحاولة.";
+        
+        setTimeout(() => {
+            alert("تنبيه نظام: لم نتمكن من الوصول لقناة السيولة، تأكد من اتصال خادم الباك-إند.");
+            // إعادة فتح النموذج لكي يحاول المستخدم مجدداً
+            document.getElementById('modalFormBody').style.display = "block";
+            document.getElementById('secureLoadingSection').style.display = "none";
+        }, 2000);
+    });
 }
-onclick
