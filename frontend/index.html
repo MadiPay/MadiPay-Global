@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MadiPay Global - التشغيل الفعلي</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="market-summary">
+        <h3>رمز السوق النخبوي والتدفقات المالية</h3>
+        <div class="currency-rate" id="marketRate">1.3500 USDT</div>
+    </div>
+
+    <div class="main-container">
+        <h1>MadiPay النخبوية</h1>
+        <div class="subtitle">منظومة التوجيه المالي الذكي</div>
+
+        <div class="services-grid">
+            <div class="service-card" onclick="openGateway('الفواتير العالمية والكهرباء والإنترنت', 'أدخل رقم العداد أو كود الفاتورة')">
+                <div class="service-icon">🌐</div>
+                <div class="service-title">الفواتير العالمية والكهرباء والإنترنت</div>
+            </div>
+
+            <div class="service-card" onclick="openGateway('باقات ومستندات السفر والفيزا', 'أدخل رقم جواز السفر أو المعرف المالي')">
+                <div class="service-icon">💳</div>
+                <div class="service-title">باقات ومستندات السفر والفيزا</div>
+            </div>
+
+            <div class="service-card" onclick="openGateway('شحن ألعاب وبطاقات الترفيه المتكاملة', 'أدخل معرف اللاعب (ID) أو الحساب')">
+                <div class="service-icon">🚀</div>
+                <div class="service-title">شحن ألعاب وبطاقات الترفيه المتكاملة</div>
+            </div>
+        </div>
+
+        <div class="referral-box">
+            <div style="color: #777; margin-bottom: 5px; font-size: 0.85rem;">رابط الإحالة الحصري للمنظومة</div>
+            <input type="text" class="referral-input" id="referralLink" value="https://madipay.github.io/elite-access" readonly>
+        </div>
+
+        <button class="elite-btn" id="triggerEliteActionBtn" onclick="CopyMadiLink()">انقر لكشف الرابط السري والنسخ</button>
+
+        <div class="protection-shield">
+            معيار التدقيق الدولي المشفر لحماية التدفقات المالية
+            <div class="pulse-status">
+                <span class="pulse-dot"></span>
+                الاتصال بالبلوكشين: نشط وآمن
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="gatewayModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <span id="modalTitle">اسم البوابة المالية</span>
+                <button class="close-btn" onclick="closeGateway()">&times;</button>
+            </div>
+            
+            <div id="modalFormBody">
+                <p style="font-size: 0.85rem; color: #888; margin-top: 0;">منظومة التوجيه مستعدة لتأمين وتمرير معاملتك فورياً.</p>
+                
+                <label for="routingGateway">قناة التوجيه والسيولة المستهدفة</label>
+                <select id="routingGateway" class="modal-select">
+                    <option value="local">قناة التوجيه الذكي المحلية (سريعة وآمنة)</option>
+                    <option value="binance">جسر السيولة الدولي المباشر (Binance P2P)</option>
+                    <option value="paypal">بوابة الدفع والتسوية الحرة (PayPal)</option>
+                </select>
+
+                <label id="inputLabel" for="accountDetail">معرف الحساب / المستهدف</label>
+                <input type="text" id="accountDetail" class="modal-input" placeholder="يرجى الإدخال هنا...">
+
+                <label for="amount">المبلغ المالي للضخ والتوجيه</label>
+                <input type="number" id="amount" class="modal-input" placeholder="0.00" oninput="calculateFees()">
+
+                <div class="fee-panel">
+                    <span>رسوم التوجيه الذكي (0.5%):</span>
+                    <span id="calculatedFee" style="color: var(--neon-blue); font-weight: bold;">0.00</span>
+                </div>
+
+                <button class="submit-gate-btn" onclick="processTransaction()">تفعيل مسار التوجيه المشفر</button>
+            </div>
+
+            <div id="secureLoadingSection" class="secure-loading">
+                <div class="spinner"></div>
+                <div class="secure-text" id="secureStatusText">جاري فحص بروتوكولات منع عكس الهندسة والتشفير...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
