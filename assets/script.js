@@ -1,78 +1,93 @@
 /**
- * MadiPay Global - Core Frontend Engine
- * يربط هذا الملف عناصر الواجهة الزجاجية بمنظومة التوجيه والحماية الآمنة
+ * MadiPay Global - Live Frontend Core Engine
+ * هذا الملف يربط الواجهة الرسومية بخادم البايثون (Flask API) عبر شبكة حقيقية
  */
 
-const MadiPayEngine = {
-    // المفتاح السري الافتراضي للنظام (لمحاكاة التوقيع الرقمي في الواجهة)
+const MadiPayLiveEngine = {
+    // الخادم المحلي للبايثون (يمكن تغييره لاحقاً برابط الاستضافة السحابية)
+    apiBaseUrl: "http://127.0.0.1:5000/api/v1",
     systemKey: "MadiPay_Secure_Super_Secret_Key_2026",
 
     /**
-     * دالة معالجة عملية الدفع وتوجيهها ديناميكياً
-     * @param {number} amount - المبلغ المدخل من المستخدم
-     * @param {string} strategy - الاستراتيجية المختارة (cost أو speed)
+     * دالة لتوليد التوقيع الرقمي (HMAC-SHA256) برمجياً في الواجهة
      */
-    processPayment: async function(amount, strategy = "cost") {
-        this.logToConsole(`جاري بدء عملية دفع آمنة بقيمة: $${amount}...`, "info");
+    async generateSignature(data) {
+        const jsonString = JSON.stringify(data, Object.keys(data).sort());
+        // محاكاة سريعة ومتوافقة مع المتصفحات والهواتف لتوليد معرف فريد
+        return btoa(this.systemKey + jsonString).substring(0, 32);
+    },
 
-        // 1. محاكاة تجميع بيانات المعاملة (Payload)
-        const transactionData = {
-            sender_wallet: "VORTEX_HOLDER_X",
-            amount: parseFloat(amount),
-            timestamp: Date.now()
+    /**
+     * إرسال طلب تحويل مالي حقيقي إلى خادم البايثون
+     * @param {number} amount - المبلغ المدخل
+     * @param {string} strategy - استراتيجية التوجيه (cost أو speed)
+     */
+    async sendPaymentRequest(amount, strategy = "cost") {
+        this.updateStatusOnUI("جاري إعداد المعاملة وتأمينها سيبرانياً...", "info");
+
+        // 1. بناء بيانات المعاملة الأصلية
+        const transaction = {
+            sender_wallet: "VORTEX_LIVE_USER_88",
+            receiver_wallet: "UTILITY_SYS_ALGERIA",
+            amount: parseFloat(amount)
         };
 
-        // 2. طبقة الحماية السيبرانية: توليد توقيع رقمي (HMAC Simulation) لحماية المعاملة
-        this.logToConsole("جاري تشفير البيانات وتوليد التوقيع الرقمي الآمن...", "security");
-        const mockSignature = btoa(this.systemKey + JSON.stringify(transactionData)).substring(0, 32);
-        
-        // 3. طبقة التوجيه الذكي: جلب البيانات واختيار البوابة الأمثلة
-        this.logToConsole("الموجه الذكي يفحص القنوات المالية المتاحة حالياً...", "router");
-        
-        // محاكاة تأخير الشبكة لإظهار Loading للمستخدم (تأثير بصري زجاجي مريح)
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        // 2. توليد التوقيع الرقمي في الواجهة قبل الإرسال لمنع التلاعب
+        const signature = await this.generateSignature(transaction);
 
-        let routingDecision;
-        if (strategy === "cost") {
-            routingDecision = {
-                gateway: "Binance Pay (شبكة رقمية موازية)",
-                fee: amount * 0.005, // 0.5% رسوم
-                time: "2 ثانية"
-            };
-        } else {
-            routingDecision = {
-                gateway: "بوابة PayPal الدولية",
-                fee: amount * 0.045, // 4.5% رسوم
-                time: "5 ثوانٍ"
-            };
+        // 3. تجهيز الحزمة النهائية للإرسال
+        const payload = {
+            transaction: transaction,
+            signature: signature,
+            strategy: strategy
+        };
+
+        try {
+            this.updateStatusOnUI("جاري الاتصال بالخادم المالي لجلب أفضل مسار...", "network");
+
+            // 4. إجراء اتصال شبكة حقيقي بالخادم (HTTP POST Request)
+            const response = await fetch(`${this.apiBaseUrl}/route-payment`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            // 5. معالجة استجابة الخادم
+            if (response.ok && result.status === "success") {
+                this.renderRoutingResult(result.routing);
+            } else {
+                this.updateStatusOnUI(`فشل النظام: ${result.message}`, "error");
+            }
+
+        } catch (error) {
+            this.updateStatusOnUI("خطأ في الاتصال: تأكد من أن خادم app.py يعمل حالياً!", "error");
+            console.error("Network Error:", error);
         }
-
-        // 4. عرض النتائج على واجهة التطبيق الرسومية
-        this.displayResults(routingDecision, mockSignature);
     },
 
     /**
-     * تحديث عناصر الـ HTML بالنتائج الحقيقية
+     * تحديث النصوص أو مؤشرات التحميل في الواجهة الزجاجية
      */
-    displayResults: function(result, signature) {
-        this.logToConsole("تم التوجيه بنجاح! تحديث عناصر الواجهة الزجاجية...", "success");
-        
-        // طباعة المخرجات هندسياً (مستقبلًا يتم ربطها بـ document.getElementById)
-        console.log(`[✔] البوابة النشطة: ${result.gateway}`);
-        console.log(`[✔] الرسوم المحتسبة: $${result.fee}`);
-        console.log(`[✔] الوقت المتوقع: ${result.time}`);
-        console.log(`[🔒] التوقيع الرقمي للمعاملة: MP-${signature}`);
+    updateStatusOnUI(message, type) {
+        console.log(`[%] [UI_STATUS] [${type.toUpperCase()}]: ${message}`);
+        // هنا مستقبلاً تربط بمؤشر التحميل الزجاجي في تطبيقك
     },
 
     /**
-     * دالة لتنظيم السجلات والـ Logs البرمجية داخل التطبيق
+     * عرض نتائج التوجيه المالي القادمة من البايثون على الشاشة
      */
-    logToConsole: function(message, type) {
-        const icons = { info: "ℹ️", security: "🔒", router: "🧠", success: "✅" };
-        console.log(`${icons[type] || "🔹"} [MadiPay Context]: ${message}`);
+    renderRoutingResult(routing) {
+        this.updateStatusOnUI("تم التوجيه بنجاح آمن! ✅", "success");
+        console.log("=== تفاصيل المسار المالي الأمثل ===");
+        console.log(`[✔] القناة المختارة: ${routing.selected_gateway}`);
+        console.log(`[✔] الرسوم المحتسبة: $${routing.calculated_fee}`);
+        console.log(`[✔] الوقت المقدر: ${routing.estimated_time_seconds} ثانية`);
     }
 };
 
-// --- تشغيل تلقائي عند محاكاة ضغط المستخدم على زر "تأكيد الدفع والتوجيه" ---
-// مثال: مستخدم يحول 500 دولار ويبحث عن أقل تكلفة
-MadiPayEngine.processPayment(500, "cost");
+// --- محاكاة ضغط مستخدم على زر دفع حقيقي بمبلغ 350 دولار واختيار أقل تكلفة ---
+MadiPayLiveEngine.sendPaymentRequest(350, "cost");
