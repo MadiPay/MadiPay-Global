@@ -1,34 +1,46 @@
-# MadiPay Global - Decentralized Smart Routing & Unified Escrow Protocol
+# MadiPay Global: Smart Routing & Unified Escrow Protocol (MVP)
 
-An AI-driven, cross-border fintech core ecosystem engineered for dynamic payment routing, multi-market liquidity bridging, and secure multi-signature escrow management. Designed with a high-end cybersecurity visual identity using Glassmorphic architecture, built to empower merchants and individuals worldwide through absolute financial transparency.
-
----
-
-## ⚡ Unified Core Architecture & Independent Agent Integration
-
-This section details how the MadiPay Core integrates autonomous AI agents for dynamic decision-making, pathfinding, and multi-currency liquidity optimization.
-
-### 🤖 Agent Architecture & Decision Loop
-
-The MadiPay autonomous agent ecosystem operates on a continuous four-pillar loop:
-1. **Perception (Data Ingestion):** Monitors blockchain confirmation times, local utility rates, and cross-border pool depths.
-2. **Planning (Task Decomposition):** Decomposes complex financial goals into atomic, sequential transactions.
-3. **Memory (Local Vector Context):** Utilizes semantic search over past transaction behavior to isolate counterparty risk profiles.
-4. **Action (Execution Layers):** Triggers deterministic multi-sig escrow contracts and infrastructure tools.
+An open-source digital payment ecosystem built to bridge local utility services with international financial rails. This repository currently hosts the **Minimum Viable Product (MVP)**, focusing on the frontend architecture and system workflow simulation.
 
 ---
 
-## 🔐 Post-Quantum Cryptographic Protocols for Financial Security
+## 🚀 Project Overview
 
-The MadiPay core architecture is mathematically hardened against future quantum adversaries executing "Harvest Now, Decrypt Later" cryptographic attacks. 
+MadiPay Global aims to optimize cross-border payment flows by deploying a localized smart-routing logic. By analyzing transaction fees, processing times, and network liquidity, the system seeks to direct currency movements through the most cost-effective and secure pathways.
 
-### 🛡️ Quantum Threat Mitigation Architecture
-
-* **Cryptographic Agility:** Isolated cryptographic modules allow seamless transition between algorithms without code modification.
-* **Hybrid-Layered Protocol:** Simultaneously forces validation through classical Elliptic Curve Diffie-Hellman (ECDH) and post-quantum algebraic lattices.
-* **NIST Candidate Implementation:** Hardened using specifications aligned with NIST's finalized post-quantum standards (ML-KEM and ML-DSA).
+> **Status:** Phase 1 (Frontend & Mobile-First Interface Deployment via Capacitor).
 
 ---
 
-## 🗺️ System DataFlow & Integration Architecture
+## 🛠️ Tech Stack & Architecture
 
+As shown in our repository metrics, the current core is built using a lightweight, mobile-first approach:
+
+* **Frontend:** HTML5, CSS3 (utilizing modern UI visual trends), and vanilla JavaScript.
+* **Mobile Wrapper:** Integrated with **Capacitor** (`capacitor.config.json`) to allow seamless cross-platform building for Android environments.
+* **Backend Core (In Development):** Powered by **Python** to handle the upcoming microservices and data-routing simulations.
+
+---
+
+## 📅 Technical Roadmap
+
+### Phase 1: Interface & Localized Flow (Current)
+* [x] Design user-interface modules for mobile environments.
+* [x] Establish secure, static frontend deployment via GitHub Pages.
+* [x] Configure cross-platform build files using Capacitor.
+
+### Phase 2: Logic & Routing Backend (Next Step)
+* [ ] Implement a lightweight Python-based REST API (FastAPI/Flask) to handle transactional logic.
+* [ ] Build a deterministic mock-routing engine to calculate optimal financial paths.
+* [ ] Integrate rigorous Unit and Integration testing environments.
+
+### Phase 3: Cryptographic Layer & Hardening
+* [ ] Deploy secure environment variable handling for sensitive data.
+* [ ] Implement industry-standard AES-256 data encryption for storage.
+* [ ] Research and test localized security protocols tailored for mid-range mobile devices.
+
+---
+
+## 🤝 Contributing
+
+We welcome developers, code auditors, and fintech enthusiasts. Since the project is in its foundational stage, opening issues and refactoring code structure is highly encouraged.
