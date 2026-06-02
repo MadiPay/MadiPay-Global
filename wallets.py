@@ -1,60 +1,85 @@
+import os
 import time
 from typing import Dict, Optional
+from cryptography.fernet import Fernet
+import base64
+import hashlib
 
-class MadiPayWalletManager:
+class MadiPaySecureWalletManager:
     def __init__(self):
-        # قاعدة بيانات مؤقتة في الذاكرة لمحاكاة حسابات المستخدمين (الأرصدة والعملات)
-        self._wallets: Dict[str, Dict[str, any]] = {
-            "VORTEX_LIVE_USER_88": {"balance": 1250.0, "currency": "USD", "status": "active"},
-            "UTILITY_SYS_ALGERIA": {"balance": 45000.0, "currency": "DZD", "status": "active"},
-            "SUSPICIOUS_HOLDER_99": {"balance": 5.0, "currency": "USD", "status": "suspended"}
+        # 1. اشتقاق مفتاح تشفير متوافق مع Fernet (AES-128/256) من المفتاح السري للنظام
+        raw_key = os.getenv("MADIPAY_SECRET_KEY", "Fallback_Temporary_Default_Key_Safe")
+        # تحويل المفتاح النصي إلى مفتاح بايتات بـ 32 بت فريد ومؤمن عبر SHA-256
+        hashed_key = hashlib.sha256(raw_key.encode()).digest()
+        fernet_key = base64.urlsafe_b64encode(hashed_key)
+        self.cipher = Fernet(fernet_key)
+
+        # 2. قاعدة بيانات مشفرة بالكامل للأرصدة (محاكاة التخزين الآمن المعمى)
+        # لا توجد أرصدة مكشوفة هنا؛ كل القيم مخزنة كـ Ciphertext
+        self._encrypted_wallets: Dict[str, Dict[str, bytes]] = {
+            "VORTEX_LIVE_USER_88": {
+                "balance": self._encrypt_data("1250.0"), 
+                "currency": "USD", 
+                "status": "active"
+            },
+            "UTILITY_SYS_ALGERIA": {
+                "balance": self._encrypt_data("45000.0"), 
+                "currency": "DZD", 
+                "status": "active"
+            }
         }
-        # سجل الحركات المالية الداخلي لحفظ تفاصيل كل عملية
         self.ledger = []
 
+    def _encrypt_data(self, data_string: str) -> bytes:
+        """دالة داخلية لتشفيير النصوص الحساسة"""
+        return self.cipher.encrypt(data_string.encode('utf-8'))
+
+    def _decrypt_data(self, cipher_bytes: bytes) -> str:
+        """دالة داخلية لفك تشفير البيانات المحمية"""
+        return self.cipher.decrypt(cipher_bytes).decode('utf-8')
+
     def get_wallet_balance(self, wallet_id: str) -> Optional[float]:
-        """جلب رصيد المحفظة إذا كانت موجودة ونشطة"""
-        wallet = self._wallets.get(wallet_id)
+        """فك تشفير الرصيد بأمان وقراءته برمجياً في الذاكرة الحية فقط عند الحاجة"""
+        wallet = self._encrypted_wallets.get(wallet_id)
         if wallet and wallet["status"] == "active":
-            return wallet["balance"]
+            try:
+                decrypted_balance_str = self._decrypt_data(wallet["balance"])
+                return float(decrypted_balance_str)
+            except Exception:
+                return None  # في حال فشل فك التشفير بسبب مفتاح خاطئ أو تلاعب سيبراني
         return None
 
     def execute_transfer(self, sender_id: str, receiver_id: str, amount: float) -> dict:
-        """
-        تنفيذ عملية الخصم والإيداع البرمجية الصارمة.
-        تتحقق الدالة من الأرصدة وحالة الحسابات قبل نقل أي سنت.
-        """
-        sender = self._wallets.get(sender_id)
-        receiver = self._wallets.get(receiver_id)
+        """تنفيذ التحويل المالي بأمان مع إعادة تشفير الأرصدة الجديدة فوراً"""
+        sender = self._encrypted_wallets.get(sender_id)
+        receiver = self._encrypted_wallets.get(receiver_id)
 
-        # 1. التحقق من وجود الحسابات وصلاحيتها
         if not sender or not receiver:
-            return {"success": False, "reason": "أحد أطراف المعاملة (المرسل/المستقبل) غير مسجل في النظام"}
-        
-        if sender["status"] != "active" or receiver["status"] != "active":
-            return {"success": False, "reason": "حساب المرسل أو المستقبل معطل أو معلق لأسباب أمنية"}
+            return {"success": False, "reason": "الحسابات غير متوفرة"}
 
-        # 2. فحص كفاية الرصيد (منع السحب على المكشوف)
-        if sender["balance"] < amount:
-            return {"success": False, "reason": "الرصيد الحالي غير كافٍ لإتمام هذه المعاملة"}
+        sender_balance = self.get_wallet_balance(sender_id)
+        receiver_balance = self.get_wallet_balance(receiver_id)
 
-        # 3. المعاملة المالية الذرية (Atomic Transaction simulation)
-        sender["balance"] -= amount
-        receiver["balance"] += amount
+        if sender_balance is None or receiver_balance is None:
+            return {"success": False, "reason": "خطأ أمني في فك تشفير المحافظ"}
 
-        # 4. تسجيل العملية في السجل المالي غير القابل للتعديل (Ledger)
-        tx_id = f"TX-VORTEX-{int(time.time() * 1000)}"
-        tx_entry = {
+        if sender_balance < amount:
+            return {"success": False, "reason": "الرصيد غير كافٍ"}
+
+        # حساب الأرصدة الجديدة وإعادة تشفيرها فوراً قبل الحفظ في الذاكرة
+        new_sender_balance = sender_balance - amount
+        new_receiver_balance = receiver_balance + amount
+
+        sender["balance"] = self._encrypt_data(str(new_sender_balance))
+        receiver["balance"] = self._encrypt_data(str(new_receiver_balance))
+
+        tx_id = f"TX-SECURE-{int(time.time() * 1000)}"
+        self.ledger.append({
             "transaction_id": tx_id,
             "sender": sender_id,
             "receiver": receiver_id,
             "amount": amount,
-            "timestamp": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-        }
-        self.ledger.append(tx_entry)
+            "timestamp": time.strftime('%Y-%m-%d %H:%M:%S')
+        })
 
-        return {
-            "success": True,
-            "transaction_id": tx_id,
-            "new_sender_balance": sender["balance"]
-        }
+        return {"success": True, "transaction_id": tx_id, "new_sender_balance": new_sender_balance}
