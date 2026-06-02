@@ -1,241 +1,78 @@
-قدم// القاموس البرمجي للغات
-const translations = {
-    ar: {
-        title: "مصفوفة الشفافية وتكامل الخدمات",
-        subtitle: "دمج المتاجر العالمية والخدمات المحلية مع التوجيه المتعدد للعملات",
-        service: "نوع الخدمة المدمجة:",
-        ecom: "متجر إلكتروني عالمي (API Integration)",
-        local: "خدمات وتجارة محلية (Local Retail)",
-        global: "تحويل دولي عبر الحدود (Cross-Border)",
-        amount: "المبلغ:",
-        currency: "العملة النقدية/الرقمية:",
-        legacy: "الرسوم التقليدية الاحتكارية:",
-        madipay: "رسوم بروتوكول MadiPay العادلة:",
-        status: "قناة التوجيه النشطة:",
-        logTitle: "سجل محرك التوجيه والسيولة الحية:",
-        ready: "جاهز للتوجيه الذكي",
-        saved: "وفّرت"
+/**
+ * MadiPay Global - Core Frontend Engine
+ * يربط هذا الملف عناصر الواجهة الزجاجية بمنظومة التوجيه والحماية الآمنة
+ */
+
+const MadiPayEngine = {
+    // المفتاح السري الافتراضي للنظام (لمحاكاة التوقيع الرقمي في الواجهة)
+    systemKey: "MadiPay_Secure_Super_Secret_Key_2026",
+
+    /**
+     * دالة معالجة عملية الدفع وتوجيهها ديناميكياً
+     * @param {number} amount - المبلغ المدخل من المستخدم
+     * @param {string} strategy - الاستراتيجية المختارة (cost أو speed)
+     */
+    processPayment: async function(amount, strategy = "cost") {
+        this.logToConsole(`جاري بدء عملية دفع آمنة بقيمة: $${amount}...`, "info");
+
+        // 1. محاكاة تجميع بيانات المعاملة (Payload)
+        const transactionData = {
+            sender_wallet: "VORTEX_HOLDER_X",
+            amount: parseFloat(amount),
+            timestamp: Date.now()
+        };
+
+        // 2. طبقة الحماية السيبرانية: توليد توقيع رقمي (HMAC Simulation) لحماية المعاملة
+        this.logToConsole("جاري تشفير البيانات وتوليد التوقيع الرقمي الآمن...", "security");
+        const mockSignature = btoa(this.systemKey + JSON.stringify(transactionData)).substring(0, 32);
+        
+        // 3. طبقة التوجيه الذكي: جلب البيانات واختيار البوابة الأمثلة
+        this.logToConsole("الموجه الذكي يفحص القنوات المالية المتاحة حالياً...", "router");
+        
+        // محاكاة تأخير الشبكة لإظهار Loading للمستخدم (تأثير بصري زجاجي مريح)
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        let routingDecision;
+        if (strategy === "cost") {
+            routingDecision = {
+                gateway: "Binance Pay (شبكة رقمية موازية)",
+                fee: amount * 0.005, // 0.5% رسوم
+                time: "2 ثانية"
+            };
+        } else {
+            routingDecision = {
+                gateway: "بوابة PayPal الدولية",
+                fee: amount * 0.045, // 4.5% رسوم
+                time: "5 ثوانٍ"
+            };
+        }
+
+        // 4. عرض النتائج على واجهة التطبيق الرسومية
+        this.displayResults(routingDecision, mockSignature);
     },
-    en: {
-        title: "Transparency Matrix & Service Integration",
-        subtitle: "Global Merchants & Local Services Integrated with Multi-Currency Routing",
-        service: "Integrated Service Type:",
-        ecom: "Global E-Commerce (API Integration)",
-        local: "Local Retail & Services",
-        global: "Cross-Border International Transfer",
-        amount: "Amount:",
-        currency: "Sovereign/Digital Currency:",
-        legacy: "Monopoly Traditional Fees:",
-        madipay: "Fair MadiPay Protocol Fees:",
-        status: "Active Routing Channel:",
-        logTitle: "Core Routing & Live Liquidity Logs:",
-        ready: "Ready for Smart Routing",
-        saved: "Saved"
+
+    /**
+     * تحديث عناصر الـ HTML بالنتائج الحقيقية
+     */
+    displayResults: function(result, signature) {
+        this.logToConsole("تم التوجيه بنجاح! تحديث عناصر الواجهة الزجاجية...", "success");
+        
+        // طباعة المخرجات هندسياً (مستقبلًا يتم ربطها بـ document.getElementById)
+        console.log(`[✔] البوابة النشطة: ${result.gateway}`);
+        console.log(`[✔] الرسوم المحتسبة: $${result.fee}`);
+        console.log(`[✔] الوقت المتوقع: ${result.time}`);
+        console.log(`[🔒] التوقيع الرقمي للمعاملة: MP-${signature}`);
+    },
+
+    /**
+     * دالة لتنظيم السجلات والـ Logs البرمجية داخل التطبيق
+     */
+    logToConsole: function(message, type) {
+        const icons = { info: "ℹ️", security: "🔒", router: "🧠", success: "✅" };
+        console.log(`${icons[type] || "🔹"} [MadiPay Context]: ${message}`);
     }
 };
 
-let currentLang = 'ar';
-
-function switchLang(lang) {
-    currentLang = lang;
-    
-    // تحديث أزرار اللغات لتبدو نشطة
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-    
-    // قلب اتجاه الحاوية حسب اللغة للجمالية البصرية
-    const card = document.getElementById('mainCard');
-    if(lang === 'en') {
-        card.style.direction = 'ltr';
-        card.style.textAlign = 'left';
-    } else {
-        card.style.direction = 'rtl';
-        card.style.textAlign = 'right';
-    }
-
-    // تبديل النصوص حياً
-    document.getElementById('txtTitle').innerText = translations[lang].title;
-    document.getElementById('txtSubtitle').innerText = translations[lang].subtitle;
-    document.getElementById('lblService').innerText = translations[lang].service;
-    document.getElementById('optEcom').innerText = translations[lang].ecom;
-    document.getElementById('optLocal').innerText = translations[lang].local;
-    document.getElementById('optGlobal').innerText = translations[lang].global;
-    document.getElementById('lblAmount').innerText = translations[lang].amount;
-    document.getElementById('lblCurrency').innerText = translations[lang].currency;
-    document.getElementById('lblLegacy').innerText = translations[lang].legacy;
-    document.getElementById('lblMadiPay').innerText = translations[lang].madipay;
-    document.getElementById('lblStatus').innerText = translations[lang].status;
-    document.getElementById('lblLogTitle').innerText = translations[lang].logTitle;
-
-    runAdvancedVortex();
-}
-
-function runAdvancedVortex() {
-    const amount = parseFloat(document.getElementById('vortexAmount').value);
-    const currency = document.getElementById('vortexCurrency').value;
-    const service = document.getElementById('serviceType').value;
-    
-    if (isNaN(amount) || amount <= 0) return;
-
-    let legacyRate = 0.05, legacyFixed = 3.5;
-    let madiPayRate = 0.001; // 0.1% فقط للشفافية والعدالة
-
-    // تعديل الحسابات بناءً على نوع الخدمة (المتاجر تأخذ عمولات بنكية أعلى تقليدياً)
-    if (service === 'ecommerce') { legacyRate = 0.07; legacyFixed = 4.0; }
-    else if (service === 'local') { legacyRate = 0.03; legacyFixed = 1.0; }
-
-    // الحساب الرياضي
-    const legacyFee = (amount * legacyRate) + legacyFixed;
-    const madiPayFee = amount * madiPayRate;
-    const saved = legacyFee - madiPayFee;
-
-    document.getElementById('advLegacyFee').innerText = `${legacyFee.toFixed(2)} ${currency}`;
-    document.getElementById('advMadiPayFee').innerText = `${madiPayFee.toFixed(2)} ${currency} (${translations[currentLang].saved} ${saved.toFixed(2)})`;
-    
-    // تحديد قناة التوجيه الفعالة في السيستم
-    const channelName = currency === 'USDT' ? 'VORTEX Crypto-Bridge' : 'Unified Sovereign Rails';
-    document.getElementById('advRoutingStatus').innerText = `${channelName} [Active]`;
-
-    // طباعة السجل الأمني المتقدم والربط بالمتاجر
-    const timestamp = new Date().toISOString();
-    document.getElementById('advCryptoConsole').innerHTML = 
-`[${timestamp}] 📡 API Gateway: Connection established with [${service.toUpperCase()}] stream.
-[INFO] Currency Detected: ${currency} | Operational Volume: ${amount}.
-[ROUTING] Optimizing liquidity paths to bypass high-friction global gateways.
-[SECURITY] CyberShield Integrity Checked. Anti-tamper shields at 100%.
-[SUCCESS] Multi-Currency payload writing safely to local Encrypted Storage.`;
-}
-
-// تشغيل أولي
-document.addEventListener("DOMContentLoaded", () => { runAdvancedVortex(); });
-const crypto = require('crypto');
-
-class CyberShieldCore {
-    constructor(secretKey) {
-        // حماية المفتاح السري داخل الذاكرة واستخدام تشفير قوي
-        this.secretKey = crypto.scryptSync(secretKey, 'vortex-salt', 32);
-    }
-
-    /**
-     * توليد ختم رقمي مشفر غير قابل للتزوير لكل معاملة
-     */
-    generateAntiTamperSeal(transactionData) {
-        const timestamp = Date.now();
-        const nonce = crypto.randomBytes(16).toString('hex');
-        
-        // ترتيب البيانات بشكل صارم لمنع أي تلاعب بالهيكل (Object Injection)
-        const canonicalPayload = JSON.stringify({
-            amount: transactionData.amount,
-            currency: transactionData.currency,
-            sender: transactionData.sender,
-            recipient: transactionData.recipient,
-            timestamp: timestamp,
-            nonce: nonce
-        });
-
-        // إنشاء الختم باستخدام HMAC-SHA512 للأمان المطلق
-        const hmac = crypto.createHmac('sha512', this.secretKey);
-        hmac.update(canonicalPayload);
-        const seal = hmac.digest('hex');
-
-        return {
-            payload: JSON.parse(canonicalPayload),
-            seal: seal
-        };
-    }
-
-    /**
-     * التحقق من سلامة المعاملة ومنع التلاعب بنسبة 100%
-     */
-    verifyAndProtect(securedTransaction) {
-        const { payload, seal } = securedTransaction;
-
-        // 1. فحص عامل الوقت: منع الهجمات المعادة إذا تجاوزت 5 ثوانٍ (Drift Window)
-        const timeDrift = Date.now() - payload.timestamp;
-        if (timeDrift > 5000 || timeDrift < -1000) {
-            throw new Error("SECURITY_VIOLATION: Timestamp drift detected. Potential Replay Attack.");
-        }
-
-        // 2. إعادة حساب الختم لمطابقته
-        const canonicalPayload = JSON.stringify(payload);
-        const hmac = crypto.createHmac('sha512', this.secretKey);
-        hmac.update(canonicalPayload);
-        const expectedSeal = hmac.digest('hex');
-
-        // 3. المقارنة الثابتة زمنيًا (Constant-Time Comparison) لمنع هجمات التوقيت (Timing Attacks)
-        const isSafe = crypto.timingSafeEqual(Buffer.from(seal, 'hex'), Buffer.from(expectedSeal, 'hex'));
-
-        if (!isSafe) {
-            this.triggerLockdown(payload);
-            throw new Error("CRITICAL_ALARM: Data tampering detected! Core payload structural mismatch.");
-        }
-
-        return true; // المعاملة سليمة ومحصنة تمامًا
-    }
-
-    triggerLockdown(payload) {
-        // بروتوكول الإغلاق التلقائي وعزل الحساب المشبوه فوراً
-        console.error(`[CYBER-SHIELD LOCKDOWN] Tampering attempt on transaction: ${payload.nonce}`);
-        // هنا يتم إرسال تنبيه فوري ونقل المعاملة لبيئة العزل (Sandbox)
-    }
-}
-class VortexRouter {
-    constructor(cyberShieldInstance) {
-        this.shield = cyberShieldInstance;
-        this.fiatGateways = ['Stripe_API', 'Local_Bank_Rails', 'Swift_Network'];
-        this.cryptoBridges = ['Stablecoin_Pool_USDC', 'Liquidity_Bridge_USDT'];
-    }
-
-    /**
-     * معالجة وتوجيه الطلب بشكل ذكي فوري
-     */
-    async routeTransaction(rawOrder) {
-        console.log("[VORTEX] Analyzing order and routing vectors...");
-
-        // 1. تحديد نوع العملة والمسار الأمثل تلقائيًا
-        const isCrypto = rawOrder.currencyType === 'CRYPTO' || rawOrder.currency.startsWith('0x') || ['USDT', 'USDC', 'BTC', 'ETH'].includes(rawOrder.currency);
-        
-        let selectedPath = {
-            vector: isCrypto ? 'CRYPTO_BRIDGE' : 'FIAT_GATEWAY',
-            endpoint: isCrypto ? this.cryptoBridges[0] : this.fiatGateways[0], // محرك السيولة يحدد الأفضل لاحقاً
-            efficiencyScore: 0.99 // افتراضي بناءً على فحص الشبكة
-        };
-
-        // 2. صياغة الهيكل الموحد للمعاملة قبل الحماية
-        const transactionData = {
-            amount: rawOrder.amount,
-            currency: rawOrder.currency,
-            sender: rawOrder.sender,
-            recipient: rawOrder.recipient,
-            vector: selectedPath.vector,
-            endpoint: selectedPath.endpoint
-        };
-
-        // 3. تمرير المعاملة فوراً لـ Cyber-Shield لختمها وتأمينها قبل المغادرة
-        const securedTransaction = this.shield.generateAntiTamperSeal(transactionData);
-
-        // 4. التنفيذ الفعلي الذري (Atomic Execution Switch)
-        try {
-            if (selectedPath.vector === 'CRYPTO_BRIDGE') {
-                return await this.executeCryptoSplit(securedTransaction);
-            } else {
-                return await this.executeFiatSplit(securedTransaction);
-            }
-        } catch (error) {
-            console.error(`[VORTEX ROUTING FAILURE] Rollback initiated for asset safety.`);
-            throw error; // إرجاع الخطأ لضمان تفعيل الـ Rollback في الدفتر الموزع
-        }
-    }
-
-    async executeFiatSplit(securedTx) {
-        // التحقق من الختم قبل الدخول للبوابات البنكية التقليدية
-        this.shield.verifyAndProtect(securedTx);
-        return { status: 'ROUTED_TO_FIAT_RAILS', payload: securedTx.payload, seal: securedTx.seal };
-    }
-
-    async executeCryptoSplit(securedTx) {
-        // التحقق من الختم قبل الضخ في أحواض السيولة الذكية للكريبتو
-        this.shield.verifyAndProtect(securedTx);
-        return { status: 'ROUTED_TO_CRYPTO_BRIDGES', payload: securedTx.payload, seal: securedTx.seal };
-    }
-}
+// --- تشغيل تلقائي عند محاكاة ضغط المستخدم على زر "تأكيد الدفع والتوجيه" ---
+// مثال: مستخدم يحول 500 دولار ويبحث عن أقل تكلفة
+MadiPayEngine.processPayment(500, "cost");
