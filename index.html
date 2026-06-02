@@ -479,34 +479,61 @@
                 feeElement.textContent = "0.00";
             }
         }
+function processTransaction() {
+    const serviceName = document.getElementById('modalTitle').textContent;
+    const gateway = document.getElementById('routingGateway').value;
+    const details = document.getElementById('accountDetail').value;
+    const amount = document.getElementById('amount').value;
 
-        // دالة معالجة وتحضير المعاملة للإرسال الفعلي للباك إند
-        function processTransaction() {
-            const gateway = document.getElementById('routingGateway').value;
-            const details = document.getElementById('accountDetail').value;
-            const amount = document.getElementById('amount').value;
+    if(!details || !amount) {
+        alert("تنبيه أمني: يرجى ملء كافة الحقول لتأمين خط التوجيه المالي.");
+        return;
+    }
 
-            if(!details || !amount) {
-                alert("تنبيه أمني: يرجى ملء كافة الحقول لتأمين خط التوجيه المالي.");
-                return;
-            }
+    // إخفاء النموذج وإظهار شاشة الفحص الأمني
+    document.getElementById('modalFormBody').style.display = "none";
+    document.getElementById('secureLoadingSection').style.display = "block";
 
-            // إخفاء النموذج وإظهار شاشة الفحص الأمني المتقدمة
-            document.getElementById('modalFormBody').style.display = "none";
-            document.getElementById('secureLoadingSection').style.display = "block";
+    // تجهيز البيانات لإرسالها للباقات (Python Backend)
+    const transactionData = {
+        service: serviceName,
+        gateway: gateway,
+        account_details: details,
+        amount: parseFloat(amount),
+        timestamp: new Date().toISOString()
+    };
 
-            // مرحلة أولى: محاكاة فحص الحماية ومكافحة البوتات
-            setTimeout(() => {
-                document.getElementById('secureStatusText').textContent = "جاري حقن البيانات وتوجيه التدفق المالي بالكامل...";
-                
-                // مرحلة ثانية: إكمال العملية (هنا سيتم وضع كود Fetch/Axios للاتصال بملف الـ Python الخاص بك)
-                setTimeout(() => {
-                    alert(`✓ نجاح عملية التوجيه!\nتم إرسال طلبك بقيمة ${amount} بنجاح عبر بوابة [${gateway}] لتسوية الخدمة.`);
-                    closeGateway();
-                }, 2000);
-
-            }, 2000);
+    // إرسال البيانات إلى خادم Python Flask
+    fetch('http://127.0.0.1:5000/api/transaction', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(transactionData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('فشل في الاتصال بالخادم الأمني');
         }
-    </script>
+        return response.json();
+    })
+    .then(data => {
+        // تحديث النص قبل النجاح النهائي
+        document.getElementById('secureStatusText').textContent = "جاري حقن البيانات وتوجيه التدفق المالي بالكامل...";
+        
+        setTimeout(() => {
+            alert(`✓ نجاح عملية التوجيه!\nرقم المعاملة: ${data.transaction_id}\nتم استقبال طلبك بقيمة ${amount} بنجاح.`);
+            closeGateway();
+        }, 1500);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('خطأ أمني: تعذر تمرير المعاملة عبر السيرفر. يرجى التحقق من اتصال الخادم.');
+        // إعادة إظهار النموذج في حال الفشل
+        document.getElementById('modalFormBody').style.display = "block";
+        document.getElementById('secureLoadingSection').style.display = "none";
+    });
+}
+
 </body>
 </html>
