@@ -7,7 +7,7 @@
     <style>
         /* التنسيق البصري الخاص بالهوية النخبوية الزجاجية (Glassmorphism) */
         :root {
-            --neon-blue: #ff6600; /* يمكنك تعديله إلى البرتقالي النيوني أو الأزرق حسب رغبتك */
+            --neon-blue: #ff6600; /* النيون البرتقالي الخاص بالهوية */
             --bg-charcoal: #121212;
             --glass-bg: rgba(30, 30, 30, 0.65);
             --glass-border: rgba(255, 102, 0, 0.2);
@@ -180,6 +180,115 @@
             70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
         }
+
+        /* --- تنسيقات النافذة المنبثقة الذكية (Modal) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: rgba(25px, 25px, 25px, 0.85);
+            border: 1px solid var(--neon-blue);
+            padding: 25px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(255, 102, 0, 0.2);
+            transform: scale(0.8);
+            transition: transform 0.4s ease;
+            text-align: right;
+            box-sizing: border-box;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--neon-blue);
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 102, 0, 0.15);
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: var(--neon-blue);
+        }
+
+        .modal-body label {
+            display: block;
+            margin: 12px 0 6px 0;
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+
+        .modal-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 10px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+
+        .modal-input:focus {
+            border-color: var(--neon-blue);
+            outline: none;
+        }
+
+        .submit-gate-btn {
+            width: 100%;
+            background: var(--neon-blue);
+            color: #000;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-gate-btn:hover {
+            background: #e05900;
+            box-shadow: 0 0 10px rgba(255, 102, 0, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -194,17 +303,17 @@
         <div class="subtitle">منظومة التوجيه المالي الذكي</div>
 
         <div class="services-grid">
-            <div class="service-card" onclick="triggerEliteAction('الفواتير العالمية والكهرباء والإنترنت')">
+            <div class="service-card" onclick="openGateway('الفواتير العالمية والكهرباء والإنترنت', 'أدخل رقم العداد أو كود الفاتورة')">
                 <div class="service-icon">🌐</div>
                 <div class="service-title">الفواتير العالمية والكهرباء والإنترنت</div>
             </div>
 
-            <div class="service-card" onclick="triggerEliteAction('باقات ومستندات السفر والفيزا')">
+            <div class="service-card" onclick="openGateway('باقات ومستندات السفر والفيزا', 'أدخل رقم جواز السفر أو المعرف المالي')">
                 <div class="service-icon">💳</div>
                 <div class="service-title">باقات ومستندات السفر والفيزا</div>
             </div>
 
-            <div class="service-card" onclick="triggerEliteAction('شحن ألعاب وبطاقات الترفيه المتكاملة')">
+            <div class="service-card" onclick="openGateway('شحن ألعاب وبطاقات الترفيه المتكاملة', 'أدخل معرف اللاعب (ID) أو الحساب')">
                 <div class="service-icon">🚀</div>
                 <div class="service-title">شحن ألعاب وبطاقات الترفيه المتكاملة</div>
             </div>
@@ -222,6 +331,26 @@
             <div class="pulse-status">
                 <span class="pulse-dot"></span>
                 الاتصال بالبلوكشين: نشط وآمن
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="gatewayModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <span id="modalTitle">اسم البوابة المالية</span>
+                <button class="close-btn" onclick="closeGateway()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.85rem; color: #888; margin-top: 0;">بوابة التوجيه الذكي الآمنة نشطة ومستعدة لمعالجة طلبك.</p>
+                
+                <label id="inputLabel" for="accountDetail">معرف الحساب / المستهدف</label>
+                <input type="text" id="accountDetail" class="modal-input" placeholder="يرجى الإدخال هنا...">
+
+                <label for="amount">المبلغ المطلق لتوجيهه (USDT / عملة محلية)</label>
+                <input type="number" id="amount" class="modal-input" placeholder="0.00">
+
+                <button class="submit-gate-btn" onclick="processTransaction()">تفعيل مسار التوجيه المشفر</button>
             </div>
         </div>
     </div>
@@ -266,9 +395,34 @@
             }
         }
 
-        // بوابات الخدمات الذكية والاتصال بالنظام
-        function triggerEliteAction(serviceName) {
-            alert(`جاري الاتصال بالقنوات المشفرة والآمنة لخدمة [${serviceName}]... يرجى الانتظار لتوجيه محفظتك الرقمية بنجاح.`);
+        // دالة فتح النافذة المنبثقة الذكية وتعديل البيانات ديناميكياً
+        function openGateway(serviceName, inputPlaceholder) {
+            document.getElementById('modalTitle').textContent = serviceName;
+            document.getElementById('inputLabel').textContent = inputPlaceholder;
+            document.getElementById('accountDetail').placeholder = "أدخل التفاصيل بدقة...";
+            document.getElementById('gatewayModal').classList.add('active');
+        }
+
+        // دالة إغلاق النافذة المنبثقة
+        function closeGateway() {
+            document.getElementById('gatewayModal').classList.remove('active');
+            // تنظيف الحقول عند الإغلاق
+            document.getElementById('accountDetail').value = "";
+            document.getElementById('amount').value = "";
+        }
+
+        // دالة محاكاة معالجة المعاملة المالية عند النقر على تفعيل
+        function processTransaction() {
+            const details = document.getElementById('accountDetail').value;
+            const amount = document.getElementById('amount').value;
+
+            if(!details || !amount) {
+                alert("تنبيه أمني: يرجى ملء كافة الحقول لتأمين خط التوجيه المالي.");
+                return;
+            }
+
+            alert(`جاري تشفير البيانات وضخ المعاملة بقيمة ${amount} عبر خوارزمية التوجيه الذكي...`);
+            closeGateway();
         }
     </script>
 </body>
