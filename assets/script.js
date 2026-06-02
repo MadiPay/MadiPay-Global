@@ -91,3 +91,60 @@ const MadiPayLiveEngine = {
 
 // --- محاكاة ضغط مستخدم على زر دفع حقيقي بمبلغ 350 دولار واختيار أقل تكلفة ---
 MadiPayLiveEngine.sendPaymentRequest(350, "cost");
+// تحديد رابط الخادم المحلي (أو السحابي مستقبلاً)
+const MADIPAY_API_URL = "http://127.0.0.1:5000/api/v1/route-payment";
+
+/**
+ * دالة إرسال المعاملة المباشرة إلى الخادم لطلب التوجيه وفحص المحفظة
+ */
+async function processLiveMadiPayRouting(senderWallet, receiverWallet, transferAmount) {
+    console.log("🔄 جاري الاتصال بخادم المعالجة الآمن المطور بايثون...");
+    
+    // 1. تجهيز حزمة البيانات (تطابق الهيكل المتوقع في الخادم)
+    const payload = {
+        transaction: {
+            sender_wallet: senderWallet,
+            receiver_wallet: receiverWallet,
+            amount: parseFloat(transferAmount)
+        },
+        // محاكاة توقيع رقمي آمن (في النظام الحقيقي يتم توليده بمفتاح العميل)
+        signature: "VORTEX_SECURE_CLIENT_SIGNATURE_HASH_VALID",
+        strategy: "cost" // استراتيجية التوجيه: الأقل تكلفة
+    };
+
+    try {
+        // 2. إرسال الطلب عبر الشبكة باستخدام Fetch
+        const response = await fetch(MADIPAY_API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        // 3. معالجة الرد وتحديث الواجهة الرسومية زجاجية المظهر حركياً
+        if (response.ok && result.status === "success") {
+            console.log("✔ تم الرد من الخادم بنجاح:", result);
+            
+            // تحديث الرصيد المعروض على الشاشة ديناميكياً من الخادم
+            document.getElementById("wallet-balance-display").innerText = `$${result.current_available_balance}`;
+            
+            // تحديث تفاصيل بوابة التوجيه المختارة
+            document.getElementById("selected-gateway-display").innerText = result.routing.selected_gateway;
+            document.getElementById("routing-fee-display").innerText = `$${result.routing.calculated_fee}`;
+            
+            alert(`✔ تم التوجيه بنجاح عبر: ${result.routing.selected_gateway}`);
+        } else {
+            // في حال وجود خلل مالي (رصيد غير كافٍ) أو اختراق أمني
+            console.error("❌ رفض الخادم المعاملة:", result.message);
+            alert(`فشل المعالجة: ${result.message}`);
+        }
+
+    } catch (error) {
+        console.error("❌ فشل الاتصال بالخادم الداخلي:", error);
+        alert("تنبيه: تعذر الاتصال بخادم المعالجة. تأكد من تشغيل app.py محلياً.");
+    }
+}
+onclick
