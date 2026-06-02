@@ -22,24 +22,24 @@ As shown in our repository metrics, the current core is built using a lightweigh
 
 ---
 
-## 📅 Technical Roadmap
+📅 Technical Roadmap
+--------------------
 
-### Phase 1: Interface & Localized Flow (Current)
-* [x] Design user-interface modules for mobile environments.
-* [x] Establish secure, static frontend deployment via GitHub Pages.
-* [x] Configure cross-platform build files using Capacitor.
+### 🔗 Phase 1: Interface & Localized Flow [Current]
+- [x] Design user-interface modules for mobile environments.
+- [x] Establish secure, static frontend deployment via GitHub Pages.
+- [x] Configure cross-platform build files using Capacitor.
 
-### Phase 2: Logic & Routing Backend (Next Step)
-* [ ] Implement a lightweight Python-based REST API (FastAPI/Flask) to handle transactional logic.
-* [ ] Build a deterministic mock-routing engine to calculate optimal financial paths.
-* [ ] Integrate rigorous Unit and Integration testing environments.
+### ⚙️ Phase 2: Logic & Routing Backend [Completed]
+- [x] Implement a lightweight Python-based REST API (Flask) to handle transactional logic.
+- [x] Build a deterministic smart-routing engine to calculate optimal financial paths.
+- [x] Integrate rigorous System and Integration testing environments.
 
-### Phase 3: Cryptographic Layer & Hardening
-* [ ] Deploy secure environment variable handling for sensitive data.
-* [ ] Implement industry-standard AES-256 data encryption for storage.
-* [ ] Research and test localized security protocols tailored for mid-range mobile devices.
+### 🔒 Phase 3: Cryptographic Layer & Hardening [Completed]
+- [x] Deploy secure environment variable handling (.env) for sensitive data.
+- [x] Implement industry-standard AES-256 data encryption for storage.
+- [x] Research and test localized security protocols tailored for mid-range mobile devices.
 
----
 
 ## 🤝 Contributing
 
