@@ -1,1 +1,52 @@
+import json
+import base64
+import hmac
+import hashlib
+
+class MadiPayMockClient:
+    def __init__(self, secret_key: str):
+        self.secret_key = secret_key.encode('utf-8')
+
+    def generate_signature(self, transaction_data: dict) -> str:
+        """توليد توقيع رقمي مطابق للمعيار المستخدم في الخادم"""
+        serialized_data = json.dumps(transaction_data, sort_keys=True).encode('utf-8')
+        return hmac.new(self.secret_key, serialized_data, hashlib.sha256).hexdigest()
+
+    def simulate_client_requests(self):
+        print("=== جاري تشغيل محاكي العميل (Client Simulation) ===")
+
+        # 1. إعداد بيانات معاملة سليمة بقيمة 150 دولار
+        good_tx = {
+            "sender_wallet": "VORTEX_USER_77",
+            "receiver_wallet": "UTILITY_COMPANY_B",
+            "amount": 150.0
+        }
+        good_signature = self.generate_signature(good_tx)
+
+        # تجهيز الحزمة (Payload) التي تُرسل عادةً عبر الـ API
+        good_payload = {
+            "transaction": good_tx,
+            "signature": good_signature,
+            "strategy": "cost"
+        }
+        print("\n[1] تم تجهيز حزمة معاملة سليمة وموقعة رقمياً:")
+        print(json.dumps(good_payload, indent=4, ensure_ascii=False))
+
+        # 2. محاكاة هجوم سيبراني (تعديل المبلغ دون علم العميل)
+        tampered_tx = good_tx.copy()
+        tampered_tx["amount"] = 5000.0  # المهاجم رفع المبلغ لسرقة الرصيد
+        
+        # المهاجم يرسل التوقيع القديم نفسه لأنه لا يملك المفتاح السري لتوليد توقيع جديد
+        bad_payload = {
+            "transaction": tampered_tx,
+            "signature": good_signature, 
+            "strategy": "cost"
+        }
+        print("\n[2] تم تجهيز حزمة معاملة متلاعب بها (محاكاة هجوم):")
+        print(json.dumps(bad_payload, indent=4, ensure_ascii=False))
+
+if __name__ == "__main__":
+    SYSTEM_KEY = "MadiPay_Secure_Super_Secret_Key_2026"
+    client = MadiPayMockClient(SYSTEM_KEY)
+    client.simulate_client_requests()
 
