@@ -1,46 +1,31 @@
-# MadiPay Global: Smart Routing & Unified Escrow Protocol (MVP)
+# MadiPay Global: Smart Routing & Unified Escrow Protocol
 
-An open-source digital payment ecosystem built to bridge local utility services with international financial rails. This repository currently hosts the **Minimum Viable Product (MVP)**, focusing on the frontend architecture and system workflow simulation.
-
----
-
-## 🚀 Project Overview
-
-MadiPay Global aims to optimize cross-border payment flows by deploying a localized smart-routing logic. By analyzing transaction fees, processing times, and network liquidity, the system seeks to direct currency movements through the most cost-effective and secure pathways.
-
-> **Status:** Phase 1 (Frontend & Mobile-First Interface Deployment via Capacitor).
+An open-source digital payment ecosystem built to bridge local utility services with international financial webs. 
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## 🛠️ Tech Stack & Architecture (بنية النظام)
 
-As shown in our repository metrics, the current core is built using a lightweight, mobile-first approach:
+The system is designed using a Decoupled Architecture (بنية منفصلة) to ensure maximum security and scalability:
 
-* **Frontend:** HTML5, CSS3 (utilizing modern UI visual trends), and vanilla JavaScript.
-* **Mobile Wrapper:** Integrated with **Capacitor** (`capacitor.config.json`) to allow seamless cross-platform building for Android environments.
-* **Backend Core (In Development):** Powered by **Python** to handle the upcoming microservices and data-routing simulations.
+* **Frontend & Mobile Layer:** HTML5, CSS3, Vanilla JavaScript, integrated with **Capacitor** for cross-platform mobile environments.
+* **Backend & Core Logic (In Development):** Powered by **Python (Flask)** to handle upcoming escrow simulations and localized routing.
 
 ---
 
-📅 Technical Roadmap
---------------------
+## 📅 Technical Roadmap (خريطة الطريق الواقعية)
 
-### 🔗 Phase 1: Interface & Localized Flow [Current]
-- [x] Design user-interface modules for mobile environments.
-- [x] Establish secure, static frontend deployment via GitHub Pages.
-- [x] Configure cross-platform build files using Capacitor.
+### 🔵 Phase 1: UI & Localized Flow (تحت العمل والتطوير الحالي)
+* [x] Design user interface modules for mobile environments.
+* [ ] Establish secure, static front-end deployment via GitHub Pages.
+* [ ] Configure capacitor.build files using Capacitor.
 
-### ⚙️ Phase 2: Logic & Routing Backend [Completed]
-- [x] Implement a lightweight Python-based REST API (Flask) to handle transactional logic.
-- [x] Build a deterministic smart-routing engine to calculate optimal financial paths.
-- [x] Integrate rigorous System and Integration testing environments.
+### 🟡 Phase 2: Core Backend & Routing Logic (مرحلة التخطيط والتطوير الأولي)
+* [ ] Build a lightweight Python-based REST API (Flask) to handle transactional logic.
+* [ ] Develop deterministic smart-routing engine to calculate optimal financial paths.
+* [ ] Integrate rigorous System and Integration testing environments.
 
-### 🔒 Phase 3: Cryptographic Layer & Hardening [Completed]
-- [x] Deploy secure environment variable handling (.env) for sensitive data.
-- [x] Implement industry-standard AES-256 data encryption for storage.
-- [x] Research and test localized security protocols tailored for mid-range mobile devices.
-
-
-## 🤝 Contributing
-
-We welcome developers, code auditors, and fintech enthusiasts. Since the project is in its foundational stage, opening issues and refactoring code structure is highly encouraged.
+### 🔴 Phase 3: Cryptographic Layer & Hardening (مرحلة البحوث المستقبلية)
+* [ ] Deploy secure environment variable handling (.env) for sensitive data.
+* [ ] Implement local/backend AES-256 data encryption for storage.
+* [ ] Research and test localized security protocols relaxed for mid-range mobile devices.
