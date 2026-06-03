@@ -2,14 +2,24 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are currently being supported with security updates.
+We take the security of MadiPay Global seriously. Currently, only the latest commits on the `main` branch are actively evaluated for security vulnerabilities.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.0.x   | :white_check_mark: |
+| dev-main| :white_check_mark: |
+| < 1.0.0 | :x:                |
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability within this project, please do not open a public issue. Instead, report it securely by sending an email to your-email@example.com.
+If you discover a security vulnerability within this project, please **do not** open a public issue. Publicly disclosing cryptographic or routing vulnerabilities can expose infrastructure and transaction endpoints to malicious bot activity.
 
-We take security seriously and will respond to your report as soon as possible to investigate and address the issue.
+Instead, please report vulnerabilities by following these steps:
+1. Draft a detailed explanation of the vulnerability, including steps to reproduce or proof-of-concept (PoC) code.
+2. Submit your report directly via GitHub's private vulnerability reporting feature (if enabled) or contact the core maintainer securely.
+
+We will acknowledge receipt of your vulnerability report within 48 hours and provide a timeline for coordination and patching.
+
+## Security Practices
+
+* **Zero Hardcoded Secrets:** No API keys, credentials, or encryption keys should ever be committed to this repository. Always utilize environment variables (`.env`).
+* **Cryptographic Isolation:** All transaction state calculations and escrow validation logic must undergo strict automated verification before deployment.
