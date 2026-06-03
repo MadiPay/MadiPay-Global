@@ -1,31 +1,49 @@
 # MadiPay Global: Smart Routing & Unified Escrow Protocol
 
-An open-source digital payment ecosystem built to bridge local utility services with international financial webs. 
+An advanced, open-source digital payment ecosystem engineered to bridge local utility services with international financial webs and decentralized payment gateways.
 
 ---
 
-## 🛠️ Tech Stack & Architecture (بنية النظام)
+## 🚀 Tech Stack & Architecture
 
-The system is designed using a Decoupled Architecture (بنية منفصلة) to ensure maximum security and scalability:
+The ecosystem leverages a decoupled architecture to guarantee maximum security, high scalability, and seamless cross-platform adaptability.
 
-* **Frontend & Mobile Layer:** HTML5, CSS3, Vanilla JavaScript, integrated with **Capacitor** for cross-platform mobile environments.
-* **Backend & Core Logic (In Development):** Powered by **Python (Flask)** to handle upcoming escrow simulations and localized routing.
+### Frontend & Mobile Layer
+* **Technologies:** HTML5, CSS3, Vanilla JavaScript.
+* **Mobile Integration:** Powered by **Capacitor** to wrap the web core into high-performance, native-like environments for Android and iOS.
+
+### Backend & Core Logic
+* **Framework:** Powered by **Python (Flask)** (transitioning to a high-concurrency async framework for production) to handle cryptographic escrow simulations and real-time localized routing.
 
 ---
 
-## 📅 Technical Roadmap (خريطة الطريق الواقعية)
+## 🛠️ Technical Roadmap
 
-### 🔵 Phase 1: UI & Localized Flow (تحت العمل والتطوير الحالي)
-* [x] Design user interface modules for mobile environments.
-* [ ] Establish secure, static front-end deployment via GitHub Pages.
-* [ ] Configure capacitor.build files using Capacitor.
+Our development strategy follows a security-first, iterative framework, moving from localized routing components to an international, sovereign digital financial architecture.
 
-### 🟡 Phase 2: Core Backend & Routing Logic (مرحلة التخطيط والتطوير الأولي)
-* [ ] Build a lightweight Python-based REST API (Flask) to handle transactional logic.
-* [ ] Develop deterministic smart-routing engine to calculate optimal financial paths.
-* [ ] Integrate rigorous System and Integration testing environments.
+### Phase 1: Core Backend & Escrow Architecture (Current Focus)
+- [ ] Build a lightweight Python-based REST API to manage core transaction states.
+- [ ] Develop the deterministic smart routing engine to calculate optimal, lowest-cost currency paths.
+- [ ] Integrate rigorous system integration and automated testing environments.
 
-### 🔴 Phase 3: Cryptographic Layer & Hardening (مرحلة البحوث المستقبلية)
-* [ ] Deploy secure environment variable handling (.env) for sensitive data.
-* [ ] Implement local/backend AES-256 data encryption for storage.
-* [ ] Research and test localized security protocols relaxed for mid-range mobile devices.
+### Phase 2: Security, Cryptographic Layer & Hardening
+- [ ] Implement secure, environment-variable handling (`.env`) to isolate all sensitive infrastructure credentials.
+- [ ] Deploy local and server-side **AES-256 data encryption** for storage and transaction payloads.
+- [ ] Integrate foundational anti-bot defenses and automated endpoint protection mechanisms.
+
+### Phase 3: UI/UX, Cross-Platform Deployment & Scaling
+- [ ] Finalize responsive user interface modules optimized for mobile screens.
+- [ ] Establish static frontend staging deployment using **GitHub Pages**.
+- [ ] Configure Android compilation pipelines using Capacitor for initial testing.
+
+---
+
+## 🔒 Security & Compliance
+
+MadiPay Global is built with a "Security by Design" philosophy. We are committed to maintaining rigorous data protection standards. For details on data handling or vulnerability reporting, please review our [SECURITY.md](SECURITY.md) guidelines.
+
+---
+
+## 📄 License
+
+This project is licensed under the terms specified in the [LICENSE](LICENSE) file. Distribution, modification, and commercial deployment are subject to the confidentiality and usage terms enclosed.
