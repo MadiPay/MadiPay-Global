@@ -1,93 +1,74 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MadiPay Global - التشغيل الفعلي</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MadiPay Global | Smart Financial Routing Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/style.css">
 </head>
 <body>
 
-    <div class="market-summary">
-        <h3>رمز السوق النخبوي والتدفقات المالية</h3>
-        <div class="currency-rate" id="marketRate">1.3500 USDT</div>
-    </div>
-
-    <div class="main-container">
-        <h1>MadiPay النخبوية</h1>
-        <div class="subtitle">منظومة التوجيه المالي الذكي</div>
-
-        <div class="services-grid">
-            <div class="service-card" onclick="openGateway('الفواتير العالمية والكهرباء والإنترنت', 'أدخل رقم العداد أو كود الفاتورة')">
-                <div class="service-icon">🌐</div>
-                <div class="service-title">الفواتير العالمية والكهرباء والإنترنت</div>
+    <div class="app-container">
+        
+        <header class="app-header">
+            <div class="brand-wrapper">
+                <div class="logo-orb"></div>
+                <h1 class="brand-title">MadiPay <span class="text-gradient">Global</span></h1>
             </div>
-
-            <div class="service-card" onclick="openGateway('باقات ومستندات السفر والفيزا', 'أدخل رقم جواز السفر أو المعرف المالي')">
-                <div class="service-icon">💳</div>
-                <div class="service-title">باقات ومستندات السفر والفيزا</div>
+            <div class="status-badge">
+                <span class="pulse-icon"></span> Secure Node
             </div>
+        </header>
 
-            <div class="service-card" onclick="openGateway('شحن ألعاب وبطاقات الترفيه المتكاملة', 'أدخل معرف اللاعب (ID) أو الحساب')">
-                <div class="service-icon">🚀</div>
-                <div class="service-title">شحن ألعاب وبطاقات الترفيه المتكاملة</div>
+        <section class="balance-card">
+            <p class="card-label">AVAILABLE LIQUIDITY</p>
+            <h2 class="card-balance">$1,250.00 <span class="currency-tag">USD</span></h2>
+            <div class="card-footer">
+                <span>Account: VORTEX_LIVE_USER_88</span>
             </div>
-        </div>
+        </section>
 
-        <div class="referral-box">
-            <div style="color: #777; margin-bottom: 5px; font-size: 0.85rem;">رابط الإحالة الحصري للمنظومة</div>
-            <input type="text" class="referral-input" id="referralLink" value="https://madipay.github.io/elite-access" readonly>
-        </div>
-
-        <button class="elite-btn" id="triggerEliteActionBtn" onclick="CopyMadiLink()">انقر لكشف الرابط السري والنسخ</button>
-
-        <div class="protection-shield">
-            معيار التدقيق الدولي المشفر لحماية التدفقات المالية
-            <div class="pulse-status">
-                <span class="pulse-dot"></span>
-                الاتصال بالبلوكشين: نشط وآمن
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="gatewayModal">
-        <div class="modal-box">
-            <div class="modal-header">
-                <span id="modalTitle">اسم البوابة المالية</span>
-                <button class="close-btn" onclick="closeGateway()">&times;</button>
-            </div>
-            
-            <div id="modalFormBody">
-                <p style="font-size: 0.85rem; color: #888; margin-top: 0;">منظومة التوجيه مستعدة لتأمين وتمرير معاملتك فورياً.</p>
+        <main class="routing-engine-wrapper">
+            <h3 class="section-title">Smart Routing Gateway</h3>
+            <form id="transactionForm" class="routing-form">
                 
-                <label for="routingGateway">قناة التوجيه والسيولة المستهدفة</label>
-                <select id="routingGateway" class="modal-select">
-                    <option value="local">قناة التوجيه الذكي المحلية (سريعة وآمنة)</option>
-                    <option value="binance">جسر السيولة الدولي المباشر (Binance P2P)</option>
-                    <option value="paypal">بوابة الدفع والتسوية الحرة (PayPal)</option>
-                </select>
-
-                <label id="inputLabel" for="accountDetail">معرف الحساب / المستهدف</label>
-                <input type="text" id="accountDetail" class="modal-input" placeholder="يرجى الإدخال هنا...">
-
-                <label for="amount">المبلغ المالي للضخ والتوجيه</label>
-                <input type="number" id="amount" class="modal-input" placeholder="0.00" oninput="calculateFees()">
-
-                <div class="fee-panel">
-                    <span>رسوم التوجيه الذكي (0.5%):</span>
-                    <span id="calculatedFee" style="color: var(--neon-blue); font-weight: bold;">0.00</span>
+                <div class="input-group">
+                    <label for="accountDetails">Destination Account / Utility ID</label>
+                    <input type="text" id="accountDetails" placeholder="e.g., UTILITY_SYS_ALGERIA" required>
                 </div>
 
-                <button class="submit-gate-btn" onclick="processTransaction()">تفعيل مسار التوجيه المشفر</button>
+                <div class="input-group">
+                    <label for="gateway">Routing Channel</label>
+                    <select id="gateway" required>
+                        <option value="VORTEX_INTERNAL_ROUTER">MadiPay Vortex Smart Router (Optimal)</option>
+                        <option value="PAYPAL_GATEWAY_SIM">International PayPal Bridge</option>
+                        <option value="BINANCE_P2P_DECENTRALIZED">Decentralized Binance P2P Layer</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="amount">Volume Amount (USDT / Fiat Equivalent)</label>
+                    <div class="amount-input-wrapper">
+                        <input type="number" id="amount" step="0.01" placeholder="0.00" min="0.01" required>
+                        <span class="input-currency-addon">USDT</span>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-primary">
+                    <span>Execute Secure Route</span>
+                    <div class="btn-glow"></div>
+                </button>
+            </form>
+        </main>
+
+        <div id="outputLedger" class="output-ledger hidden">
             </div>
 
-            <div id="secureLoadingSection" class="secure-loading">
-                <div class="spinner"></div>
-                <div class="secure-text" id="secureStatusText">جاري فحص بروتوكولات منع عكس الهندسة والتشفير...</div>
-            </div>
-        </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="src/js/app.js"></script>
 </body>
 </html>
