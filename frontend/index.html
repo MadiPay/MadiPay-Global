@@ -2,73 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MadiPay Global | Smart Financial Routing Engine</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-    
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MadiPay Global - Smart Router</title>
+    <!-- تضمين مكتبة Tailwind CSS للمطورين -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* تخصيص تأثير الزجاج (Glassmorphism) يدوياً لضمان أعلى جودة */
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 102, 0, 0.15);
+        }
+        /* تأثير وهج النيون البرتقالي */
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(255, 102, 0, 0.2);
+        }
+    </style>
+</head>
+<!-- الخلفية باللون الفحمي الداكن جداً الشبيه بأنظمة النخبة -->
+<body class="bg-[#0d0d0d] text-gray-200 font-sans min-h-screen flex flex-col justify-between">
 
-    <div class="app-container">
-        
-        <header class="app-header">
-            <div class="brand-wrapper">
-                <div class="logo-orb"></div>
-                <h1 class="brand-title">MadiPay <span class="text-gradient">Global</span></h1>
-            </div>
-            <div class="status-badge">
-                <span class="pulse-icon"></span> Secure Node
-            </div>
-        </header>
+    <!-- شريط القيادة العلوي (Header) -->
+    <header class="glass-panel sticky top-0 z-50 px-6 py-4 flex justify-between items-center border-b border-[#ff6600]/20">
+        <div class="flex items-center space-x-3">
+            <!-- الهوية البصرية: نيون برتقالي -->
+            <div class="w-3 h-3 bg-[#ff6600] rounded-full animate-pulse shadow-[0_0_8px_#ff6600]"></div>
+            <span class="text-xl font-bold tracking-wider uppercase text-white">MadiPay <span class="text-[#ff6600]">Global</span></span>
+        </div>
+        <nav class="hidden md:flex space-x-6 text-sm font-medium">
+            <a href="#" class="text-[#ff6600] hover:text-white transition">Smart Router</a>
+            <a href="#" class="hover:text-[#ff6600] transition">Escrow</a>
+            <a href="#" class="hover:text-[#ff6600] transition">Security</a>
+        </nav>
+    </header>
 
-        <section class="balance-card">
-            <p class="card-label">AVAILABLE LIQUIDITY</p>
-            <h2 class="card-balance">$1,250.00 <span class="currency-tag">USD</span></h2>
-            <div class="card-footer">
-                <span>Account: VORTEX_LIVE_USER_88</span>
-            </div>
-        </section>
+    <!-- القسم الرئيسي للمنصة -->
+    <main class="flex-grow flex flex-col items-center justify-center px-4 py-12">
+        <div class="max-w-xl w-full glass-panel neon-glow rounded-2xl p-8 text-center space-y-6">
+            <h1 class="text-3xl font-extrabold text-white tracking-tight">
+                The Sovereign <span class="text-[#ff6600]">Financial Architecture</span>
+            </h1>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Advanced open-source routing protocol designed to secure and optimize cross-border flows, bridging local infrastructures with global payment networks.
+            </p>
+            
+            <!-- زر تفاعلي تجريبي -->
+            <button class="w-full bg-[#ff6600] hover:bg-[#e05900] text-black font-bold uppercase tracking-wider py-3 px-6 rounded-lg transition-all duration-300 shadow-[0_4px_14px_rgba(255,102,0,0.4)]">
+                Initialize Secure Router
+            </button>
+        </div>
+    </main>
 
-        <main class="routing-engine-wrapper">
-            <h3 class="section-title">Smart Routing Gateway</h3>
-            <form id="transactionForm" class="routing-form">
-                
-                <div class="input-group">
-                    <label for="accountDetails">Destination Account / Utility ID</label>
-                    <input type="text" id="accountDetails" placeholder="e.g., UTILITY_SYS_ALGERIA" required>
-                </div>
+    <!-- التذييل السفلي (Footer) -->
+    <footer class="text-center py-6 text-xs text-gray-600 border-t border-gray-900">
+        © 2026 MadiPay Global Systems. All ironclad rights reserved.
+    </footer>
 
-                <div class="input-group">
-                    <label for="gateway">Routing Channel</label>
-                    <select id="gateway" required>
-                        <option value="VORTEX_INTERNAL_ROUTER">MadiPay Vortex Smart Router (Optimal)</option>
-                        <option value="PAYPAL_GATEWAY_SIM">International PayPal Bridge</option>
-                        <option value="BINANCE_P2P_DECENTRALIZED">Decentralized Binance P2P Layer</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label for="amount">Volume Amount (USDT / Fiat Equivalent)</label>
-                    <div class="amount-input-wrapper">
-                        <input type="number" id="amount" step="0.01" placeholder="0.00" min="0.01" required>
-                        <span class="input-currency-addon">USDT</span>
-                    </div>
-                </div>
-
-                <button type="submit" id="submitBtn" class="btn-primary">
-                    <span>Execute Secure Route</span>
-                    <div class="btn-glow"></div>
-                </button>
-            </form>
-        </main>
-
-        <div id="outputLedger" class="output-ledger hidden">
-            </div>
-
-    </div>
-
-    <script src="src/js/app.js"></script>
 </body>
 </html>
