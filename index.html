@@ -1,4 +1,292 @@
-transaction of $${amount}...`);
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MadiPay Global - Core Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        .glass-panel {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 102, 0, 0.15);
+        }
+        .neon-border-glow:focus {
+            outline: none;
+            border-color: #ff6600;
+            box-shadow: 0 0 10px rgba(255, 102, 0, 0.3);
+        }
+        /* لإخفاء شريط التمرير الافتراضي في قسم الفيديوهات الهجين */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-[#0a0a0a] text-gray-200 font-sans min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="glass-panel sticky top-0 z-50 px-6 py-4 flex justify-between items-center border-b border-[#ff6600]/20">
+        <div class="flex items-center space-x-3">
+            <div class="w-3 h-3 bg-[#ff6600] rounded-full animate-pulse shadow-[0_0_8px_#ff6600]"></div>
+            <span class="text-xl font-bold tracking-wider text-white">MadiPay <span class="text-[#ff6600]">Global</span></span>
+        </div>
+        <div class="text-xs bg-[#ff6600]/10 text-[#ff6600] px-3 py-1 rounded-full border border-[#ff6600]/30 font-mono tracking-widest">
+            MadiCoin NETWORK ACTIVE
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8 space-y-6">
+        
+        <!-- قسم التفعيل ونظام الدعوات النخبوية -->
+        <div class="glass-panel rounded-xl p-6 space-y-4 shadow-xl border-l-4 border-l-[#ff6600]">
+            <h2 class="text-md font-bold text-white uppercase tracking-wide flex items-center justify-between">
+                <span>🔥 Elite Invitation Protocol</span>
+                <span class="text-[10px] bg-orange-600/20 text-[#ff6600] px-2 py-0.5 rounded font-mono">SCARCITY FACTOR ACTIVE</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1 font-mono uppercase">Enter Access Invitation Code</label>
+                    <input id="invitationCodeInput" type="text" placeholder="e.g. MADI_ELITE_001" class="w-full bg-[#121212] border border-gray-800 rounded-lg p-2.5 text-white font-mono neon-border-glow text-sm transition">
+                </div>
+                <div class="flex items-end">
+                    <button onclick="claimInvitationReward()" class="w-full bg-[#ff6600] hover:bg-[#e05900] text-black text-xs font-bold uppercase tracking-wider py-3 rounded-lg transition font-mono">
+                        Verify Access & Claim MDC
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- الجزء الخاص بإنشاء المحافظ السيادية -->
+        <div class="glass-panel rounded-xl p-6 space-y-4 shadow-xl">
+            <h2 class="text-lg font-bold text-white border-b border-gray-800 pb-2 uppercase tracking-wide flex items-center justify-between">
+                <span>🔑 MadiCoin Key Generator</span>
+            </h2>
+            <div class="bg-[#111] border border-gray-900 rounded-lg p-4 space-y-2 font-mono text-xs">
+                <div><span class="text-[#ff6600]">Active Wallet Address:</span> <span id="walletAddressDisplay" class="text-gray-400 break-all">No wallet active. Click generate below.</span></div>
+                <div><span class="text-gray-500">MDC Network Balance:</span> <span id="walletBalanceDisplay" class="text-green-400 font-bold">0.00 MDC</span></div>
+            </div>
+            <button onclick="generateSovereignWallet()" class="w-full bg-transparent hover:bg-[#ff6600]/10 text-[#ff6600] border border-[#ff6600]/40 font-bold uppercase tracking-wider py-2.5 rounded-lg transition duration-200">
+                Generate Sovereign MadiCoin Wallet
+            </button>
+        </div>
+
+        <!-- 📱 🎞️ القسم الجديد: مجتمع مادي باي الإعلامي الهجين (MadiVibes Hub) 🎞️ 📱 -->
+        <div class="glass-panel rounded-xl p-6 space-y-4 shadow-xl border-t-2 border-t-[#ff6600]/50">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                <h2 class="text-lg font-bold text-white uppercase tracking-wide flex items-center space-x-2">
+                    <span>📣 MadiVibes Media Hub</span>
+                </h2>
+                <div class="flex space-x-2 text-[11px] font-mono">
+                    <button onclick="switchMediaTab('feed')" id="tabFeed" class="text-[#ff6600] border-b border-[#ff6600] px-2 pb-1 font-bold">Global Feed</button>
+                    <button onclick="switchMediaTab('lounge')" id="tabLounge" class="text-gray-500 hover:text-gray-300 px-2 pb-1">👑 Elite Lounge</button>
+                </div>
+            </div>
+
+            <!-- محاكي خلاصة الفيديو والمنشورات المختلطة (تيك توك + تويتر) -->
+            <div id="mediaContentArea" class="space-y-4">
+                
+                <!-- المنشور الأول (فيديو/منشور دفاعي وتوعوي عن الشبكة) -->
+                <div class="bg-[#111]/90 border border-gray-900 rounded-xl p-4 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-[#ff6600]/20 border border-[#ff6600]/40 flex items-center justify-center text-xs text-[#ff6600] font-bold">M</div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white">MadiPay Intel Spokesperson</h4>
+                                <p class="text-[10px] text-gray-500 font-mono">Official Broadcast • 2h ago</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] bg-red-900/20 text-red-400 border border-red-900/30 px-2 py-0.5 rounded font-mono">🛡️ Network Shield</span>
+                    </div>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Why centralized fiat banks fear the <span class="text-[#ff6600] font-bold">MadiCoin Sovereign Architecture</span>. Watch how our dynamic Smart Router completely bypasses institutional inflation constraints globally. 🦾⚡
+                    </p>
+                    <!-- محاكاة مشغل فيديو تيك توك مصغر -->
+                    <div class="relative w-full h-44 bg-gradient-to-br from-gray-900 to-[#151515] rounded-lg border border-gray-800 flex flex-col justify-center items-center overflow-hidden">
+                        <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=600');"></div>
+                        <div class="z-10 w-12 h-12 rounded-full bg-[#ff6600]/10 border border-[#ff6600]/40 flex items-center justify-center cursor-pointer hover:scale-105 transition">
+                            <span class="text-[#ff6600] text-sm font-mono">▶ PLAY</span>
+                        </div>
+                        <span class="absolute bottom-2 right-2 text-[9px] font-mono text-gray-500 bg-black/60 px-2 py-0.5 rounded">0:45 • HD Simulation</span>
+                    </div>
+                    <!-- أزرار التفاعل الهجينة (تيك توك/فيسبوك/تيليجرام) + ميزة الدعم الفوري -->
+                    <div class="flex justify-between items-center text-xs font-mono border-t border-gray-950 pt-3">
+                        <div class="flex space-x-4 text-gray-400">
+                            <button onclick="likePost(this)" class="hover:text-red-400 transition">❤️ <span class="likes-count">1,240</span></button>
+                            <button class="hover:text-blue-400 transition">💬 412</button>
+                            <button class="hover:text-green-400 transition">✈️ Share</button>
+                        </div>
+                        <button onclick="sendMadiTip('MadiPay Intel', 5)" class="bg-[#ff6600]/10 hover:bg-[#ff6600]/20 text-[#ff6600] border border-[#ff6600]/30 text-[10px] px-3 py-1 rounded-md transition font-bold">
+                            ⚡ Send 5 MDC Tip
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- محاكي التوجيه الذكي للمدفوعات -->
+        <div class="glass-panel rounded-xl p-6 space-y-4 shadow-xl">
+            <h2 class="text-lg font-bold text-white border-b border-gray-800 pb-2 uppercase tracking-wide">
+                ⚡ Smart Router Controller
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1 uppercase font-mono">Amount (USD Value)</label>
+                    <input id="amountInput" type="number" placeholder="0.00" class="w-full bg-[#121212] border border-gray-800 rounded-lg p-3 text-white font-mono neon-border-glow transition">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1 uppercase font-mono">Dynamic Path Select</label>
+                    <select id="gatewaySelect" class="w-full bg-[#121212] border border-gray-800 rounded-lg p-3 text-white font-mono neon-border-glow transition">
+                        <option value="madicoin">MadiCoin Core Ledger (0% Gas Fee)</option>
+                        <option value="local_escrow">Local Utility Smart Escrow (0.1% Fee)</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="executeSecureRoute()" class="w-full bg-[#ff6600] hover:bg-[#e05900] text-black font-bold uppercase tracking-wider py-3 rounded-lg transition">
+                Secure & Route Transfer
+            </button>
+        </div>
+
+        <!-- الـTerminal لمراقبة الأحداث حياً -->
+        <div class="glass-panel rounded-xl p-6 space-y-3">
+            <h2 class="text-lg font-bold text-white uppercase tracking-wide">
+                🖥️ Live Node Terminal
+            </h2>
+            <div id="terminalScreen" class="bg-black/90 rounded-lg p-4 h-32 font-mono text-xs text-orange-400 overflow-y-auto space-y-1 border border-gray-900">
+                <p class="text-gray-500">[SYSTEM] Media Broadcast Infrastructure synchronized successfully.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center py-4 text-xs text-gray-600 border-t border-gray-950">
+        © 2026 MadiPay Global. All rights reserved.
+    </footer>
+
+    <script>
+        let currentWalletAddress = "";
+        let currentBalance = 0.0;
+
+        function logToTerminal(message, type = 'info') {
+            const terminal = document.getElementById('terminalScreen');
+            let color = 'text-orange-400';
+            if (type === 'success') color = 'text-green-400';
+            if (type === 'error') color = 'text-red-500';
+            terminal.innerHTML += `<p class="${color}">[${new Date().toLocaleTimeString()}] ${message}</p>`;
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function generateSovereignWallet() {
+            const randHex = CryptoJS.lib.WordArray.random(16).toString();
+            currentWalletAddress = "MDC_" + CryptoJS.SHA256(randHex).toString().substring(0, 26).toUpperCase();
+            document.getElementById('walletAddressDisplay').innerText = currentWalletAddress;
+            logToTerminal(`New Sovereign Wallet Generated: ${currentWalletAddress}`, "success");
+        }
+
+        function claimInvitationReward() {
+            const code = document.getElementById('invitationCodeInput').value.trim();
+            if(!currentWalletAddress) { logToTerminal("REJECTED: Generate a MadiCoin wallet first.", "error"); return; }
+            if(code === "MADI_ELITE_001" || code === "VORTEX_GLOBAL") {
+                const mint = code === "MADI_ELITE_001" ? 50.0 : 25.0;
+                currentBalance += mint;
+                document.getElementById('walletBalanceDisplay').innerText = `${currentBalance.toFixed(2)} MDC`;
+                logToTerminal(`[SUCCESS] Code Activated. Minted ${mint} MDC.`, "success");
+            } else { logToTerminal("Invalid code.", "error"); }
+        }
+
+        // --- 📣 وظائف التحكم في القسم الإعلامي الجديد 📣 ---
+        
+        function switchMediaTab(tab) {
+            const contentArea = document.getElementById('mediaContentArea');
+            const tabFeed = document.getElementById('tabFeed');
+            const tabLounge = document.getElementById('tabLounge');
+
+            if(tab === 'feed') {
+                tabFeed.className = "text-[#ff6600] border-b border-[#ff6600] px-2 pb-1 font-bold";
+                tabLounge.className = "text-gray-500 hover:text-gray-300 px-2 pb-1";
+                contentArea.innerHTML = `
+                    <div class="bg-[#111]/90 border border-gray-900 rounded-xl p-4 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-8 h-8 rounded-full bg-[#ff6600]/20 border border-[#ff6600]/40 flex items-center justify-center text-xs text-[#ff6600] font-bold">M</div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-white">MadiPay Intel Spokesperson</h4>
+                                    <p class="text-[10px] text-gray-500 font-mono">Official Broadcast • 2h ago</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] bg-red-900/20 text-red-400 border border-red-900/30 px-2 py-0.5 rounded font-mono">🛡️ Network Shield</span>
+                        </div>
+                        <p class="text-xs text-gray-300 leading-relaxed">Why centralized fiat banks fear the MadiCoin Sovereign Architecture. Watch our dynamic Smart Router completely bypass institutional inflation constraints globally. 🦾⚡</p>
+                        <div class="relative w-full h-44 bg-gradient-to-br from-gray-900 to-[#151515] rounded-lg border border-gray-800 flex flex-col justify-center items-center overflow-hidden">
+                            <div class="z-10 w-12 h-12 rounded-full bg-[#ff6600]/10 border border-[#ff6600]/40 flex items-center justify-center cursor-pointer"><span class="text-[#ff6600] text-sm font-mono">▶ PLAY</span></div>
+                        </div>
+                        <div class="flex justify-between items-center text-xs font-mono border-t border-gray-950 pt-3">
+                            <div class="flex space-x-4 text-gray-400">
+                                <button onclick="likePost(this)" class="hover:text-red-400">❤️ <span class="likes-count">1,240</span></button>
+                                <button class="hover:text-blue-400">💬 412</button>
+                            </div>
+                            <button onclick="sendMadiTip('MadiPay Intel', 5)" class="bg-[#ff6600]/10 hover:bg-[#ff6600]/20 text-[#ff6600] text-[10px] px-3 py-1 rounded-md font-bold">⚡ Send 5 MDC Tip</button>
+                        </div>
+                    </div>`;
+                logToTerminal("Switched to Global Media Feed Node.", "sys");
+            } else if (tab === 'lounge') {
+                tabLounge.className = "text-[#ff6600] border-b border-[#ff6600] px-2 pb-1 font-bold";
+                tabFeed.className = "text-gray-500 hover:text-gray-300 px-2 pb-1";
+                contentArea.innerHTML = `
+                    <div class="bg-[#151210] border border-[#ff6600]/20 rounded-xl p-4 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-8 h-8 rounded-full bg-yellow-600/20 border border-yellow-500/40 flex items-center justify-center text-xs text-yellow-500 font-bold">👑</div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-white">Alpha Creator Node</h4>
+                                    <p class="text-[10px] text-gray-500 font-mono">Premium Analytical Report • 30m ago</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] bg-yellow-600/20 text-yellow-500 border border-yellow-500/30 px-2 py-0.5 rounded font-mono">VIP Access Only</span>
+                        </div>
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            Exclusive projection on how the integrated E-Commerce bridges (Amazon & AliEpress API) will create a continuous buy-pressure on <span class="text-[#ff6600]">MadiCoin</span> by the end of Q3. 📈
+                        </p>
+                        <div class="flex justify-between items-center text-xs font-mono border-t border-gray-950 pt-3">
+                            <div class="flex space-x-4 text-gray-400">
+                                <button onclick="likePost(this)" class="hover:text-red-400">❤️ <span class="likes-count">842</span></button>
+                                <button class="hover:text-blue-400">💬 98</button>
+                            </div>
+                            <button onclick="sendMadiTip('Alpha Creator', 20)" class="bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-500 text-[10px] px-3 py-1 rounded-md font-bold">👑 Send 20 MDC Tip</button>
+                        </div>
+                    </div>`;
+                logToTerminal("Decrypted and accessed Elite Lounge Stream.", "success");
+            }
+        }
+
+        function likePost(btn) {
+            const countSpan = btn.querySelector('.likes-count');
+            let currentLikes = parseInt(countSpan.innerText.replace(/,/g, ''));
+            countSpan.innerText = (currentLikes + 1).toLocaleString();
+            logToTerminal("Interaction tracked and logged onto blockchain metadata.", "sys");
+        }
+
+        function sendMadiTip(creatorName, amount) {
+            if(!currentWalletAddress) {
+                logToTerminal("TRANSACTION REJECTED: You need an active sovereign wallet to send tips.", "error");
+                return;
+            }
+            if(currentBalance < amount) {
+                logToTerminal(`TRANSACTION REJECTED: Insufficient MadiCoin balance. Required: ${amount} MDC.`, "error");
+                return;
+            }
+            currentBalance -= amount;
+            document.getElementById('walletBalanceDisplay').innerText = `${currentBalance.toFixed(2)} MDC`;
+            logToTerminal(`Successfully piped ${amount} MDC Tip directly to [${creatorName}] Node! Zero execution fees applied.`, "success");
+        }
+
+        function executeSecureRoute() {
+            const amount = document.getElementById('amountInput').value;
+            if(!amount || amount <= 0) { logToTerminal("Invalid amount.", "error"); return; }
+            logToTerminal(`Routing transaction of $${amount}...`);
         }
     </script>
 </body>
