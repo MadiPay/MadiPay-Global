@@ -1,0 +1,11 @@
+            logToTerminal(`Successfully piped ${amount} MDC Tip directly to [${creatorName}] Node! Zero execution fees applied.`, "success");
+        }
+
+        function executeSecureRoute() {
+            const amount = document.getElementById('amountInput').value;
+            if(!amount || amount <= 0) { logToTerminal("Invalid amount.", "error"); return; }
+            logToTerminal(`Routing transaction of $${amount}...`);
+        }
+    </script>
+</body>
+</html>
